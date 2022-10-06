@@ -3,14 +3,13 @@ package finz.modules.impl.combat;
 import finz.events.impl.EventUpdate;
 import finz.modules.Category;
 import finz.modules.Module;
-import finz.util.SmoothMove;
 import net.minecraft.entity.EntityLivingBase;
 import org.lwjgl.input.Keyboard;
 
 public class Aimbot extends Module {
 
     public Aimbot() {
-        super("Aimbot", "Aims at players", Category.COMBAT);
+        super("Aimbot", "Aims at things", Category.COMBAT);
         setKey(Keyboard.KEY_U);
     }
 
@@ -27,7 +26,9 @@ public class Aimbot extends Module {
 
                     double angle = Math.toDegrees(Math.atan2(z, x)) - 90;
 
-                    SmoothMove.moveSmooth((float)angle, (float)-Math.toDegrees(Math.atan2(y, distance)));
+                    // set jaw and pitch
+                    mc.thePlayer.rotationYaw = (float)angle;
+                    mc.thePlayer.rotationPitch = (float)-Math.toDegrees(Math.atan2(y, distance));
                 }
             }
         }
