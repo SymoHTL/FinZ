@@ -1,7 +1,6 @@
 package aids.command.impl;
 
 import aids.BaseHiv;
-import aids.BaseHiv;
 import aids.command.Command;
 import aids.modules.Module;
 
@@ -14,7 +13,7 @@ public class Help extends Command {
     @Override
     public void onCommand(String[] args, String command) {
         BaseHiv.addChatMessage("Modules:");
-        for (Module module : BaseHiv.INSTANCE.manager.modules) {
+        for (Module module : BaseHiv.INSTANCE.manager.getModules()) {
             BaseHiv.addChatMessage(" " + module.getName() + " - " + module.getDescription());
         }
         BaseHiv.addChatMessage("Commands:");

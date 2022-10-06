@@ -1,13 +1,10 @@
 package net.minecraft.entity.player;
 
-import java.util.concurrent.Callable;
 import net.minecraft.block.Block;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
@@ -16,8 +13,44 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ReportedException;
 
+import java.util.concurrent.Callable;
+
 public class InventoryPlayer implements IInventory
 {
+
+    // made by me
+    public int getFirstNotNullInHotBarIndex() {
+        for (int i = 0; i < 9; i++)
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() != null)
+                return i;
+        return -1;
+    }
+    public int getFirstBlockInHotBarIndex() {
+        for (int i = 0; i < 9; i++)
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemBlock)
+                return i;
+        return -1;
+    }
+    public int getFirstPickaxeInHotBarIndex() {
+        for (int i = 0; i < 9; i++)
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemPickaxe)
+                return i;
+        return -1;
+    }
+    public int getFirstShovelInHotBarIndex() {
+        for (int i = 0; i < 9; i++)
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemSpade)
+                return i;
+        return -1;
+    }
+    public int getFirstAxeInHotBarIndex() {
+        for (int i = 0; i < 9; i++)
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemAxe)
+                return i;
+        return -1;
+    }
+
+
     /**
      * An array of 36 item stacks indicating the main player inventory (including the visible bar).
      */

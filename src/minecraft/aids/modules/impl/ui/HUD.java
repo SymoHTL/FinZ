@@ -44,7 +44,7 @@ public class HUD extends Module {
 
         // Modules
         ModuleManager manager = BaseHiv.INSTANCE.getManager();
-        List<Module> modules = new ArrayList<>(manager.modules);
+        List<Module> modules = new ArrayList<>(manager.getModules());
         modules.sort(Comparator.comparingDouble(m -> fr.getStringWidth(((Module) m).getName() + Keyboard.getKeyName(((Module) m).getKey()))).reversed());
 
         int counter = 0;

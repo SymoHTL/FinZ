@@ -9,7 +9,7 @@ import net.minecraft.world.EnumDifficulty;
 public class FoodStats
 {
     /** The player's food level. */
-    private int foodLevel = 20;
+    public int foodLevel = 20;
 
     /** The player's food saturation. */
     private float foodSaturationLevel = 5.0F;

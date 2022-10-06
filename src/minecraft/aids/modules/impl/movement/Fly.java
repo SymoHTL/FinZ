@@ -1,4 +1,4 @@
-package aids.modules.impl.motion;
+package aids.modules.impl.movement;
 
 import aids.modules.Category;
 import aids.modules.Module;
@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 public class Fly extends Module {
     public Fly() {
-        super("Fly", "Flyhacks", Keyboard.KEY_F, Category.MOTION);
+        super("Fly", "Flyhacks", Keyboard.KEY_F, Category.MOVEMENT);
     }
 
     @Override

@@ -53,11 +53,10 @@ public class Module {
 
     public void toggle() {
         enabled = !enabled;
-        if (enabled) {
+        if (enabled)
             onEnable();
-        } else {
+         else
             onDisable();
-        }
     }
 
     public boolean isEnabled() {
@@ -127,11 +126,7 @@ public class Module {
     }
 
     public void silentSendPacket(Packet packet) {
-
-        //NIGGA
-
-
-        //mc.thePlayer.sendQueue.addToSentQueueSilent(packet);
+        mc.thePlayer.sendQueue.addToSentQueueSilent(packet);
     }
 }
 

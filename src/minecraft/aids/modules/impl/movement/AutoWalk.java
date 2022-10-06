@@ -1,4 +1,4 @@
-package aids.modules.impl.motion;
+package aids.modules.impl.movement;
 
 import aids.events.impl.EventUpdate;
 import aids.modules.Category;
@@ -13,7 +13,7 @@ public class AutoWalk extends Module {
     BlockPos destination;
 
     public AutoWalk() {
-        super("AutoWalk", "Automatically presses W", Keyboard.KEY_NONE, Category.MOTION);
+        super("AutoWalk", "Automatically presses W", Keyboard.KEY_NONE, Category.MOVEMENT);
     }
 
     public BlockPos getDestination() {

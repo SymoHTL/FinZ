@@ -1,7 +1,7 @@
 package aids.events;
 
 public class Event {
-    public boolean cancelled;
+    private boolean cancelled;
 
     public boolean isCancelled() {
         return cancelled;

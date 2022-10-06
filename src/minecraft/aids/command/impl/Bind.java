@@ -17,7 +17,7 @@ public class Bind extends Command {
             String moduleName = args[0];
             String keyName = args[1];
             boolean foundModule = false;
-            for (Module module : BaseHiv.INSTANCE.getManager().modules) {
+            for (Module module : BaseHiv.INSTANCE.getManager().getModules()) {
                 if (module.name.equalsIgnoreCase(moduleName)) {
                     foundModule = true;
                     if (keyName.equalsIgnoreCase("clear")) {
@@ -40,7 +40,7 @@ public class Bind extends Command {
             }
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("clear")) {
-                for (Module module : BaseHiv.INSTANCE.getManager().modules) {
+                for (Module module : BaseHiv.INSTANCE.getManager().getModules()) {
                     module.setKey(Keyboard.KEY_NONE);
                 }
                 BaseHiv.addChatMessage("Cleared all binds.");

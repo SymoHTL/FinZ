@@ -2,7 +2,7 @@ package aids.modules;
 
 import aids.modules.impl.combat.*;
 import aids.modules.impl.misc.*;
-import aids.modules.impl.motion.*;
+import aids.modules.impl.movement.*;
 import aids.modules.impl.player.*;
 import aids.modules.impl.ui.*;
 import aids.modules.impl.visual.*;
@@ -10,7 +10,7 @@ import aids.modules.impl.visual.*;
 import java.util.ArrayList;
 
 public class ModuleManager {
-    public ArrayList<Module> modules = new ArrayList<Module>();
+    protected ArrayList<Module> modules = new ArrayList<>();
 
     public ModuleManager() {
         init();
@@ -25,10 +25,14 @@ public class ModuleManager {
         add(new Sprint());
         add(new Fly());
         add(new AutoWalk());
+        add(new Top());
+        add(new JetPack());
+        add(new Spider());
         // PLAYER
         add(new FastPlace());
         add(new NoFall());
         add(new AutoMine());
+        add(new NoHunger());
         // MISC
         add(new Timer());
         add(new PickBlock());
@@ -36,6 +40,7 @@ public class ModuleManager {
         add(new FullBright());
         add(new BlockESP());
         add(new Debug());
+        add(new FindOreESP());
         // HUD
         add(new HUD());
     }
@@ -58,5 +63,14 @@ public class ModuleManager {
                 return module;
         }
         return null;
+    }
+
+    public ArrayList<Module> getEnabledModules() {
+        ArrayList<Module> enabledModules = new ArrayList<>();
+        for (Module module : modules) {
+            if (module.isEnabled())
+                enabledModules.add(module);
+        }
+        return enabledModules;
     }
 }

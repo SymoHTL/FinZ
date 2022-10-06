@@ -10,7 +10,7 @@ import net.minecraft.util.ChatComponentText;
 
 public enum BaseHiv {
     INSTANCE;
-    public static final String name = "BaseHiv", version = "1.0", author = "Interro";
+    public static final String name = "BaseHiv", version = "1.0", author = "ShingShang";
     //public EventBus bus;
     public ModuleManager manager;
     public Minecraft mc = Minecraft.getMinecraft();

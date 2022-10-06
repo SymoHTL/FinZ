@@ -12,7 +12,7 @@ public class AutoWalk extends Command {
 
     @Override
     public void onCommand(String[] args, String command) {
-        aids.modules.impl.motion.AutoWalk module = (aids.modules.impl.motion.AutoWalk) BaseHiv.INSTANCE.getManager().getModule("AutoWalk");
+        aids.modules.impl.movement.AutoWalk module = (aids.modules.impl.movement.AutoWalk) BaseHiv.INSTANCE.getManager().getModule("AutoWalk");
         if (args.length == 0) {
             BaseHiv.addChatMessage("Disabled AutoWalk");
             module.setEnabled(!module.isEnabled());

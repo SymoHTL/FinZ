@@ -1,4 +1,4 @@
-package aids.modules.impl.motion;
+package aids.modules.impl.movement;
 
 import com.google.common.eventbus.Subscribe;
 import aids.events.impl.EventUpdate;
@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 public class Sprint extends Module {
     public Sprint() {
-        super("Sprint", "Automatically sprints", Keyboard.KEY_B, Category.MOTION);
+        super("Sprint", "Automatically sprints", Keyboard.KEY_B, Category.MOVEMENT);
     }
 
     @Subscribe

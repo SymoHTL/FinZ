@@ -25,6 +25,8 @@ public class CommandManager {
         commands.add(new Help());
         commands.add(new Cls());
         commands.add(new AutoWalk());
+        commands.add(new FindOres());
+        commands.add(new Top());
     }
 
     public void handleChat(EventChat event) {

@@ -17,7 +17,7 @@ public class Toggle extends Command {
 
             boolean foundModule = false;
 
-            for (Module module : BaseHiv.INSTANCE.getManager().modules) {
+            for (Module module : BaseHiv.INSTANCE.getManager().getModules()) {
                 if (module.name.equalsIgnoreCase(moduleName)) {
                     module.toggle();
                     BaseHiv.addChatMessage(module.isEnabled() ? "Enabled " + module.getName() : "Disabled " + module.getName());
