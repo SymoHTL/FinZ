@@ -1,4 +1,4 @@
-package aids.modules.impl.visual;
+package aids.modules.impl.visual.ESP;
 
 import aids.events.impl.EventRender;
 import aids.modules.Category;

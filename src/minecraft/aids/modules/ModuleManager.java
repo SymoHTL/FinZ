@@ -1,11 +1,21 @@
 package aids.modules;
 
-import aids.modules.impl.combat.*;
-import aids.modules.impl.misc.*;
+import aids.modules.impl.combat.Aimbot;
+import aids.modules.impl.combat.Critical;
+import aids.modules.impl.combat.KillAura;
+import aids.modules.impl.combat.Velocity;
+import aids.modules.impl.misc.PickBlock;
+import aids.modules.impl.misc.PickUpItems;
+import aids.modules.impl.misc.Timer;
 import aids.modules.impl.movement.*;
-import aids.modules.impl.player.*;
-import aids.modules.impl.ui.*;
-import aids.modules.impl.visual.*;
+import aids.modules.impl.player.AutoMine;
+import aids.modules.impl.player.FastPlace;
+import aids.modules.impl.player.NoFall;
+import aids.modules.impl.player.NoHunger;
+import aids.modules.impl.ui.HUD;
+import aids.modules.impl.visual.Debug;
+import aids.modules.impl.visual.ESP.*;
+import aids.modules.impl.visual.FullBright;
 
 import java.util.ArrayList;
 
@@ -42,7 +52,11 @@ public class ModuleManager {
         add(new FullBright());
         add(new BlockESP());
         add(new Debug());
+
         add(new FindOreESP());
+        add(new PlayerESP());
+        add(new MobESP());
+        add(new AnimalESP());
         // HUD
         add(new HUD());
     }

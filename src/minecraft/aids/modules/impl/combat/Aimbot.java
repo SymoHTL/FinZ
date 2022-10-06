@@ -28,7 +28,6 @@ public class Aimbot extends Module {
 
                     mc.thePlayer.rotationYaw = (float) angle;
                     mc.thePlayer.rotationPitch = (float) -Math.toDegrees(Math.atan2(y, distance));
-
                 }
             }
         }

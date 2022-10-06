@@ -13,12 +13,9 @@ public class BlockESPUtil {
     }
 
     public static void drawESP(BlockPos blockPos, float alpha, float lineWidth) {
-        double x = blockPos.getX()
-                - Minecraft.getMinecraft().getRenderManager().renderPosX;
-        double y = blockPos.getY()
-                - Minecraft.getMinecraft().getRenderManager().renderPosY;
-        double z = blockPos.getZ()
-                - Minecraft.getMinecraft().getRenderManager().renderPosZ;
+        double x = blockPos.getX() - Minecraft.getMinecraft().getRenderManager().renderPosX;
+        double y = blockPos.getY() - Minecraft.getMinecraft().getRenderManager().renderPosY;
+        double z = blockPos.getZ() - Minecraft.getMinecraft().getRenderManager().renderPosZ;
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glLineWidth(lineWidth);

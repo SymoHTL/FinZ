@@ -2,6 +2,7 @@ package aids.command.impl;
 
 import aids.BaseHiv;
 import aids.command.Command;
+import aids.modules.impl.visual.ESP.FindOreESP;
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -19,7 +20,7 @@ public class FindOres extends Command {
 
     @Override
     public void onCommand(String[] args, String command) {
-        aids.modules.impl.visual.FindOreESP module = (aids.modules.impl.visual.FindOreESP) BaseHiv.INSTANCE.getManager().getModule("FineOreESP");
+        FindOreESP module = (FindOreESP) BaseHiv.INSTANCE.getManager().getModule("FineOreESP");
         if (args.length < 2) {
             BaseHiv.addChatMessage("Invalid arguments");
             return;

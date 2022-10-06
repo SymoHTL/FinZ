@@ -1,4 +1,4 @@
-package aids.modules.impl.visual;
+package aids.modules.impl.visual.ESP;
 
 import aids.command.impl.FindOres;
 import aids.events.impl.EventRender;
