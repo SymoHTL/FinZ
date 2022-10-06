@@ -18,8 +18,8 @@ import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import aids.BaseHiv;
-import aids.events.impl.EventGetPackets;
+import finz.FinZ;
+import finz.events.impl.EventGetPackets;
 import net.minecraft.util.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
@@ -140,7 +140,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
                 // code
                 EventGetPackets packets = new EventGetPackets(p);
                 // MinC.INSTANCE.getBus().post(packets);
-                BaseHiv.INSTANCE.onGetPackets(packets);
+                FinZ.INSTANCE.onGetPackets(packets);
                 if(packets.isCancelled()) return;
                 p.processPacket(this.packetListener); // p_channelRead0_2_
             }

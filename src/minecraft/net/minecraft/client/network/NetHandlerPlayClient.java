@@ -1,13 +1,13 @@
 package net.minecraft.client.network;
 
-import aids.BaseHiv;
+import finz.FinZ;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
-import aids.events.impl.EventSentPacket;
-import aids.modules.impl.ui.MainMenu;
+import finz.events.impl.EventSentPacket;
+import finz.modules.impl.ui.MainMenu;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -679,7 +679,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         EventSentPacket event = new EventSentPacket(p_147297_1_);
         // MinC.INSTANCE.getBus().post(p_147297_1_);
         // MinC.INSTANCE.getBus().post(event);
-        BaseHiv.INSTANCE.onPacketSent(event);
+        FinZ.INSTANCE.onPacketSent(event);
         if(event.isCancelled())
             return;
 

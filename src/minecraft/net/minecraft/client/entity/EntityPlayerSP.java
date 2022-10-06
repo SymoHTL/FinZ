@@ -1,10 +1,10 @@
 package net.minecraft.client.entity;
 
-import aids.BaseHiv;
-import aids.events.impl.EventChat;
-import aids.events.impl.EventMotion;
-import aids.events.impl.EventUpdate;
-import aids.util.BlockPosExact;
+import finz.FinZ;
+import finz.events.impl.EventChat;
+import finz.events.impl.EventMotion;
+import finz.events.impl.EventUpdate;
+import finz.util.BlockPosExact;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -153,7 +153,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             // code
             // MinC.INSTANCE.getBus().post(new EventUpdate());
             EventUpdate event = new EventUpdate();
-            BaseHiv.INSTANCE.onUpdate(event);
+            FinZ.INSTANCE.onUpdate(event);
             if(event.isCancelled()) return;
             super.onUpdate();
 
@@ -176,7 +176,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
         EventMotion eventMotion = new EventMotion(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
         //MinC.INSTANCE.getBus().post(eventMotion);
-        BaseHiv.INSTANCE.onMotion(eventMotion);
+        FinZ.INSTANCE.onMotion(eventMotion);
         if(eventMotion.isCancelled())
             return;
         boolean flag = this.isSprinting();
@@ -265,7 +265,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         // CODE MinC
         EventChat event = new EventChat(message);
         //MinC.INSTANCE.getBus().post(event);
-        BaseHiv.INSTANCE.onMessage(event);
+        FinZ.INSTANCE.onMessage(event);
         if (event.isCancelled()) return;
         this.sendQueue.addToSendQueue(new C01PacketChatMessage(event.getMessage()));
     }

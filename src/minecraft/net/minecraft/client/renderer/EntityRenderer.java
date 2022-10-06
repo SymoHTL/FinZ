@@ -2,9 +2,9 @@ package net.minecraft.client.renderer;
 
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
-import aids.BaseHiv;
-import aids.events.impl.EventRender;
-import aids.modules.impl.ui.MainMenu;
+import finz.FinZ;
+import finz.events.impl.EventRender;
+import finz.modules.impl.ui.MainMenu;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
@@ -1861,7 +1861,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         this.mc.mcProfiler.endStartSection("hand");
         // code
         //MinC.INSTANCE.getBus().post(new EventRender());
-        BaseHiv.INSTANCE.onRender(new EventRender());
+        FinZ.INSTANCE.onRender(new EventRender());
         boolean flag2 = ReflectorForge.renderFirstPersonHand(this.mc.renderGlobal, partialTicks, pass);
 
         if (!flag2 && this.renderHand && !Shaders.isShadowPass)

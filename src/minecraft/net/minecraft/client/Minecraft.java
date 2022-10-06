@@ -1,8 +1,8 @@
 package net.minecraft.client;
 
-import aids.BaseHiv;
-import aids.events.impl.EventPickBlock;
-import aids.modules.impl.ui.MainMenu;
+import finz.FinZ;
+import finz.events.impl.EventPickBlock;
+import finz.modules.impl.ui.MainMenu;
 import com.google.common.collect.*;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -12,7 +12,7 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-import aids.events.impl.EventKey;
+import finz.events.impl.EventKey;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -521,7 +521,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
             this.gameSettings.enableVsync = false;
             this.gameSettings.saveOptions();
         }
-        BaseHiv.INSTANCE.init();
+        FinZ.INSTANCE.init();
 
         this.renderGlobal.makeEntityOutlineShader();
     }
@@ -545,7 +545,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
     private void createDisplay() throws LWJGLException {
         Display.setResizable(true);
-        Display.setTitle(BaseHiv.INSTANCE.getName() + " v" + BaseHiv.INSTANCE.getVersion());
+        Display.setTitle(FinZ.INSTANCE.getName() + " v" + FinZ.INSTANCE.getVersion());
         //Display.setTitle("Minecraft 1.8.8");
 
         try {
@@ -881,7 +881,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         try {
             this.stream.shutdownStream();
             logger.info("Stopping BaseHiv!");
-            BaseHiv.INSTANCE.stop();
+            FinZ.INSTANCE.stop();
             try {
                 this.loadWorld((WorldClient) null);
             } catch (Throwable var5) {
@@ -1599,7 +1599,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                     } else {
                         // code
                         //MinC.INSTANCE.getBus().post(new EventKey(k));
-                        BaseHiv.INSTANCE.onKey(new EventKey(k));
+                        FinZ.INSTANCE.onKey(new EventKey(k));
                         if (k == 1) {
                             this.displayInGameMenu();
                         }
@@ -2071,7 +2071,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                 // code
                 EventPickBlock eventPickBlock = new EventPickBlock(blockpos);
                 //MinC.INSTANCE.getBus().post(eventPickBlock);
-                BaseHiv.INSTANCE.onPickBlock(eventPickBlock);
+                FinZ.INSTANCE.onPickBlock(eventPickBlock);
                 if (eventPickBlock.isCancelled()) {
                     return;
                 }

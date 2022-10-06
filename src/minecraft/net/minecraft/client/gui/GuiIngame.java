@@ -1,10 +1,10 @@
 package net.minecraft.client.gui;
 
-import aids.BaseHiv;
+import finz.FinZ;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import aids.events.impl.Event2D;
+import finz.events.impl.Event2D;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -346,7 +346,7 @@ public class GuiIngame extends Gui
         GlStateManager.disableLighting();
         GlStateManager.enableAlpha();
         // code
-        BaseHiv.INSTANCE.on2D(new Event2D());
+        FinZ.INSTANCE.on2D(new Event2D());
     }
 
     protected void renderTooltip(ScaledResolution sr, float partialTicks)
