@@ -39,6 +39,7 @@ public class ModuleManager {
         add(new Top());
         add(new JetPack());
         add(new Spider());
+        add(new ScaffoldWalk());
         // PLAYER
         add(new FastPlace());
         add(new NoFall());

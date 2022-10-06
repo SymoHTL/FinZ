@@ -1,6 +1,7 @@
 package net.minecraft.entity.player;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFalling;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.inventory.IInventory;
@@ -27,8 +28,35 @@ public class InventoryPlayer implements IInventory
     }
     public int getFirstBlockInHotBarIndex() {
         for (int i = 0; i < 9; i++)
-            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemBlock)
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemBlock) {
+                Block block = Block.getBlockFromItem(this.mainInventory[i].getItem());
+                if (!block.isFullBlock() || !block.isFullCube())
+                    continue;
                 return i;
+            }
+        return -1;
+    }
+    public int getFirstNonFallableBlockInHotBarIndex() {
+        for (int i = 0; i < 9; i++)
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemBlock) {
+                Block block = Block.getBlockFromItem(this.mainInventory[i].getItem());
+                if (block instanceof BlockFalling)
+                    continue;
+                return i;
+            }
+        return -1;
+    }
+
+    public int getFirstNonFallableSolidBlockInHotBarIndex() {
+        for (int i = 0; i < 9; i++)
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemBlock) {
+                Block block = Block.getBlockFromItem(this.mainInventory[i].getItem());
+                if (!block.isFullBlock() || !block.isFullCube())
+                    continue;
+                if (block instanceof BlockFalling)
+                    continue;
+                return i;
+            }
         return -1;
     }
     public int getFirstPickaxeInHotBarIndex() {

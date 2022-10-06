@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 public class PickUpItems extends Module {
     public PickUpItems() {
-        super("Magnet", "Magnetizes items", Category.MISC);
+        super("PickUpItems", "Picks up items", Category.MISC);
         setKey(Keyboard.KEY_M);
     }
 

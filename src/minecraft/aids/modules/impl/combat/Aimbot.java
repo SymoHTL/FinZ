@@ -3,6 +3,7 @@ package aids.modules.impl.combat;
 import aids.events.impl.EventUpdate;
 import aids.modules.Category;
 import aids.modules.Module;
+import aids.util.SmoothMove;
 import net.minecraft.entity.EntityLivingBase;
 import org.lwjgl.input.Keyboard;
 
@@ -26,8 +27,7 @@ public class Aimbot extends Module {
 
                     double angle = Math.toDegrees(Math.atan2(z, x)) - 90;
 
-                    mc.thePlayer.rotationYaw = (float) angle;
-                    mc.thePlayer.rotationPitch = (float) -Math.toDegrees(Math.atan2(y, distance));
+                    SmoothMove.moveSmooth((float)angle, (float)-Math.toDegrees(Math.atan2(y, distance)));
                 }
             }
         }

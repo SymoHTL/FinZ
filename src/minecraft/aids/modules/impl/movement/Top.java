@@ -67,7 +67,6 @@ public class Top extends Module {
 
     }
 
-
     public void mineBlockAbove() {
         // if the player has a block above him mine it
         if (mc.thePlayer.hasBlockAbove()) {
@@ -79,7 +78,7 @@ public class Top extends Module {
     }
 
     public void buildToSkylight() {
-        mc.thePlayer.inventory.currentItem = mc.thePlayer.inventory.getFirstBlockInHotBarIndex();
+        mc.thePlayer.inventory.currentItem = mc.thePlayer.inventory.getFirstNonFallableSolidBlockInHotBarIndex();
         mc.thePlayer.swingItem();
         new java.util.Timer().schedule(new TimerTask() {
             @Override
@@ -90,13 +89,4 @@ public class Top extends Module {
         }, 75);
     }
 
-    //@Override
-    //public void onEnable() {
-    //    super.onEnable();
-    //}
-
-    //@Override
-    //public void onDisable() {
-    //    super.onDisable();
-    //}
 }

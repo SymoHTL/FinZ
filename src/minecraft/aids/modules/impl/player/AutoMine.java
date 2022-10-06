@@ -19,7 +19,7 @@ public class AutoMine extends Module {
     private List<BlockPos> blocksToBreak;
 
     public AutoMine() {
-        super("AutoMine", "Breaks selected blocks automatically", Keyboard.KEY_P, Category.PLAYER);
+        super("AutoMine", "Breaks selected blocks automatically", Keyboard.KEY_NONE, Category.PLAYER);
     }
 
     public void onMotion(EventMotion e) {

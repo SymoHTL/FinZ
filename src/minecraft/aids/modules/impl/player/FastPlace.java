@@ -9,7 +9,7 @@ import org.lwjgl.input.Keyboard;
 public class FastPlace extends Module {
 
     public FastPlace() {
-        super("FastPlace", "place blocks faster", Keyboard.KEY_L, Category.PLAYER);
+        super("FastPlace", "place blocks faster", Keyboard.KEY_NONE, Category.PLAYER);
     }
 
     @Subscribe

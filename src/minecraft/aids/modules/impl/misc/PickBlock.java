@@ -5,11 +5,10 @@ import aids.modules.Category;
 import aids.modules.Module;
 import aids.modules.impl.player.AutoMine;
 import net.minecraft.util.BlockPos;
-import org.lwjgl.input.Keyboard;
 
 public class PickBlock extends Module {
     public PickBlock() {
-        super("PickBlock", "Pick blocks to break", Keyboard.KEY_NUMPAD2, Category.MISC);
+        super("PickBlock", "Pick blocks to break", Category.MISC);
     }
 
     @Override

@@ -42,7 +42,7 @@ public abstract class Entity implements ICommandSender
     public double renderDistanceWeight;
 
 
-    // NIGGA STUFF
+    // SUPA STUFF
     public Vec3d getVelocityXYZ(){
         return new Vec3d(this.motionX, this.motionY, this.motionZ);
     }

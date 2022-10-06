@@ -4,6 +4,7 @@ import aids.BaseHiv;
 import aids.events.impl.EventChat;
 import aids.events.impl.EventMotion;
 import aids.events.impl.EventUpdate;
+import aids.util.BlockPosExact;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -490,11 +491,11 @@ public class EntityPlayerSP extends AbstractClientPlayer {
     public BlockPos getPosition() {
         return new BlockPos(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D);
     }
-    public double[] getExactPositionDouble() {
-        return new double[]{this.posX, this.posY, this.posZ};
+    public BlockPosExact getExactPositionDouble() {
+        return new BlockPosExact(this.posX, this.posY, this.posZ);
     }
-    public double[] getPositionDouble() {
-        return new double[]{this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D};
+    public BlockPosExact getPositionDouble() {
+        return new BlockPosExact(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D);
     }
 
     public boolean hasBlockAbove() {

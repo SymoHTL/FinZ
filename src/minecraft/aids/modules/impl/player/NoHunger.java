@@ -2,12 +2,11 @@ package aids.modules.impl.player;
 
 import aids.modules.Category;
 import aids.modules.Module;
-import org.lwjgl.input.Keyboard;
 
 public class NoHunger extends Module {
     public NoHunger() {
         super("NoHunger", "prevents hunger", Category.PLAYER);
-        setKey(Keyboard.KEY_H);
+        //setKey(Keyboard.KEY_H);
     }
 
     @Override

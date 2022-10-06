@@ -4,13 +4,13 @@ import aids.events.impl.EventMotion;
 import aids.modules.Category;
 import aids.modules.Module;
 import aids.util.Timer;
-import org.lwjgl.input.Keyboard;
 
 public class Critical extends Module {
     public Timer timer = new Timer();
 
     public Critical() {
-        super("Critical", "ALlways lands a crit", Keyboard.KEY_NONE, Category.COMBAT);
+        super("Critical", "Always lands a crit", Category.COMBAT);
+        //setKey(Keyboard.KEY_C);
     }
 
     // TODO this is shit

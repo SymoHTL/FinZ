@@ -17,7 +17,8 @@ public class KillAura extends Module {
     public Timer timer = new Timer();
 
     public KillAura() {
-        super("KillAura", "Attacks nearby entities", Keyboard.KEY_NONE, Category.COMBAT);
+        super("KillAura", "Attacks nearby entities", Category.COMBAT);
+        setKey(Keyboard.KEY_NONE);
     }
 
     public void onMotion(EventMotion event) {

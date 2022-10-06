@@ -5,12 +5,11 @@ import aids.modules.Category;
 import aids.modules.Module;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
-import org.lwjgl.input.Keyboard;
 
 public class Velocity extends Module {
     public Velocity() {
-        super("Velocity", "reduce knockback", 0, Category.COMBAT);
-        setKey(Keyboard.KEY_V);
+        super("Velocity", "reduce knockback", Category.COMBAT);
+        //setKey(Keyboard.KEY_V);
     }
 
     @Override

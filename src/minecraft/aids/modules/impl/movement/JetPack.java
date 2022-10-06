@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 public class JetPack extends Module {
     public JetPack() {
-        super("SkyRocket", "Makes you fly", Category.MOVEMENT);
+        super("JetPack", "Makes you fly with a jetpack", Category.MOVEMENT);
         setKey(Keyboard.KEY_K);
     }
 
