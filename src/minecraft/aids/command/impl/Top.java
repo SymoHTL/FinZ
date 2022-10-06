@@ -22,12 +22,17 @@ public class Top extends Command {
             }
             module.y = y;
         }
-        double[] current = BaseHiv.INSTANCE.mc.thePlayer.getExactPositionDouble();
-        double[] destination = BaseHiv.INSTANCE.mc.thePlayer.getPositionDouble();
-        double[] travelPos = new double[]{current[0] - destination[0], 0, current[2] - destination[2]};// y is unimportant
-        BaseHiv.INSTANCE.mc.thePlayer.motionX = travelPos[0] / 10;
-        BaseHiv.INSTANCE.mc.thePlayer.motionZ = travelPos[2] / 10;
-        BaseHiv.addChatMessage("Motion: " + travelPos[0] + ", " + travelPos[2]);
+
+        //double distance = BaseHiv.INSTANCE.mc.thePlayer.getDistanceToBlockMiddle();
+        //double[] middle = BaseHiv.INSTANCE.mc.thePlayer.getPositionDouble();
+
+        //double angle = Math.toDegrees(Math.atan2(middle[2], middle[0])) - 90;
+
+        //BaseHiv.INSTANCE.mc.thePlayer.rotationYaw = (float) angle;
+        //BaseHiv.INSTANCE.mc.thePlayer.rotationPitch = (float)Math.toDegrees(Math.atan2(middle[1], distance));
+
+        //BaseHiv.INSTANCE.mc.thePlayer.motionX = Math.cos(Math.toRadians(angle + 90)) * 0.2;
+        //BaseHiv.INSTANCE.mc.thePlayer.motionZ = Math.sin(Math.toRadians(angle + 90)) * 0.2;
 
 
         module.setEnabled(!module.isEnabled());

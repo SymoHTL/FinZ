@@ -21,6 +21,7 @@ public class ModuleManager {
         add(new Velocity());
         add(new KillAura());
         add(new Critical());
+        add(new Aimbot());
         // MOTION
         add(new Sprint());
         add(new Fly());
@@ -36,6 +37,7 @@ public class ModuleManager {
         // MISC
         add(new Timer());
         add(new PickBlock());
+        add(new PickUpItems());
         // VISUAL
         add(new FullBright());
         add(new BlockESP());

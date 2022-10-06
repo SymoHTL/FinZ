@@ -477,6 +477,16 @@ public class EntityPlayerSP extends AbstractClientPlayer {
      * Get the position in the world. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return
      * the coordinates 0, 0, 0
      */
+
+    public double getDistanceToBlockMiddle() {
+        float f = (float)(this.posX - (int)this.posX + 0.5D);
+        float f1 = (float)(this.posY - (int)this.posY + 0.5D);
+        float f2 = (float)(this.posZ - (int)this.posZ + 0.5D);
+        return MathHelper.sqrt_float(f * f + f1 * f1 + f2 * f2);
+    }
+
+
+
     public BlockPos getPosition() {
         return new BlockPos(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D);
     }

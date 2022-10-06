@@ -914,4 +914,11 @@ public class InventoryPlayer implements IInventory
             this.armorInventory[j] = null;
         }
     }
+
+    public boolean isFull() {
+        for (ItemStack stack : this.mainInventory)
+            if (stack == null)
+                return false;
+        return true;
+    }
 }
