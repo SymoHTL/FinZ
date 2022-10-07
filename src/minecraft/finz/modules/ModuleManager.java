@@ -1,9 +1,6 @@
 package finz.modules;
 
-import finz.modules.impl.combat.Aimbot;
-import finz.modules.impl.combat.Critical;
-import finz.modules.impl.combat.KillAura;
-import finz.modules.impl.combat.Velocity;
+import finz.modules.impl.combat.*;
 import finz.modules.impl.misc.PickUpItems;
 import finz.modules.impl.misc.Timer;
 import finz.modules.impl.movement.*;
@@ -11,7 +8,10 @@ import finz.modules.impl.player.FastPlace;
 import finz.modules.impl.player.NoFall;
 import finz.modules.impl.ui.HUD;
 import finz.modules.impl.visual.Debug;
-import finz.modules.impl.visual.ESP.*;
+import finz.modules.impl.visual.ESP.AnimalESP;
+import finz.modules.impl.visual.ESP.FindOreESP;
+import finz.modules.impl.visual.ESP.MobESP;
+import finz.modules.impl.visual.ESP.PlayerESP;
 import finz.modules.impl.visual.FullBright;
 
 import java.util.ArrayList;
@@ -25,10 +25,9 @@ public class ModuleManager {
 
     public void init() {
         // COMBAT
-        add(new Velocity());
-        add(new KillAura());
         add(new Critical());
         add(new Aimbot());
+        add(new MobFarmer());
         // MOTION
         add(new Sprint());
         add(new Fly());

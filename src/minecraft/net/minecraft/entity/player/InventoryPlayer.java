@@ -65,6 +65,12 @@ public class InventoryPlayer implements IInventory
                 return i;
         return -1;
     }
+    public int getFirstSwordInHotBarIndex() {
+        for (int i = 0; i < 9; i++)
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemSword)
+                return i;
+        return -1;
+    }
     public int getFirstShovelInHotBarIndex() {
         for (int i = 0; i < 9; i++)
             if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemSpade)

@@ -70,7 +70,9 @@ public class Top extends Module {
     public void mineBlockAbove() {
         // if the player has a block above him mine it
         if (mc.thePlayer.hasBlockAbove()) {
-            mc.thePlayer.inventory.currentItem = mc.thePlayer.inventory.getFirstPickaxeInHotBarIndex();
+            int slot = mc.thePlayer.inventory.getFirstPickaxeInHotBarIndex();
+            if (slot != -1)
+                mc.thePlayer.inventory.currentItem = slot;
             // if the player is not on the goto height go to it
             mc.thePlayer.swingItem();
             mc.playerController.onPlayerDamageBlock(mc.thePlayer.getBlockPosAbove(), mc.thePlayer.getHorizontalFacing());
@@ -78,7 +80,9 @@ public class Top extends Module {
     }
 
     public void buildToSkylight() {
-        mc.thePlayer.inventory.currentItem = mc.thePlayer.inventory.getFirstNonFallableSolidBlockInHotBarIndex();
+        int slot = mc.thePlayer.inventory.getFirstNonFallableSolidBlockInHotBarIndex();
+        if (slot != -1)
+            mc.thePlayer.inventory.currentItem = slot;
         mc.thePlayer.swingItem();
         new java.util.Timer().schedule(new TimerTask() {
             @Override

@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import com.sun.istack.internal.Nullable;
 import finz.FinZ;
 import finz.events.impl.EventChat;
 import finz.events.impl.EventMotion;
@@ -14,10 +15,14 @@ import net.minecraft.client.gui.inventory.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -30,6 +35,10 @@ import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.*;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EntityPlayerSP extends AbstractClientPlayer {
     public final NetHandlerPlayClient sendQueue;
@@ -486,7 +495,49 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         return MathHelper.sqrt_float(f * f + f1 * f1 + f2 * f2);
     }
 
+    @Nullable
+    public EntityLivingBase getClosetMob(){
+        return this.getLivingEntities().stream()
+                .filter(entity -> entity instanceof EntityMob)
+                .sorted(Comparator.comparingDouble(this::getDistanceToEntity))
+                .collect(Collectors.toList()).get(0);
+    }
 
+    @Nullable
+    public EntityLivingBase getClosetAnimal(){
+        return this.getLivingEntities().stream()
+                .filter(entity -> entity instanceof EntityAnimal)
+                .sorted(Comparator.comparingDouble(this::getDistanceToEntity))
+                .collect(Collectors.toList()).get(0);
+    }
+    @Nullable
+    public EntityLivingBase getClosetPlayer(){
+        return this.getLivingEntities().stream()
+                .filter(entity -> entity instanceof EntityPlayer)
+                .sorted(Comparator.comparingDouble(this::getDistanceToEntity))
+                .collect(Collectors.toList()).get(0);
+    }
+    @Nullable
+    public EntityLivingBase getClosetLivingEntity(){
+        return this.getLivingEntities().stream()
+                .sorted(Comparator.comparingDouble(this::getDistanceToEntity))
+                .collect(Collectors.toList()).get(0);
+    }
+
+    public List<EntityLivingBase> getLivingEntities(){
+        // get all living Entities
+        List<EntityLivingBase> livingBases = mc.theWorld.getLoadedEntityList().stream()
+                .filter(entity -> entity instanceof EntityLivingBase)
+                .map(entity -> (EntityLivingBase)entity).collect(Collectors.toList());
+        // filter out dead entities
+        livingBases = livingBases.stream().filter(entity ->
+                                entity != this &&
+                                !entity.isDead &&
+                                entity.getHealth() > 0)
+                .collect(Collectors.toList());
+        // sot by distance
+        return livingBases;
+    }
 
     public BlockPos getPosition() {
         return new BlockPos(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D);

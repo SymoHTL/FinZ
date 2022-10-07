@@ -3,6 +3,7 @@ package finz.modules.impl.combat;
 import finz.events.impl.EventUpdate;
 import finz.modules.Category;
 import finz.modules.Module;
+import finz.util.AimHelper;
 import net.minecraft.entity.EntityLivingBase;
 import org.lwjgl.input.Keyboard;
 
@@ -15,24 +16,19 @@ public class Aimbot extends Module {
 
     @Override
     public void onUpdate(EventUpdate e) {
-        for (Object o : mc.theWorld.getLoadedEntityList()) {
-            if (o instanceof EntityLivingBase && o != mc.thePlayer && ((EntityLivingBase) o).getHealth() > 0) {
-                EntityLivingBase entity = (EntityLivingBase) o;
-                double distance = mc.thePlayer.getDistanceToEntity(entity);
-                if (distance <= 4) {
-                    double x = entity.posX - mc.thePlayer.posX;
-                    double y = entity.posY-0.5 - mc.thePlayer.posY;
-                    double z = entity.posZ - mc.thePlayer.posZ;
+        if (mc.thePlayer.isDead)
+            return;
 
-                    double angle = Math.toDegrees(Math.atan2(z, x)) - 90;
+        EntityLivingBase entity = mc.thePlayer.getClosetLivingEntity();
 
-                    // set jaw and pitch
-                    mc.thePlayer.rotationYaw = (float)angle;
-                    mc.thePlayer.rotationPitch = (float)-Math.toDegrees(Math.atan2(y, distance));
-                }
-            }
-        }
+        if (entity == null)
+            return;
+        if (entity.getDistanceToEntity(mc.thePlayer) > 4)
+            return;
 
+        float[] rotations = AimHelper.getYawAndPitchToLookAt(entity);
+        mc.thePlayer.rotationYaw = rotations[0];
+        mc.thePlayer.rotationPitch = rotations[1];
     }
 
 
