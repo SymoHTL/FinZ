@@ -24,7 +24,6 @@ public class CommandManager {
         commands.add(new Say());
         commands.add(new Help());
         commands.add(new Cls());
-        commands.add(new AutoWalk());
         commands.add(new FindOres());
         commands.add(new Top());
     }

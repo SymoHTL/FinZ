@@ -4,14 +4,11 @@ import finz.modules.impl.combat.Aimbot;
 import finz.modules.impl.combat.Critical;
 import finz.modules.impl.combat.KillAura;
 import finz.modules.impl.combat.Velocity;
-import finz.modules.impl.misc.PickBlock;
 import finz.modules.impl.misc.PickUpItems;
 import finz.modules.impl.misc.Timer;
 import finz.modules.impl.movement.*;
-import finz.modules.impl.player.AutoMine;
 import finz.modules.impl.player.FastPlace;
 import finz.modules.impl.player.NoFall;
-import finz.modules.impl.player.NoHunger;
 import finz.modules.impl.ui.HUD;
 import finz.modules.impl.visual.Debug;
 import finz.modules.impl.visual.ESP.*;
@@ -35,7 +32,6 @@ public class ModuleManager {
         // MOTION
         add(new Sprint());
         add(new Fly());
-        add(new AutoWalk());
         add(new Top());
         add(new JetPack());
         add(new Spider());
@@ -43,15 +39,11 @@ public class ModuleManager {
         // PLAYER
         add(new FastPlace());
         add(new NoFall());
-        add(new AutoMine());
-        add(new NoHunger());
         // MISC
         add(new Timer());
-        add(new PickBlock());
         add(new PickUpItems());
         // VISUAL
         add(new FullBright());
-        add(new BlockESP());
         add(new Debug());
 
         add(new FindOreESP());
