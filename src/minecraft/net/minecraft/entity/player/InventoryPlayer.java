@@ -20,6 +20,27 @@ public class InventoryPlayer implements IInventory
 {
 
     // made by me
+    public int getFirstSuitableFoodSlot(int minFoodLevel) {
+        for (int i = 0; i < 9; i++){
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemFood){
+                ItemFood food = (ItemFood) this.mainInventory[i].getItem();
+                if (food.getHealAmount()  >= minFoodLevel)
+                    return i;
+            }
+        }
+        return -1;
+    }
+    public int getFirstExactSuitableFoodSlot(int foodLevel) {
+        for (int i = 0; i < 9; i++){
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemFood){
+                ItemFood food = (ItemFood) this.mainInventory[i].getItem();
+                if (food.getHealAmount() == foodLevel)
+                    return i;
+            }
+        }
+        return -1;
+    }
+
 
     public int getFirstEffectiveToolForBlockInHotBar(Block block) {
         for (int i = 0; i < 9; i++) {

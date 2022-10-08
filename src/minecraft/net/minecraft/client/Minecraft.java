@@ -880,7 +880,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
     public void shutdownMinecraftApplet() {
         try {
             this.stream.shutdownStream();
-            logger.info("Stopping BaseHiv!");
+            logger.info("Stopping FinZ!");
             FinZ.INSTANCE.stop();
             try {
                 this.loadWorld((WorldClient) null);

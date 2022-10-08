@@ -106,6 +106,10 @@ public class ItemFood extends Item
     {
         return this.healAmount;
     }
+    public int getHealAmount()
+    {
+        return this.healAmount;
+    }
 
     public float getSaturationModifier(ItemStack stack)
     {

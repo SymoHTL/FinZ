@@ -6,6 +6,7 @@ import finz.modules.impl.combat.MobFarmer;
 import finz.modules.impl.misc.PickUpItems;
 import finz.modules.impl.misc.Timer;
 import finz.modules.impl.movement.*;
+import finz.modules.impl.player.AutoEat;
 import finz.modules.impl.player.FastPlace;
 import finz.modules.impl.player.NoFall;
 import finz.modules.impl.ui.HUD;
@@ -38,6 +39,7 @@ public class ModuleManager {
         // PLAYER
         add(new FastPlace());
         add(new NoFall());
+        add(new AutoEat());
         // MISC
         add(new Timer());
         add(new PickUpItems());
