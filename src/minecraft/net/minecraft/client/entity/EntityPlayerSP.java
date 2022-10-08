@@ -549,16 +549,25 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         return new BlockPosExact(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D);
     }
 
+    public BlockPos getAccurateBlockPos() {
+        return new BlockPos(this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().getEntityBoundingBox().minY, this.mc.getRenderViewEntity().posZ);
+    }
+
     public boolean hasBlockAbove() {
         return this.getEntityWorld().getBlockState(this.getBlockPosAbove()).getBlock().getMaterial() != Material.air;
     }
+    public boolean hasBlockBelow() {
+        return this.getEntityWorld().getBlockState(this.getBlockPosBelow()).getBlock().getMaterial() != Material.air;
+    }
 
     public BlockPos getBlockPosAbove() {
-        return new BlockPos(this.posX, this.posY+2, this.posZ);
+        BlockPos pos = getAccurateBlockPos();
+        return new BlockPos(pos.getX(), pos.getY()+2, pos.getZ());
     }
 
     public BlockPos getBlockPosBelow() {
-        return new BlockPos(this.posX, this.posY-1, this.posZ);
+        BlockPos pos = getAccurateBlockPos();
+        return new BlockPos(pos.getX(), pos.getY()-1, pos.getZ());
     }
 
     public void playSound(String name, float volume, float pitch) {
@@ -830,4 +839,6 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             this.sendPlayerAbilities();
         }
     }
+
+
 }

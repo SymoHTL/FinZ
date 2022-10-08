@@ -1,7 +1,6 @@
 package net.minecraft.item;
 
 import com.google.common.collect.Multimap;
-import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,9 +9,11 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Set;
+
 public class ItemTool extends Item
 {
-    private Set<Block> effectiveBlocks;
+    protected Set<Block> effectiveBlocks;
     protected float efficiencyOnProperMaterial = 4.0F;
 
     /** Damage versus entities. */
@@ -30,6 +31,10 @@ public class ItemTool extends Item
         this.efficiencyOnProperMaterial = material.getEfficiencyOnProperMaterial();
         this.damageVsEntity = attackDamage + material.getDamageVsEntity();
         this.setCreativeTab(CreativeTabs.tabTools);
+    }
+
+    public boolean isEffectiveOn(Block blockIn)    {
+        return this.effectiveBlocks.contains(blockIn);
     }
 
     public float getStrVsBlock(ItemStack stack, Block block)

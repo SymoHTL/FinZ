@@ -1,7 +1,6 @@
 package net.minecraft.block;
 
-import java.util.List;
-import java.util.Random;
+import finz.modules.impl.visual.ESP.BlockRenderESP;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -19,22 +18,102 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ObjectIntIdentityMap;
-import net.minecraft.util.RegistryNamespacedDefaultedByKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class Block
-{
+import java.util.List;
+import java.util.Random;
+
+public class Block{
+
+
+    public static boolean isBlockBelowAir(World worldIn, BlockPos pos)    {
+        BlockRenderESP.blockPosList.add(pos.add(0,-2, 0));
+        return worldIn.getBlockState(pos.add(0, -1, 0)).getBlock().getMaterial() == Material.air;
+    }
+
+    public static boolean isBlockBelowSolid(World worldIn, BlockPos pos)    {
+        return Block.isBlockSolidStatic(worldIn, pos.down(), EnumFacing.UP);
+    }
+
+    public static boolean isBlockBelowFullCube(World worldIn, BlockPos pos)    {
+        return worldIn.getBlockState(pos.down()).getBlock().isFullCube();
+    }
+
+    public static boolean isBlockBelowCollidable(World worldIn, BlockPos pos)    {
+        return worldIn.getBlockState(pos.down()).getBlock().isCollidable();
+    }
+
+    public static boolean checkBetweenPosForLava(BlockPos start, BlockPos end, World worldIn) {
+        // check for every pos if x y z is bigger smaller than x y z of end
+        // if yes then switch x y z
+        int x1 = start.getX();
+        int y1 = start.getY();
+        int z1 = start.getZ();
+        int x2 = end.getX();
+        int y2 = end.getY();
+        int z2 = end.getZ();
+        if (x1 > x2) {
+            int temp = x1;
+            x1 = x2;
+            x2 = temp;
+        }
+        if (y1 > y2) {
+            int temp = y1;
+            y1 = y2;
+            y2 = temp;
+        }
+        if (z1 > z2) {
+            int temp = z1;
+            z1 = z2;
+            z2 = temp;
+        }
+        for (int i = x1; i <= x2; i++) {
+            for (int j = y1; j <= y2; j++) {
+                for (int k = z1; k <= z2; k++) {
+                    if (Block.checkForLava(new BlockPos(i, j, k), worldIn))
+                        return true;
+
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkNeighboursForLava(BlockPos pos, World worldIn){
+        if (checkForLava(pos, worldIn)) return true;
+        if (checkForLava(pos.up(), worldIn)) return true;
+        if (checkForLava(pos.down(), worldIn)) return true;
+        if (checkForLava(pos.north(), worldIn)) return true;
+        if (checkForLava(pos.east(), worldIn)) return true;
+        if (checkForLava(pos.south(), worldIn)) return true;
+        return checkForLava(pos.west(), worldIn);
+    }
+    public static boolean checkNeighboursForWater(BlockPos pos, World worldIn){
+        if (checkForWater(pos, worldIn)) return true;
+        if (checkForWater(pos.up(), worldIn)) return true;
+        if (checkForWater(pos.down(), worldIn)) return true;
+        if (checkForWater(pos.north(), worldIn)) return true;
+        if (checkForWater(pos.east(), worldIn)) return true;
+        if (checkForWater(pos.south(), worldIn)) return true;
+        return checkForWater(pos.west(), worldIn);
+    }
+    public  boolean checkForLava(){
+        return this.getMaterial() == Material.lava;
+    }
+    public static boolean checkForLava(BlockPos pos, World worldIn){
+        return worldIn.getBlockState(pos).getBlock().getMaterial() == Material.lava;
+    }
+
+    public boolean checkForWater(){
+        return this.getMaterial() == Material.water;
+    }
+    public static boolean checkForWater(BlockPos pos, World worldIn){
+        return worldIn.getBlockState(pos).getBlock().getMaterial() == Material.water;
+    }
+
     /** ResourceLocation for the Air block */
     private static final ResourceLocation AIR_ID = new ResourceLocation("air");
     public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey(AIR_ID);
@@ -472,6 +551,10 @@ public class Block
      * Whether this Block is solid on the given Side
      */
     public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
+    {
+        return worldIn.getBlockState(pos).getBlock().getMaterial().isSolid();
+    }
+    public static boolean isBlockSolidStatic(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
         return worldIn.getBlockState(pos).getBlock().getMaterial().isSolid();
     }

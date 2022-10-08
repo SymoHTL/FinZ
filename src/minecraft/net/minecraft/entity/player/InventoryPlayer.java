@@ -20,6 +20,18 @@ public class InventoryPlayer implements IInventory
 {
 
     // made by me
+
+    public int getFirstEffectiveToolForBlockInHotBar(Block block) {
+        for (int i = 0; i < 9; i++) {
+            if (this.mainInventory[i] != null && this.mainInventory[i].getItem() instanceof ItemTool) {
+                ItemTool item = (ItemTool) this.mainInventory[i].getItem();
+                if (item.isEffectiveOn(block))
+                    return i;
+            }
+        }
+        return -1;
+    }
+
     public int getFirstNotNullInHotBarIndex() {
         for (int i = 0; i < 9; i++)
             if (this.mainInventory[i] != null && this.mainInventory[i].getItem() != null)
@@ -116,7 +128,7 @@ public class InventoryPlayer implements IInventory
      */
     public ItemStack getCurrentItem()
     {
-        return this.currentItem < 9 && this.currentItem >= 0 ? this.mainInventory[this.currentItem] : null;
+        return this.currentItem < 15 && this.currentItem >= 0 ? this.mainInventory[this.currentItem] : null;
     }
 
     /**
@@ -124,7 +136,7 @@ public class InventoryPlayer implements IInventory
      */
     public static int getHotbarSize()
     {
-        return 9;
+        return 15;
     }
 
     private int getInventorySlotContainItem(Item itemIn)

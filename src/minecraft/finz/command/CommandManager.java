@@ -11,7 +11,7 @@ import static finz.FinZ.addChatMessage;
 
 public class CommandManager {
     public List<Command> commands = new ArrayList<Command>();
-    public String prefix = ".";
+    public String prefix = "#";
 
     public CommandManager() {
         setup();
@@ -25,7 +25,8 @@ public class CommandManager {
         commands.add(new Help());
         commands.add(new Cls());
         commands.add(new FindOres());
-        commands.add(new Top());
+        commands.add(new Up());
+        commands.add(new Down());
     }
 
     public void handleChat(EventChat event) {

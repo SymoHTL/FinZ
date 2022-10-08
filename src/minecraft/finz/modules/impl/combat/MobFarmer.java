@@ -30,10 +30,10 @@ public class MobFarmer extends Module {
 
         if (entity == null)
             return;
-        if (entity.getDistanceToEntity(mc.thePlayer) > 4)
+        if (entity.getDistanceToEntity(mc.thePlayer) >= 4)
             return;
-
-
+        if (!mc.thePlayer.canSeeEyesMidOrFeet(entity))
+            return;
         // Attack
         if (mc.thePlayer.isBlocking())
             return;

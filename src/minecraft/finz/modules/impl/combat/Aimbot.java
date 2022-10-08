@@ -25,6 +25,8 @@ public class Aimbot extends Module {
             return;
         if (entity.getDistanceToEntity(mc.thePlayer) > 4)
             return;
+        if (!mc.thePlayer.canSeeEyesMidOrFeet(entity))
+            return;
 
         float[] rotations = AimHelper.getYawAndPitchToLookAt(entity);
         mc.thePlayer.rotationYaw = rotations[0];
