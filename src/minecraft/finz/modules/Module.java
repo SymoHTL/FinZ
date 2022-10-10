@@ -97,6 +97,10 @@ public class Module {
 
     }
 
+    public void onCloseConnection(String reason){
+
+    }
+
     public void onGetPackets(EventGetPackets e) {
 
     }
@@ -127,6 +131,12 @@ public class Module {
 
     public void silentSendPacket(Packet packet) {
         mc.thePlayer.sendQueue.addToSentQueueSilent(packet);
+    }
+
+    public void onServerConnect(final String ip, final int port) {
+    }
+
+    public void onServerDisconnect() {
     }
 }
 

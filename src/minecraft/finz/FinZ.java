@@ -59,6 +59,17 @@ public enum FinZ {
         commandManager.handleChat(e);
     }
 
+
+
+    // only fired when the user connects over any serverjoin gui
+    public void onServerConnect(final String ip, final int port) {
+        manager.getModules().stream().filter(Module::isEnabled).forEach(module -> module.onServerConnect(ip, port));
+    }
+    // only fired when the user clicks the button in the GUI (death gui and settings gui)
+    public void onServerDisconnect() {
+        manager.getModules().stream().filter(Module::isEnabled).forEach(Module::onServerDisconnect);
+    }
+
     public void onGetPackets(EventGetPackets e) {
         manager.getModules().stream().filter(Module::isEnabled).forEach(module -> module.onGetPackets(e));
     }
@@ -86,4 +97,7 @@ public enum FinZ {
     public void onMotion(EventMotion e) {
         manager.getModules().stream().filter(Module::isEnabled).forEach(module -> module.onMotion(e));
     }
+
+
+
 }

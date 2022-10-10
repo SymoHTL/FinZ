@@ -13,7 +13,7 @@ public class Up extends Command {
     @Override
     public void onCommand(String[] args, String command) {
         GoUp module = (GoUp) FinZ.INSTANCE.getManager().getModule("GoUp");
-        int y;
+        int y = 0;
         if (args.length >= 1) {
             try {
                 y = Integer.parseInt(args[0]);
@@ -21,9 +21,8 @@ public class Up extends Command {
                 FinZ.addChatMessage("Parameter needs to be of type Integer");
                 return;
             }
-            module.y = y;
         }
-
+        module.y = y;
         module.toggle();
         FinZ.addChatMessage("Top is now " + (module.isEnabled() ? "enabled" : "disabled"));
     }

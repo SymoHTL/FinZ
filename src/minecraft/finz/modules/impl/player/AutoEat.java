@@ -10,26 +10,26 @@ import java.util.TimerTask;
 
 public class AutoEat extends Module {
 
-        public AutoEat() {
-            super("AutoEat", "Automatically eats food", Keyboard.KEY_P, Category.PLAYER);
-        }
+    public AutoEat() {
+        super("AutoEat", "Automatically eats food", Keyboard.KEY_P, Category.PLAYER);
+    }
 
-       public void onUpdate(EventUpdate e) {
-            if (mc.thePlayer.getFoodStats().foodLevel == 20)
-               return;
-            if (mc.thePlayer.isUsingItem())
-               return;
+    public void onUpdate(EventUpdate e) {
+        if (mc.thePlayer.getFoodStats().foodLevel == 20)
+            return;
+        if (mc.thePlayer.isUsingItem())
+            return;
 
-            int slot = mc.thePlayer.inventory.getFirstExactSuitableFoodSlot(20 - mc.thePlayer.getFoodStats().foodLevel);
-            if (slot != -1)
-                mc.thePlayer.inventory.currentItem = slot;
+        int slot = mc.thePlayer.inventory.getFirstLowerFoodSlot(20 - mc.thePlayer.getFoodStats().foodLevel);
+        if (slot != -1)
+            mc.thePlayer.inventory.currentItem = slot;
 
-           new java.util.Timer().schedule(new TimerTask() {
-               @Override
-               public void run() {
-                   mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
-               }
-           }, 75);
+        new java.util.Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
+            }
+        }, 75);
 
-        }
+    }
 }

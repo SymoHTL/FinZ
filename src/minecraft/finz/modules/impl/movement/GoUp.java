@@ -22,6 +22,10 @@ public class GoUp extends Module {
     }
 
 
+    public void onServerDisconnect(){
+        this.setEnabled(false);
+    }
+
     public void onEnable() {
         if (y == 0 && mc.thePlayer.getEntityWorld().getChunkFromBlockCoords(mc.thePlayer.getPosition()).canSeeSky(mc.thePlayer.getPosition())) {
             FinZ.addChatMessage("You can see the sky! - stopped mining");

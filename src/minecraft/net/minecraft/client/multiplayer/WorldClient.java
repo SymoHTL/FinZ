@@ -1,9 +1,7 @@
 package net.minecraft.client.multiplayer;
 
 import com.google.common.collect.Sets;
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.Callable;
+import finz.FinZ;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -24,21 +22,17 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldSettings;
+import net.minecraft.world.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.SaveDataMemoryStorage;
 import net.minecraft.world.storage.SaveHandlerMP;
 import net.minecraft.world.storage.WorldInfo;
-import optifine.BlockPosM;
-import optifine.Config;
-import optifine.DynamicLights;
-import optifine.PlayerControllerOF;
-import optifine.Reflector;
+import optifine.*;
+
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.Callable;
 
 public class WorldClient extends World
 {
@@ -298,6 +292,7 @@ public class WorldClient extends World
     public void sendQuittingDisconnectingPacket()
     {
         this.sendQueue.getNetworkManager().closeChannel(new ChatComponentText("Quitting"));
+        FinZ.INSTANCE.onServerDisconnect();
     }
 
     /**

@@ -13,7 +13,7 @@ public class Down extends Command {
     public void onCommand(String[] args, String command) {
         GoDown module = (GoDown) FinZ.INSTANCE.getManager().getModule("GoDown");
 
-        int y;
+        int y = 0;
         if (args.length >= 1) {
             try {
                 y = Integer.parseInt(args[0]);
@@ -21,9 +21,8 @@ public class Down extends Command {
                 FinZ.addChatMessage("Parameter needs to be of type Integer");
                 return;
             }
-            module.y = y;
         }
-
+        module.y = y;
         module.toggle();
         FinZ.addChatMessage("Down is now " + (module.isEnabled() ? "enabled" : "disabled"));
     }

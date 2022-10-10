@@ -17,9 +17,8 @@ public class GoDown extends Module {
     }
 
 
-    public void onEnable(){
-
-        super.onEnable();
+    public void onServerDisconnect(){
+        this.setEnabled(false);
     }
 
     public void onUpdate(EventUpdate e) {
