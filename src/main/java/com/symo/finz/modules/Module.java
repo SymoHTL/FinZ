@@ -48,13 +48,14 @@ public class Module {
     public void enable(String message) {
         enabled = true;
         if (!Objects.equals(message, "")) ChatUtils.sendMessage("Enabled " + keyBind.getKeyDescription() + " -- reason: " + message);
-
+        else ChatUtils.sendMessage("Enabled " + keyBind.getKeyDescription());
         onEnable();
     }
 
     public void disable(String message) {
         enabled = false;
         if (!Objects.equals(message, "")) ChatUtils.sendMessage("Disabled " + keyBind.getKeyDescription() + " -- reason: " + message);
+        else ChatUtils.sendMessage("Disabled " + keyBind.getKeyDescription());
         onDisable();
     }
 

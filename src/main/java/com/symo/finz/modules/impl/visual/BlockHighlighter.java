@@ -3,6 +3,9 @@ package com.symo.finz.modules.impl.visual;
 import com.symo.finz.modules.Module;
 import com.symo.finz.modules.impl.visual.esp.BlockRenderESP;
 import com.symo.finz.utils.ChatUtils;
+import com.symo.finz.utils.extension.PlayerExtension;
+import net.minecraft.block.material.Material;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 
 public class BlockHighlighter extends Module {
@@ -11,17 +14,13 @@ public class BlockHighlighter extends Module {
         super("BlockHighlighter", "FinZ - Visual");
     }
 
-    public void onKey() {
-            //check if middle mouse button is pressed
-            if (!mc.gameSettings.keyBindPickBlock.isPressed())
-                return;
-            if (mc.objectMouseOver == null ||
-                    mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK ||
-                    mc.objectMouseOver.getBlockPos() == null)
-                return;
-            BlockRenderESP.blockPosList.add(this.mc.objectMouseOver.getBlockPos());
-            ChatUtils.sendMessage("Added block to highlight list");
-        //if (!this.mc.gameSettings.keyBindPickBlock.isPressed() && !this.mc.gameSettings.keyBindAttack.isPressed()) return;
-
+    public void onUpdate() {
+        BlockPos blockPos = PlayerExtension.getBlockPosBelow();
+        if (mc.theWorld.getBlockState(blockPos).getBlock().getMaterial() != Material.air) {
+            if (!BlockRenderESP.blockPosList.contains(blockPos)) {
+                BlockRenderESP.blockPosList.add(blockPos);
+                ChatUtils.sendMessage("Added block to list");
+            }
+        }
     }
 }

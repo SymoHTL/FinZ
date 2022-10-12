@@ -1,5 +1,6 @@
 package com.symo.finz.utils.esp;
 
+import com.symo.finz.FinZ;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,9 +14,9 @@ public class EntityESPUtil {
     }
 
     public static void drawESP(EntityLivingBase entity, float alpha, float lineWidth) {
-        double x = entity.posX - Minecraft.getMinecraft().getRenderManager().viewerPosX;
-        double y = entity.posY - Minecraft.getMinecraft().getRenderManager().viewerPosY;
-        double z = entity.posZ - Minecraft.getMinecraft().getRenderManager().viewerPosZ;
+        double x = entity.posX - FinZ.mc.getRenderManager().viewerPosX;
+        double y = entity.posY - FinZ.mc.getRenderManager().viewerPosY;
+        double z = entity.posZ - FinZ.mc.getRenderManager().viewerPosZ;
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glLineWidth(lineWidth);

@@ -57,7 +57,7 @@ public class ModuleManager {
         modules.add(new MobESP());
         modules.add(new PlayerESP());
         modules.add(new BlockRenderESP());
-        modules.add(new FindOreESP());
+        //modules.add(new FindOreESP());
         modules.add(new BlockHighlighter());
         // ui
         modules.add(new HUD());
