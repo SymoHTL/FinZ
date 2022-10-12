@@ -9,6 +9,7 @@ public class FastPlace extends Module {
     }
 
     public void onUpdate() {
+        // TODO: Implement this method :)
         //mc.rightClickDelayTimer = 0;
     }
 

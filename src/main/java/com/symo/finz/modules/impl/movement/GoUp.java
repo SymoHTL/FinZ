@@ -27,22 +27,28 @@ public class GoUp extends Module {
     }
 
     public void onEnable() {
-        if (mc.thePlayer.getPosition().getY() >= y && y != 0) {
-            ChatUtils.sendMessage("You are at the specified height! - stopped mining");
-            this.disable();
-            return;
+        try {
+            if (mc.thePlayer.getPosition().getY() >= y && y != 0) {
+                ChatUtils.sendMessage("You are at the specified height! - stopped mining");
+                this.disable();
+                return;
+            }
+            if (y == 0 && mc.thePlayer.getEntityWorld().getChunkFromBlockCoords(mc.thePlayer.getPosition()).canSeeSky(mc.thePlayer.getPosition())) {
+                ChatUtils.sendMessage("You can see the sky! - stopped mining");
+                this.disable();
+                return;
+            }
+            if (PlayerInventoryExtension.getFirstNonFallableSolidBlockInHotBarIndex() == -1) {
+                ChatUtils.sendMessage("No non fallable solid block in hotbar! - stopped mining");
+                this.disable();
+                return;
+            }
+            super.onEnable();
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
         }
-        if (y == 0 && mc.thePlayer.getEntityWorld().getChunkFromBlockCoords(mc.thePlayer.getPosition()).canSeeSky(mc.thePlayer.getPosition())) {
-            ChatUtils.sendMessage("You can see the sky! - stopped mining");
-            this.disable();
-            return;
-        }
-        if (PlayerInventoryExtension.getFirstNonFallableSolidBlockInHotBarIndex() == -1) {
-            ChatUtils.sendMessage("No non fallable solid block in hotbar! - stopped mining");
-            this.disable();
-            return;
-        }
-        super.onEnable();
+
     }
 
     public void onUpdate() {

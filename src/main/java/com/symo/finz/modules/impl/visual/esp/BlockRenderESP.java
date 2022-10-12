@@ -18,8 +18,13 @@ public class BlockRenderESP extends Module {
 
 
     public void onRender() {
-        for (BlockPos block : blockPosList)
-            BlockESPUtil.drawESP(block);
+        try {
+            blockPosList.forEach(BlockESPUtil::drawESP);
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
+        }
+
     }
 
 }

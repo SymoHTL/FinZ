@@ -9,13 +9,24 @@ public class Fly extends Module {
     }
 
     public void onEnable() {
-        mc.thePlayer.capabilities.allowFlying = true;
-        super.onEnable();
+        try {
+            mc.thePlayer.capabilities.allowFlying = true;
+            super.onEnable();
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
+        }
+
     }
 
     public void onDisable() {
-        if (!mc.thePlayer.capabilities.isCreativeMode)
-            mc.thePlayer.capabilities.allowFlying = false;
-        super.onDisable();
+        try {
+            if (!mc.thePlayer.capabilities.isCreativeMode)
+                mc.thePlayer.capabilities.allowFlying = false;
+            super.onDisable();
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
+        }
     }
 }

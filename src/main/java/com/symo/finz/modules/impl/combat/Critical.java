@@ -14,14 +14,18 @@ public class Critical extends Module {
 
     // TODO this is shit
     public void onUpdate() {
-        if (mc.thePlayer.isDead)
-            return;
+        try {
+            if (mc.thePlayer.isDead)
+                return;
 
-        if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically)
-            if (timer.hasTimeElapsed(1000 / 10, true)) {
-                mc.thePlayer.motionY = 0.1;
-                mc.thePlayer.onGround = false;
-            }
-
+            if (mc.thePlayer.onGround && mc.thePlayer.isCollidedVertically)
+                if (timer.hasTimeElapsed(1000 / 10, true)) {
+                    mc.thePlayer.motionY = 0.1;
+                    mc.thePlayer.onGround = false;
+                }
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
+        }
     }
 }

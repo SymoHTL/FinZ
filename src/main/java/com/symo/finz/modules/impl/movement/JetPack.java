@@ -2,6 +2,7 @@ package com.symo.finz.modules.impl.movement;
 
 import com.sun.javafx.geom.Vec3d;
 import com.symo.finz.modules.Module;
+import net.minecraft.util.Vec3;
 import org.lwjgl.input.Keyboard;
 
 public class JetPack extends Module {
@@ -11,13 +12,19 @@ public class JetPack extends Module {
     }
 
     public void onUpdate() {
-        Vec3d velocity = new Vec3d(mc.thePlayer.motionX, mc.thePlayer.motionY, mc.thePlayer.motionZ);
-        if (velocity.y >= 0.5)
-            return;
-        // only do this when the player presses space
-        if (mc.gameSettings.keyBindJump.isKeyDown())
-            // he do be flying
-            mc.thePlayer.setVelocity(velocity.x, 0.5, velocity.z);
+        try {
+            Vec3 velocity = new Vec3(mc.thePlayer.motionX, mc.thePlayer.motionY, mc.thePlayer.motionZ);
+            if (velocity.yCoord >= 0.5)
+                return;
+            // only do this when the player presses space
+            if (mc.gameSettings.keyBindJump.isKeyDown())
+                // he do be flying
+                mc.thePlayer.setVelocity(velocity.xCoord, 0.5, velocity.zCoord);
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
+        }
+
     }
 
 

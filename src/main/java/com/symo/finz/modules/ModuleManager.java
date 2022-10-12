@@ -7,11 +7,11 @@ import com.symo.finz.modules.impl.combat.MobFarmer;
 import com.symo.finz.modules.impl.gui.BlockInfo;
 import com.symo.finz.modules.impl.gui.HUD;
 import com.symo.finz.modules.impl.misc.PickUpItems;
-import com.symo.finz.modules.impl.misc.Timer;
 import com.symo.finz.modules.impl.movement.*;
 import com.symo.finz.modules.impl.player.AutoEat;
 import com.symo.finz.modules.impl.player.FastPlace;
 import com.symo.finz.modules.impl.player.NoFall;
+import com.symo.finz.modules.impl.visual.BlockHighlighter;
 import com.symo.finz.modules.impl.visual.FullBright;
 import com.symo.finz.modules.impl.visual.esp.*;
 import com.symo.finz.utils.MillisecondEvent;
@@ -59,6 +59,7 @@ public class ModuleManager {
         modules.add(new PlayerESP());
         modules.add(new BlockRenderESP());
         modules.add(new FindOreESP());
+        modules.add(new BlockHighlighter());
         // ui
         modules.add(new HUD());
         modules.add(new BlockInfo());

@@ -10,10 +10,16 @@ public class NoFall extends Module {
     }
 
     public void onUpdate() {
-        if (mc.thePlayer.fallDistance > 2.5f) {
-            mc.thePlayer.setVelocity(mc.thePlayer.motionX, -0.46f, mc.thePlayer.motionZ);
-            silentSendPacket(new C03PacketPlayer(true));
-            mc.thePlayer.fallDistance = 0;
+        try {
+            if (mc.thePlayer.fallDistance > 2.5f) {
+                mc.thePlayer.setVelocity(mc.thePlayer.motionX, -0.46f, mc.thePlayer.motionZ);
+                silentSendPacket(new C03PacketPlayer(true));
+                mc.thePlayer.fallDistance = 0;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
         }
+
     }
 }

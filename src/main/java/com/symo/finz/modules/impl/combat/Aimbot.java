@@ -13,20 +13,26 @@ public class Aimbot extends Module {
     }
 
     public void onUpdate() {
-        if (mc.thePlayer.isDead)
-            return;
-        EntityLivingBase entity = PlayerExtension.getClosetLivingEntity();
+        try {
+            if (mc.thePlayer.isDead)
+                return;
+            EntityLivingBase entity = PlayerExtension.getClosetLivingEntity();
 
-        if (entity == null)
-            return;
-        if (entity.getDistanceToEntity(mc.thePlayer) > 4)
-            return;
-        if (!PlayerExtension.canSeeEyesMidOrFeet(entity))
-            return;
+            if (entity == null)
+                return;
+            if (entity.getDistanceToEntity(mc.thePlayer) > 4)
+                return;
+            if (!PlayerExtension.canSeeEyesMidOrFeet(entity))
+                return;
 
-        float[] rotations = AimHelper.getYawAndPitchToLookAt(entity);
-        mc.thePlayer.rotationYaw = rotations[0];
-        mc.thePlayer.rotationPitch = rotations[1];
+            float[] rotations = AimHelper.getYawAndPitchToLookAt(entity);
+            mc.thePlayer.rotationYaw = rotations[0];
+            mc.thePlayer.rotationPitch = rotations[1];
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
+        }
+
     }
 
 

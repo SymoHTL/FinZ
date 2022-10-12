@@ -1,5 +1,6 @@
 package com.symo.finz.utils.esp;
 
+import com.symo.finz.FinZ;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.util.AxisAlignedBB;
@@ -12,9 +13,9 @@ public class BlockESPUtil {
     }
 
     public static void drawESP(BlockPos blockPos, float alpha, float lineWidth) {
-        double x = blockPos.getX() - Minecraft.getMinecraft().getRenderManager().viewerPosX;
-        double y = blockPos.getY() - Minecraft.getMinecraft().getRenderManager().viewerPosY;
-        double z = blockPos.getZ() - Minecraft.getMinecraft().getRenderManager().viewerPosZ;
+        double x = blockPos.getX() - FinZ.mc.getRenderManager().viewerPosX;
+        double y = blockPos.getY() - FinZ.mc.getRenderManager().viewerPosY;
+        double z = blockPos.getZ() - FinZ.mc.getRenderManager().viewerPosZ;
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glLineWidth(lineWidth);

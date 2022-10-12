@@ -8,13 +8,25 @@ public class Sprint extends Module {
     }
 
     public void onUpdate() {
-        if (mc.thePlayer.moveForward > 0 && !mc.thePlayer.isSneaking() && !mc.thePlayer.isCollidedHorizontally && !mc.thePlayer.isUsingItem())
-            mc.thePlayer.setSprinting(true);
+        try {
+            if (mc.thePlayer.moveForward > 0 && !mc.thePlayer.isSneaking() && !mc.thePlayer.isCollidedHorizontally && !mc.thePlayer.isUsingItem())
+                mc.thePlayer.setSprinting(true);
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
+        }
+
     }
 
     @Override
     public void onDisable() {
-        mc.thePlayer.setSprinting(false);
-        super.onDisable();
+        try {
+            mc.thePlayer.setSprinting(false);
+            super.onDisable();
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
+        }
+
     }
 }

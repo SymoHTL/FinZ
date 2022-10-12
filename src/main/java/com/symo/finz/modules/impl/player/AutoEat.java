@@ -13,21 +13,27 @@ public class AutoEat extends Module {
     }
 
     public void onUpdate() {
-        if (mc.thePlayer.getFoodStats().getFoodLevel() == 20)
-            return;
-        if (mc.thePlayer.isUsingItem())
-            return;
+        try {
+            if (mc.thePlayer.getFoodStats().getFoodLevel() == 20)
+                return;
+            if (mc.thePlayer.isUsingItem())
+                return;
 
-        int slot = PlayerInventoryExtension.getFirstLowerFoodSlot(20 - mc.thePlayer.getFoodStats().getFoodLevel());
-        if (slot != -1)
-            mc.thePlayer.inventory.currentItem = slot;
+            int slot = PlayerInventoryExtension.getFirstLowerFoodSlot(20 - mc.thePlayer.getFoodStats().getFoodLevel());
+            if (slot != -1)
+                mc.thePlayer.inventory.currentItem = slot;
 
-        new java.util.Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
-            }
-        }, 75);
+            new java.util.Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
+                }
+            }, 75);
+        }catch (Exception e){
+            e.printStackTrace();
+            this.disable("Error");
+        }
+
 
     }
 }
