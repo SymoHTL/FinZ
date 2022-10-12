@@ -1,4 +1,4 @@
-# AdvancedMinecraft
+# FinZ
 
 my own minecraft cheat client
 
