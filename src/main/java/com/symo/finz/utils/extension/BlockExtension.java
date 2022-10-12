@@ -6,19 +6,19 @@ import net.minecraft.world.World;
 
 public class BlockExtension {
 
-    public static boolean isBlockBelowAir(World worldIn, BlockPos pos)    {
+    public static boolean isBlockBelowAir(World worldIn, BlockPos pos) {
         return worldIn.getBlockState(pos.add(0, -1, 0)).getBlock().getMaterial() == Material.air;
     }
 
-    public static boolean isBlockBelowSolid(World worldIn, BlockPos pos)    {
+    public static boolean isBlockBelowSolid(World worldIn, BlockPos pos) {
         return worldIn.getBlockState(pos.add(0, -1, 0)).getBlock().getMaterial().isSolid();
     }
 
-    public static boolean isBlockBelowFullCube(World worldIn, BlockPos pos)    {
+    public static boolean isBlockBelowFullCube(World worldIn, BlockPos pos) {
         return worldIn.getBlockState(pos.down()).getBlock().isFullCube();
     }
 
-    public static boolean isBlockBelowCollidable(World worldIn, BlockPos pos)    {
+    public static boolean isBlockBelowCollidable(World worldIn, BlockPos pos) {
         return worldIn.getBlockState(pos.down()).getBlock().isCollidable();
     }
 
@@ -58,7 +58,7 @@ public class BlockExtension {
         return false;
     }
 
-    public static boolean checkNeighboursForLava(BlockPos pos, World worldIn){
+    public static boolean checkNeighboursForLava(BlockPos pos, World worldIn) {
         if (checkForLava(pos, worldIn)) return true;
         if (checkForLava(pos.up(), worldIn)) return true;
         if (checkForLava(pos.down(), worldIn)) return true;
@@ -67,7 +67,8 @@ public class BlockExtension {
         if (checkForLava(pos.south(), worldIn)) return true;
         return checkForLava(pos.west(), worldIn);
     }
-    public static boolean checkNeighboursForWater(BlockPos pos, World worldIn){
+
+    public static boolean checkNeighboursForWater(BlockPos pos, World worldIn) {
         if (checkForWater(pos, worldIn)) return true;
         if (checkForWater(pos.up(), worldIn)) return true;
         if (checkForWater(pos.down(), worldIn)) return true;
@@ -76,11 +77,12 @@ public class BlockExtension {
         if (checkForWater(pos.south(), worldIn)) return true;
         return checkForWater(pos.west(), worldIn);
     }
-    public static boolean checkForLava(BlockPos pos, World worldIn){
+
+    public static boolean checkForLava(BlockPos pos, World worldIn) {
         return worldIn.getBlockState(pos).getBlock().getMaterial() == Material.lava;
     }
 
-    public static boolean checkForWater(BlockPos pos, World worldIn){
+    public static boolean checkForWater(BlockPos pos, World worldIn) {
         return worldIn.getBlockState(pos).getBlock().getMaterial() == Material.water;
     }
 }

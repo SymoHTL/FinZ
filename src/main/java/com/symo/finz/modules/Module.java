@@ -2,18 +2,11 @@ package com.symo.finz.modules;
 
 import com.symo.finz.FinZ;
 import com.symo.finz.utils.ChatUtils;
-import com.symo.finz.utils.MillisecondEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.network.Packet;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.lwjgl.input.Keyboard;
 
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Module {
 
@@ -21,14 +14,19 @@ public class Module {
     protected KeyBinding keyBind;
     protected boolean enabled;
 
-
     public Module(String description, int key, String category) {
         keyBind = new KeyBinding(description, key, category);
         //ClientRegistry.registerKeyBinding(keyBind);
     }
+
     public Module(String description, String category) {
         keyBind = new KeyBinding(description, Keyboard.KEY_NONE, category);
         //ClientRegistry.registerKeyBinding(new KeyBinding(description, Keyboard.KEY_NONE, category));
+    }
+
+    @Override
+    public String toString() {
+        return keyBind.getKeyDescription() + " " + Keyboard.getKeyName(keyBind.getKeyCode());
     }
 
     public void setKey(int key) {
@@ -63,29 +61,31 @@ public class Module {
     }
 
     public void onEnable() {
-        ModuleManager.enableModule(ModuleManager.all.stream().filter(module ->
-                Objects.equals(module.keyBind.getKeyDescription(), keyBind.getKeyDescription()))
-                .collect(Collectors.toList()).get(0));
     }
+
     public void onDisable() {
-        ModuleManager.disableModule(ModuleManager.all.stream().filter(module ->
-                        Objects.equals(module.keyBind.getKeyDescription(), keyBind.getKeyDescription()))
-                .collect(Collectors.toList()).get(0));
     }
 
-    public void onServerJoin(FMLNetworkEvent.ClientConnectedToServerEvent event) {    }
+    public void onServerJoin() {
+    }
 
-    public void onServerLeave(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {    }
+    public void onServerLeave() {
+    }
 
-    public void onRender(TickEvent.RenderTickEvent event) {    }
+    public void onRender() {
+    }
 
-    public void onKey(InputEvent.KeyInputEvent event) {   }
+    public void onKey() {
+    }
 
-    public void onTick(TickEvent.ClientTickEvent event) {    }
+    public void onUpdate() {
+    }
 
-    public void onJump(LivingEvent.LivingJumpEvent event) {    }
+    public void onJump() {
+    }
 
-    public void onMillisecond(MillisecondEvent event) {    }
+    public void onMillisecond() {
+    }
 
 
     public void sendPacket(Packet packet) {

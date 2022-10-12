@@ -11,7 +11,7 @@ public class PlayerInventoryExtension {
 
     static InventoryPlayer inventory = FinZ.mc.thePlayer.inventory;
 
-    public static boolean isFull(){
+    public static boolean isFull() {
         return inventory.getFirstEmptyStack() == -1;
     }
 
@@ -24,6 +24,7 @@ public class PlayerInventoryExtension {
         }
         return -1;
     }
+
     public static int getFirstLowerFoodSlot(int foodLevel) {
         for (int i = 0; i < 9; i++) {
             if (inventory.mainInventory[i] != null && inventory.mainInventory[i].getItem() instanceof ItemFood) {
@@ -51,7 +52,7 @@ public class PlayerInventoryExtension {
         for (int i = 0; i < 9; i++) {
             if (inventory.mainInventory[i] != null && inventory.mainInventory[i].getItem() instanceof ItemTool) {
                 ItemTool item = (ItemTool) inventory.mainInventory[i].getItem();
-                if (item.getStrVsBlock(null,block) > 1.0F)
+                if (item.getStrVsBlock(null, block) > 1.0F)
                     return i;
             }
         }

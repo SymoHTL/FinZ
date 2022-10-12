@@ -1,17 +1,14 @@
 package com.symo.finz.modules.impl.player;
 
-import com.google.common.eventbus.Subscribe;
 import com.symo.finz.modules.Module;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.input.Keyboard;
 
 public class FastPlace extends Module {
 
     public FastPlace() {
-        super("FastPlace","player");
+        super("FastPlace", "FinZ - Player");
     }
 
-    public void onUpdate(TickEvent.ClientTickEvent event) {
+    public void onUpdate() {
         //mc.rightClickDelayTimer = 0;
     }
 

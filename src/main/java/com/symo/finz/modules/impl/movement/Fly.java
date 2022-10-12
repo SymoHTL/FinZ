@@ -5,7 +5,7 @@ import org.lwjgl.input.Keyboard;
 
 public class Fly extends Module {
     public Fly() {
-        super("Fly", Keyboard.KEY_F , "movement");
+        super("Fly", Keyboard.KEY_F, "FinZ - Movement");
     }
 
     public void onEnable() {

@@ -1,15 +1,14 @@
 package com.symo.finz.modules.impl.visual.esp;
 
 import com.symo.finz.modules.Module;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class FindOreESP extends Module {
 
     public FindOreESP() {
-        super("FineOreESP", "visual");
+        super("FineOreESP", "FinZ - Visual");
     }
 
-    public void onRender(TickEvent.RenderTickEvent event) {
+    public void onRender() {
         //for (BlockPos block : FindOres.foundBlockPos) {
         //    BlockESPUtil.drawESP(block);
         //}

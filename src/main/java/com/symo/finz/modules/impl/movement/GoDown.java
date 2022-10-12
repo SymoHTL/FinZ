@@ -1,6 +1,5 @@
 package com.symo.finz.modules.impl.movement;
 
-import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.ChatUtils;
 import com.symo.finz.utils.extension.BlockExtension;
@@ -9,24 +8,21 @@ import com.symo.finz.utils.extension.PlayerInventoryExtension;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import org.lwjgl.input.Keyboard;
 
 public class GoDown extends Module {
 
     public int y = 0;
 
     public GoDown() {
-        super("GoDown","movement");
+        super("GoDown", "FinZ - Movement");
     }
 
 
-    public void onServerLeave(FMLNetworkEvent.ClientDisconnectionFromServerEvent event){
+    public void onServerLeave() {
         this.disable();
     }
 
-    public void onUpdate(TickEvent.ClientTickEvent event) {
+    public void onUpdate() {
         //if (!mineTimer.hasTimeElapsed(10,true))
         //    return;
 
@@ -35,13 +31,13 @@ public class GoDown extends Module {
         Block belowBlock = mc.theWorld.getBlockState(belowBlockPos).getBlock();
 
 
-        if(belowBlock.getBlockHardness(mc.theWorld, belowBlockPos) >= 18000000) {
+        if (belowBlock.getBlockHardness(mc.theWorld, belowBlockPos) >= 18000000) {
             ChatUtils.sendMessage("You can't mine the block below! - stopped mining");
             this.disable();
             return;
         }
 
-        if(currentBlockPos.getY() <= y) {
+        if (currentBlockPos.getY() <= y) {
             ChatUtils.sendMessage("You are at the specified height! - stopped mining");
             this.disable();
             return;

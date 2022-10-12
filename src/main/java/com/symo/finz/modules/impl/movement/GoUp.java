@@ -1,17 +1,13 @@
 package com.symo.finz.modules.impl.movement;
 
-import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.ChatUtils;
 import com.symo.finz.utils.Timer;
 import com.symo.finz.utils.extension.BlockExtension;
 import com.symo.finz.utils.extension.PlayerExtension;
 import com.symo.finz.utils.extension.PlayerInventoryExtension;
-import net.minecraft.block.Block;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 import java.util.TimerTask;
 
@@ -22,23 +18,34 @@ public class GoUp extends Module {
     public int y = 0;
 
     public GoUp() {
-        super("GoUp",  "movement");
+        super("GoUp", "FinZ - Movement");
     }
 
 
-    public void onServerLeave(FMLNetworkEvent.ClientDisconnectionFromServerEvent event){
+    public void onServerLeave() {
         this.disable();
     }
 
     public void onEnable() {
+        if (mc.thePlayer.getPosition().getY() >= y && y != 0) {
+            ChatUtils.sendMessage("You are at the specified height! - stopped mining");
+            this.disable();
+            return;
+        }
         if (y == 0 && mc.thePlayer.getEntityWorld().getChunkFromBlockCoords(mc.thePlayer.getPosition()).canSeeSky(mc.thePlayer.getPosition())) {
             ChatUtils.sendMessage("You can see the sky! - stopped mining");
             this.disable();
             return;
         }
+        if (PlayerInventoryExtension.getFirstNonFallableSolidBlockInHotBarIndex() == -1) {
+            ChatUtils.sendMessage("No non fallable solid block in hotbar! - stopped mining");
+            this.disable();
+            return;
+        }
         super.onEnable();
     }
-    public void onUpdate(TickEvent.ClientTickEvent event) {
+
+    public void onUpdate() {
         // if itemStack in hotBar is null or not of type ItemBlock (not placeable) just return
         //if (mc.thePlayer.getHeldItem() == null || !(mc.thePlayer.getHeldItem().getItem() instanceof ItemBlock))
         //    return;
@@ -50,6 +57,11 @@ public class GoUp extends Module {
                 BlockPos pos = mc.thePlayer.getPosition();
                 if (pos.getY() >= y && y != 0) {
                     ChatUtils.sendMessage("You are at the specified height! - stopped mining");
+                    this.disable();
+                    return;
+                }
+                if (PlayerInventoryExtension.getFirstNonFallableSolidBlockInHotBarIndex() == -1) {
+                    ChatUtils.sendMessage("No non fallable solid block in hotbar! - stopped mining");
                     this.disable();
                     return;
                 }
@@ -99,6 +111,12 @@ public class GoUp extends Module {
         int slot = PlayerInventoryExtension.getFirstNonFallableSolidBlockInHotBarIndex();
         if (slot != -1)
             mc.thePlayer.inventory.currentItem = slot;
+        else {
+            ChatUtils.sendMessage("No non fallable solid block in hotbar! - stopped mining");
+            this.disable();
+            return;
+        }
+
         mc.thePlayer.swingItem();
         new java.util.Timer().schedule(new TimerTask() {
             @Override

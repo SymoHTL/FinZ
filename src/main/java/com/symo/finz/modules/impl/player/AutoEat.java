@@ -3,18 +3,16 @@ package com.symo.finz.modules.impl.player;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.extension.PlayerInventoryExtension;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.input.Keyboard;
 
 import java.util.TimerTask;
 
 public class AutoEat extends Module {
 
     public AutoEat() {
-        super("AutoEat", "player");
+        super("AutoEat", "FinZ - Player");
     }
 
-    public void onUpdate(TickEvent.ClientTickEvent event) {
+    public void onUpdate() {
         if (mc.thePlayer.getFoodStats().getFoodLevel() == 20)
             return;
         if (mc.thePlayer.isUsingItem())

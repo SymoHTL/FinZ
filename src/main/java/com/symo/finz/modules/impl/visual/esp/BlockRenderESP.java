@@ -3,7 +3,6 @@ package com.symo.finz.modules.impl.visual.esp;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.esp.BlockESPUtil;
 import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -14,11 +13,11 @@ public class BlockRenderESP extends Module {
     public static List<BlockPos> blockPosList = new ArrayList<>();
 
     public BlockRenderESP() {
-        super("BlockRenderESP", Keyboard.KEY_NUMPAD4, "visual");
+        super("BlockRenderESP", Keyboard.KEY_NUMPAD4, "FinZ - Visual");
     }
 
 
-    public void onRender(TickEvent.RenderTickEvent event) {
+    public void onRender() {
         for (BlockPos block : blockPosList)
             BlockESPUtil.drawESP(block);
     }

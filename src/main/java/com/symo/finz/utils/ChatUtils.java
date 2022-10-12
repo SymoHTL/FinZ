@@ -7,11 +7,10 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ChatUtils
-{
+public class ChatUtils {
     public static void sendMessage(final String message) {
         if (FinZ.mc.ingameGUI != null) {
-            FinZ.mc.ingameGUI.getChatGUI().printChatMessage(new ChatComponentText("\2479[\2477" + FinZ.MOD_ID + "\2479]\2477 " + message));
+            FinZ.mc.ingameGUI.getChatGUI().printChatMessage(new ChatComponentText("\2479[\2477" + FinZ.modId + "\2479]\2477 " + message));
         }
     }
 

@@ -7,7 +7,6 @@ import com.symo.finz.utils.extension.PlayerInventoryExtension;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 import java.util.TimerTask;
@@ -16,11 +15,11 @@ public class MobFarmer extends Module {
     Timer attackTimer = new Timer();
 
     public MobFarmer() {
-        super("MobFarmer",Keyboard.KEY_U , "combat");
+        super("MobFarmer", Keyboard.KEY_U, "FinZ - Combat");
     }
 
-    public void onUpdate(TickEvent.ClientTickEvent event) {
-        if (!attackTimer.hasTimeElapsed(100,true))
+    public void onUpdate() {
+        if (!attackTimer.hasTimeElapsed(100, true))
             return;
 
         if (mc.thePlayer.isDead)
@@ -39,12 +38,12 @@ public class MobFarmer extends Module {
             return;
 
         //check if the player has a sword in his hand
-        if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword){
+        if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
             mc.thePlayer.swingItem();
             mc.getNetHandler().addToSendQueue(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.ATTACK));
-        }else {
+        } else {
             // switch to sword
-           int slot = PlayerInventoryExtension.getFirstSwordInHotBarIndex();
+            int slot = PlayerInventoryExtension.getFirstSwordInHotBarIndex();
             if (slot != -1)
                 mc.thePlayer.inventory.currentItem = slot;
 
@@ -57,9 +56,6 @@ public class MobFarmer extends Module {
                 }
             }, 50);
         }
-
-
-
 
 
     }

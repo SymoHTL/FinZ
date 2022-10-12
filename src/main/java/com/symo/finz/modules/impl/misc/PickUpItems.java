@@ -3,15 +3,14 @@ package com.symo.finz.modules.impl.misc;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.extension.PlayerInventoryExtension;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 public class PickUpItems extends Module {
     public PickUpItems() {
-        super("PickUpItems", Keyboard.KEY_M, "misc");
+        super("PickUpItems", Keyboard.KEY_M, "FinZ - Misc");
     }
 
-    public void onUpdate(TickEvent.ClientTickEvent event) {
+    public void onUpdate() {
         // get dropped items
         if (PlayerInventoryExtension.isFull()) return;
         for (Object o : mc.theWorld.getLoadedEntityList()) {

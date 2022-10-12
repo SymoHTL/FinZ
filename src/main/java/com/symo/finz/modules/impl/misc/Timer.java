@@ -5,7 +5,7 @@ import com.symo.finz.modules.Module;
 
 public class Timer extends Module {
     public Timer() {
-        super("Timer" , "misc");
+        super("Timer", "FinZ - Misc");
     }
 
     @Override

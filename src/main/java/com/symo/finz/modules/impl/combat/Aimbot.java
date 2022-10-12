@@ -4,16 +4,15 @@ import com.symo.finz.modules.Module;
 import com.symo.finz.utils.AimHelper;
 import com.symo.finz.utils.extension.PlayerExtension;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 public class Aimbot extends Module {
 
     public Aimbot() {
-        super("Aimbot", Keyboard.KEY_U, "combat");
+        super("Aimbot", Keyboard.KEY_U, "FinZ - Combat");
     }
 
-    public void onUpdate(TickEvent.ClientTickEvent event) {
+    public void onUpdate() {
         if (mc.thePlayer.isDead)
             return;
         EntityLivingBase entity = PlayerExtension.getClosetLivingEntity();
