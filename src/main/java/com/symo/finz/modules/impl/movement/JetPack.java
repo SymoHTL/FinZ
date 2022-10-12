@@ -11,7 +11,6 @@ public class JetPack extends Module {
     }
 
     public void onUpdate() {
-        try {
             Vec3 velocity = new Vec3(mc.thePlayer.motionX, mc.thePlayer.motionY, mc.thePlayer.motionZ);
             if (velocity.yCoord >= 0.5)
                 return;
@@ -19,11 +18,6 @@ public class JetPack extends Module {
             if (mc.gameSettings.keyBindJump.isKeyDown())
                 // he do be flying
                 mc.thePlayer.setVelocity(velocity.xCoord, 0.5, velocity.zCoord);
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
-
     }
 
 

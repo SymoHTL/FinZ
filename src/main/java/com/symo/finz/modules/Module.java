@@ -7,12 +7,16 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.network.Packet;
 import org.lwjgl.input.Keyboard;
 
+import java.util.Objects;
+
 
 public class Module {
 
     protected Minecraft mc = FinZ.mc;
     protected KeyBinding keyBind;
     protected boolean enabled;
+
+    protected boolean shouldReactivate = false;
 
     public Module(String description, int key, String category) {
         keyBind = new KeyBinding(description, key, category);
@@ -41,35 +45,24 @@ public class Module {
         return enabled;
     }
 
-    public void enable() {
-        enabled = true;
-        ChatUtils.sendMessage("Enabled " + keyBind.getKeyDescription());
-        onEnable();
-    }
-
     public void enable(String message) {
         enabled = true;
-        ChatUtils.sendMessage("Enabled " + keyBind.getKeyDescription() + " -- reason: " + message);
-        onEnable();
-    }
+        if (!Objects.equals(message, "")) ChatUtils.sendMessage("Enabled " + keyBind.getKeyDescription() + " -- reason: " + message);
 
-    public void disable() {
-        enabled = false;
-        ChatUtils.sendMessage("Disabled " + keyBind.getKeyDescription());
-        onDisable();
+        onEnable();
     }
 
     public void disable(String message) {
         enabled = false;
-        ChatUtils.sendMessage("Disabled " + keyBind.getKeyDescription() + " -- reason: " + message);
+        if (!Objects.equals(message, "")) ChatUtils.sendMessage("Disabled " + keyBind.getKeyDescription() + " -- reason: " + message);
         onDisable();
     }
 
     public void toggle() {
         if (enabled)
-            disable();
+            disable("");
         else
-            enable();
+            enable("");
     }
 
     public void onEnable() {
@@ -79,9 +72,12 @@ public class Module {
     }
 
     public void onServerJoin() {
+        enabled = shouldReactivate;
     }
 
     public void onServerLeave() {
+        shouldReactivate = enabled;
+        enabled = false;
     }
 
     public void onRender() {

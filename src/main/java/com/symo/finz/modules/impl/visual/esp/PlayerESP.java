@@ -13,14 +13,9 @@ public class PlayerESP extends Module {
     }
 
     public void onRender() {
-        try {
             for (Entity e : mc.theWorld.getLoadedEntityList())
                 if (e instanceof EntityPlayer && e != mc.thePlayer)
                     EntityESPUtil.drawESP((EntityPlayer) e);
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
 
     }
 }

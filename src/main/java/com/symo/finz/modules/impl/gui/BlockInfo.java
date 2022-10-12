@@ -22,16 +22,8 @@ public class BlockInfo extends Module {
         super("BlockInfo", "FinZ - GUI");
     }
 
-    public void onServerJoin() {
-        this.enable();
-    }
-
-    public void onServerLeave() {
-        this.disable();
-    }
 
     public void onRender() {
-        try {
             if (mc.objectMouseOver == null ||
                     mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK ||
                     mc.objectMouseOver.getBlockPos() == null)
@@ -46,7 +38,13 @@ public class BlockInfo extends Module {
 
             // get block info
             BlockPos blockpos = mc.objectMouseOver.getBlockPos();
+            if (blockpos == null)
+                return;
+            if (mc.theWorld == null)
+                return;
             IBlockState iblockstate = mc.theWorld.getBlockState(blockpos);
+            if (iblockstate == null)
+                return;
             Block block = iblockstate.getBlock();
 
             // harvest variables
@@ -164,7 +162,6 @@ public class BlockInfo extends Module {
                     canHarvest ? 0xFF00FF00 : 0xFFFF0000);
 
 
-            try {
                 // render block item texture
                 // make the item texture bigger
                 GlStateManager.pushMatrix();
@@ -177,12 +174,6 @@ public class BlockInfo extends Module {
                 RenderHelper.disableStandardItemLighting();
                 GlStateManager.popMatrix();
 
-            } catch (Exception ignored) {
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
 
     }
 

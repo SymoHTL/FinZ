@@ -13,7 +13,6 @@ public class AutoEat extends Module {
     }
 
     public void onUpdate() {
-        try {
             if (mc.thePlayer.getFoodStats().getFoodLevel() == 20)
                 return;
             if (mc.thePlayer.isUsingItem())
@@ -29,11 +28,5 @@ public class AutoEat extends Module {
                     mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
                 }
             }, 75);
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
-
-
     }
 }

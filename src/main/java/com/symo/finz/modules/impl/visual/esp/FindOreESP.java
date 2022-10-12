@@ -11,13 +11,7 @@ public class FindOreESP extends Module {
     }
 
     public void onRender() {
-        try {
             FindOres.foundBlockPos.forEach(BlockESPUtil::drawESP);
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
-
     }
 
 }

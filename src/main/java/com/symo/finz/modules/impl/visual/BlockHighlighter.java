@@ -12,7 +12,6 @@ public class BlockHighlighter extends Module {
     }
 
     public void onKey() {
-        try {
             //check if middle mouse button is pressed
             if (!mc.gameSettings.keyBindPickBlock.isPressed())
                 return;
@@ -22,10 +21,6 @@ public class BlockHighlighter extends Module {
                 return;
             BlockRenderESP.blockPosList.add(this.mc.objectMouseOver.getBlockPos());
             ChatUtils.sendMessage("Added block to highlight list");
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
         //if (!this.mc.gameSettings.keyBindPickBlock.isPressed() && !this.mc.gameSettings.keyBindAttack.isPressed()) return;
 
     }

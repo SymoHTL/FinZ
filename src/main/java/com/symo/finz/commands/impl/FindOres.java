@@ -23,7 +23,6 @@ public class FindOres extends Command {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        try {
             FindOreESP module = (FindOreESP) FinZ.moduleManager.getModule("FindOreESP");
             if (args.length < 2) {
                 ChatUtils.sendMessage("Invalid arguments");
@@ -81,15 +80,13 @@ public class FindOres extends Command {
                     break;
             }
             if (count > 0) {
-                module.enable();
+                module.enable("You searched for blocks");
                 //System.out.println("Now rendering " + count + " ores");
             } else {
-                ChatUtils.sendMessage("Nothing found");
-                module.disable();
+                module.disable("Nothing found");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            ChatUtils.sendMessage("Error");
-        }
     }
+
+
+
 }

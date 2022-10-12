@@ -15,7 +15,6 @@ public class UpCommand extends Command {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        try {
             GoUp module = (GoUp) FinZ.moduleManager.getModule("GoUp");
             int y = 0;
             if (args.length >= 1) {
@@ -28,10 +27,7 @@ public class UpCommand extends Command {
             }
             module.y = y;
             module.toggle();
-        } catch (Exception e) {
-            e.printStackTrace();
-            ChatUtils.sendMessage("Error");
-        }
-
     }
+
+
 }

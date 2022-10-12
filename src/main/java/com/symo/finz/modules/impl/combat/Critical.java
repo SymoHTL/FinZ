@@ -14,7 +14,6 @@ public class Critical extends Module {
 
     // TODO this is shit
     public void onUpdate() {
-        try {
             if (mc.thePlayer.isDead)
                 return;
 
@@ -23,9 +22,5 @@ public class Critical extends Module {
                     mc.thePlayer.motionY = 0.1;
                     mc.thePlayer.onGround = false;
                 }
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
     }
 }

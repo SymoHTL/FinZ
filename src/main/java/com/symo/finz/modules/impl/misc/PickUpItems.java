@@ -11,7 +11,6 @@ public class PickUpItems extends Module {
     }
 
     public void onUpdate() {
-        try {
             // get dropped items
             if (PlayerInventoryExtension.isFull()) return;
             for (Object o : mc.theWorld.getLoadedEntityList()) {
@@ -42,10 +41,6 @@ public class PickUpItems extends Module {
                     }
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
 
     }
 

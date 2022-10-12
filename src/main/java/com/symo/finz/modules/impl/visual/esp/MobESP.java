@@ -11,13 +11,7 @@ public class MobESP extends Module {
     }
 
     public void onRender() {
-        try {
             mc.theWorld.getLoadedEntityList().stream().filter(e -> e instanceof EntityMob).map(e -> (EntityMob) e).forEach(EntityESPUtil::drawESP);
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
-
     }
 
 

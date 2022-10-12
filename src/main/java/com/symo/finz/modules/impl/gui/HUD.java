@@ -18,16 +18,8 @@ public class HUD extends Module {
         super("HUD", Keyboard.KEY_RSHIFT, "FinZ - Gui");
     }
 
-    public void onServerJoin() {
-        this.enable();
-    }
-
-    public void onServerLeave() {
-        this.disable();
-    }
 
     public void onRender() {
-        try {
             if (Minecraft.getMinecraft().gameSettings.showDebugInfo) return;
             ScaledResolution sr = new ScaledResolution(mc);
             FontRenderer fr = mc.fontRendererObj;
@@ -70,10 +62,6 @@ public class HUD extends Module {
             }
 
             // mc.displayHeight... full size e.g. 1080
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
 
     }
 }

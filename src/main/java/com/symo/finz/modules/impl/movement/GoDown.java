@@ -18,12 +18,8 @@ public class GoDown extends Module {
     }
 
 
-    public void onServerLeave() {
-        this.disable();
-    }
 
     public void onUpdate() {
-        try {
             //if (!mineTimer.hasTimeElapsed(10,true))
             //    return;
 
@@ -33,35 +29,26 @@ public class GoDown extends Module {
 
 
             if (belowBlock.getBlockHardness(mc.theWorld, belowBlockPos) >= 18000000) {
-                ChatUtils.sendMessage("You can't mine the block below! - stopped mining");
-                this.disable();
+                this.disable("You can't mine the block below! - stopped mining");
                 return;
             }
 
             if (currentBlockPos.getY() <= y) {
-                ChatUtils.sendMessage("You are at the specified height! - stopped mining");
-                this.disable();
+                this.disable("You are at the specified height! - stopped mining");
                 return;
             }
 
             if (mc.theWorld.getBlockState(new BlockPos(currentBlockPos.getX(), currentBlockPos.getY() - 2, currentBlockPos.getZ())).getBlock() == Blocks.air) {
-                ChatUtils.sendMessage("Opening below detected! - stopped mining");
-                this.disable();
+                this.disable("Opening below detected! - stopped mining");
                 return;
             }
 
             if (BlockExtension.checkNeighboursForLava(belowBlockPos, mc.theWorld)) {
-                ChatUtils.sendMessage("Lava below detected! - stopped mining");
-                this.disable();
+                this.disable("Lava below detected! - stopped mining");
                 return;
             }
 
             mineBlockBelow();
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
-
     }
 
 

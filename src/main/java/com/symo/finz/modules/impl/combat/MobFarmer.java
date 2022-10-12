@@ -19,7 +19,6 @@ public class MobFarmer extends Module {
     }
 
     public void onUpdate() {
-        try {
             if (!attackTimer.hasTimeElapsed(100, true))
                 return;
 
@@ -57,10 +56,6 @@ public class MobFarmer extends Module {
                     }
                 }, 50);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
     }
 
 }

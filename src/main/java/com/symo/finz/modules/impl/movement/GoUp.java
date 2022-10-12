@@ -22,33 +22,20 @@ public class GoUp extends Module {
     }
 
 
-    public void onServerLeave() {
-        this.disable();
-    }
-
     public void onEnable() {
-        try {
             if (mc.thePlayer.getPosition().getY() >= y && y != 0) {
-                ChatUtils.sendMessage("You are at the specified height! - stopped mining");
-                this.disable();
+                this.disable("You are at the specified height! - stopped mining");
                 return;
             }
             if (y == 0 && mc.thePlayer.getEntityWorld().getChunkFromBlockCoords(mc.thePlayer.getPosition()).canSeeSky(mc.thePlayer.getPosition())) {
-                ChatUtils.sendMessage("You can see the sky! - stopped mining");
-                this.disable();
+                this.disable("You can see the sky! - stopped mining");
                 return;
             }
             if (PlayerInventoryExtension.getFirstNonFallableSolidBlockInHotBarIndex() == -1) {
-                ChatUtils.sendMessage("No non fallable solid block in hotbar! - stopped mining");
-                this.disable();
+                this.disable("No non fallable solid block in hotbar! - stopped mining");
                 return;
             }
             super.onEnable();
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
-
     }
 
     public void onUpdate() {
@@ -62,18 +49,15 @@ public class GoUp extends Module {
             if (jumpingTimer.hasTimeElapsed(550, true)) {
                 BlockPos pos = mc.thePlayer.getPosition();
                 if (pos.getY() >= y && y != 0) {
-                    ChatUtils.sendMessage("You are at the specified height! - stopped mining");
-                    this.disable();
+                    this.disable("You are at the specified height! - stopped mining");
                     return;
                 }
                 if (PlayerInventoryExtension.getFirstNonFallableSolidBlockInHotBarIndex() == -1) {
-                    ChatUtils.sendMessage("No non fallable solid block in hotbar! - stopped mining");
-                    this.disable();
+                    this.disable("No non fallable solid block in hotbar! - stopped mining");
                     return;
                 }
                 if (y == 0 && mc.thePlayer.getEntityWorld().getChunkFromBlockCoords(mc.thePlayer.getPosition()).canSeeSky(mc.thePlayer.getPosition())) {
-                    ChatUtils.sendMessage("You can see the sky! - stopped mining");
-                    this.disable();
+                    this.disable("You can see the sky! - stopped mining");
                     return;
                 }
                 // only jump if the player in on the Ground
@@ -98,8 +82,7 @@ public class GoUp extends Module {
 
     public void mineBlockAbove() {
         if (BlockExtension.checkNeighboursForLava(PlayerExtension.getBlockPosAbove(), mc.theWorld)) {
-            ChatUtils.sendMessage("Lava above detected! - stopped mining");
-            this.disable();
+            this.disable("Lava above detected! - stopped mining");
             return;
         }
         // if the player has a block above him mine it
@@ -118,8 +101,7 @@ public class GoUp extends Module {
         if (slot != -1)
             mc.thePlayer.inventory.currentItem = slot;
         else {
-            ChatUtils.sendMessage("No non fallable solid block in hotbar! - stopped mining");
-            this.disable();
+            this.disable("No non fallable solid block in hotbar! - stopped mining");
             return;
         }
 

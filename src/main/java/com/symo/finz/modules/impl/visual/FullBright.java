@@ -11,25 +11,15 @@ public class FullBright extends Module {
     }
 
     public void onEnable() {
-        try {
             oldGamma = mc.gameSettings.gammaSetting;
             mc.gameSettings.gammaSetting = 100;
             super.onEnable();
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
 
     }
 
     public void onDisable() {
-        try {
             oldGamma = mc.gameSettings.gammaSetting;
             mc.gameSettings.gammaSetting = 100;
             super.onEnable();
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.disable("Error");
-        }
     }
 }

@@ -16,7 +16,6 @@ public class DownCommand extends Command {
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        try {
             GoDown module = (GoDown) FinZ.moduleManager.getModule("GoDown");
 
             int y = 0;
@@ -30,10 +29,6 @@ public class DownCommand extends Command {
             }
             module.y = y;
             module.toggle();
-        } catch (Exception e) {
-            e.printStackTrace();
-            ChatUtils.sendMessage("Error");
-        }
 
     }
 }
