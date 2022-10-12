@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 
 public class HUD extends Module {
     public HUD() {
-        super("HUD", Keyboard.KEY_RSHIFT, "FinZ - Gui");
+        super("HUD", Keyboard.KEY_RSHIFT, "FinZ - GUI");
     }
 
 
-    public void onRender() {
+    public void on2DRender() {
             if (Minecraft.getMinecraft().gameSettings.showDebugInfo) return;
             ScaledResolution sr = new ScaledResolution(mc);
             FontRenderer fr = mc.fontRendererObj;

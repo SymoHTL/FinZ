@@ -35,6 +35,39 @@ public class BlockESPUtil {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
+    public static void drawPathLine(BlockPos currentBlock, BlockPos lastBlock, float alpha, float lineWidth) {
+        double currentX = currentBlock.getX() - mc.getRenderManager().viewerPosX;
+        double currentY = currentBlock.getY() - mc.getRenderManager().viewerPosY;
+        double currentZ = currentBlock.getZ() - mc.getRenderManager().viewerPosZ;
+        double lastX = lastBlock.getX() - mc.getRenderManager().viewerPosX;
+        double lastY = lastBlock.getY() - mc.getRenderManager().viewerPosY;
+        double lastZ = lastBlock.getZ() - mc.getRenderManager().viewerPosZ;
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glLineWidth(lineWidth);
+        GL11.glColor4d(0, 0, 1, 0.15f);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(false);
+
+        // Box
+        GL11.glColor4d(0, 0, 1, alpha);
+        // draw a line from the middle of the last block to the middle of the current block
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex3d(lastX + 0.5, lastY + 1, lastZ + 0.5);
+        GL11.glVertex3d(currentX + 0.5, currentY + 1, currentZ + 0.5);
+        GL11.glEnd();
+
+        //RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(lastX + 0.5, lastY + 0.5, lastZ + 0.5, currentX + 0.5, currentY + 0.5, currentZ + 0.5));
+
+
+        //RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(currentX + 0.25, currentY + 1, currentZ, currentX + 0.75, currentY + 1, currentZ + 1));
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
     static {
         mc = FinZ.mc;
     }

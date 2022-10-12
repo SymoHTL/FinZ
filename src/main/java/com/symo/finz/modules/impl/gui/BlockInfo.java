@@ -23,7 +23,7 @@ public class BlockInfo extends Module {
     }
 
 
-    public void onRender() {
+    public void on2DRender() {
         if (mc.objectMouseOver == null ||
                 mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK ||
                 mc.objectMouseOver.getBlockPos() == null)

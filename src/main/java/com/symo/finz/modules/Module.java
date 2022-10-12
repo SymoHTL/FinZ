@@ -83,6 +83,8 @@ public class Module {
 
     public void onRender() {
     }
+    public void on2DRender() {
+    }
 
     public void onKey() {
     }
@@ -104,6 +106,7 @@ public class Module {
     public void silentSendPacket(Packet packet) {
         mc.thePlayer.sendQueue.getNetworkManager().sendPacket(packet);
     }
+
 
 
 }

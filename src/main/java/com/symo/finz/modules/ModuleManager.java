@@ -11,10 +11,11 @@ import com.symo.finz.modules.impl.movement.*;
 import com.symo.finz.modules.impl.player.AutoEat;
 import com.symo.finz.modules.impl.player.FastPlace;
 import com.symo.finz.modules.impl.player.NoFall;
-import com.symo.finz.modules.impl.visual.BlockHighlighter;
 import com.symo.finz.modules.impl.visual.FullBright;
+import com.symo.finz.modules.impl.visual.PathTrace;
 import com.symo.finz.modules.impl.visual.esp.*;
 import com.symo.finz.utils.MillisecondEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -56,9 +57,9 @@ public class ModuleManager {
         modules.add(new AnimalESP());
         modules.add(new MobESP());
         modules.add(new PlayerESP());
-        modules.add(new BlockRenderESP());
+        modules.add(new PathRender());
         //modules.add(new FindOreESP());
-        modules.add(new BlockHighlighter());
+        modules.add(new PathTrace());
         // ui
         modules.add(new HUD());
         modules.add(new BlockInfo());
@@ -84,8 +85,12 @@ public class ModuleManager {
     }
 
     @SubscribeEvent
-    public void onRender(TickEvent.RenderTickEvent event) {
+    public void onRender(RenderWorldLastEvent event) {
         modules.stream().filter(m -> m.enabled).forEach(Module::onRender);
+    }
+    @SubscribeEvent
+    public void on2DRender(TickEvent.RenderTickEvent event) {
+        modules.stream().filter(m -> m.enabled).forEach(Module::on2DRender);
     }
 
     @SubscribeEvent
