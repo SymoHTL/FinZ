@@ -16,7 +16,7 @@ public class NoFall extends Module {
                 silentSendPacket(new C03PacketPlayer(true));
                 mc.thePlayer.fallDistance = 0;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

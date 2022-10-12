@@ -20,7 +20,7 @@ public class BlockRenderESP extends Module {
     public void onRender() {
         try {
             blockPosList.forEach(BlockESPUtil::drawESP);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

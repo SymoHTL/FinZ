@@ -42,7 +42,7 @@ public class PickUpItems extends Module {
                     }
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

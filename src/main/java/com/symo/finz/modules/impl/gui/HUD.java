@@ -70,7 +70,7 @@ public class HUD extends Module {
             }
 
             // mc.displayHeight... full size e.g. 1080
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

@@ -18,7 +18,7 @@ public class ScaffoldWalk extends Module {
 
     public void onUpdate() {
         try {
-            BlockPos blockBelow =PlayerExtension.getBlockPosBelow();
+            BlockPos blockBelow = PlayerExtension.getBlockPosBelow();
 
             // if the block is not air or is not replaceable return
             if (mc.theWorld.getBlockState(blockBelow).getBlock().getMaterial() != Material.air ||
@@ -43,7 +43,7 @@ public class ScaffoldWalk extends Module {
                             1, mc.thePlayer.getHeldItem(), 0, 0, 0));
                 }
             }, 75);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

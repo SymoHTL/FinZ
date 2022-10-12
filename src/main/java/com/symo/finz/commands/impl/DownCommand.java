@@ -30,7 +30,7 @@ public class DownCommand extends Command {
             }
             module.y = y;
             module.toggle();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             ChatUtils.sendMessage("Error");
         }

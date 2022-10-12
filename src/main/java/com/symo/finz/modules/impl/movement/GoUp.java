@@ -44,7 +44,7 @@ public class GoUp extends Module {
                 return;
             }
             super.onEnable();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

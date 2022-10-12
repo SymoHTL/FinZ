@@ -23,7 +23,7 @@ public class Critical extends Module {
                     mc.thePlayer.motionY = 0.1;
                     mc.thePlayer.onGround = false;
                 }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

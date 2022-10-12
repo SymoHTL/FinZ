@@ -11,7 +11,7 @@ public class Sprint extends Module {
         try {
             if (mc.thePlayer.moveForward > 0 && !mc.thePlayer.isSneaking() && !mc.thePlayer.isCollidedHorizontally && !mc.thePlayer.isUsingItem())
                 mc.thePlayer.setSprinting(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }
@@ -23,7 +23,7 @@ public class Sprint extends Module {
         try {
             mc.thePlayer.setSprinting(false);
             super.onDisable();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

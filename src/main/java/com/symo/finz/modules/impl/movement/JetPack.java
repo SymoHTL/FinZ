@@ -1,6 +1,5 @@
 package com.symo.finz.modules.impl.movement;
 
-import com.sun.javafx.geom.Vec3d;
 import com.symo.finz.modules.Module;
 import net.minecraft.util.Vec3;
 import org.lwjgl.input.Keyboard;
@@ -20,7 +19,7 @@ public class JetPack extends Module {
             if (mc.gameSettings.keyBindJump.isKeyDown())
                 // he do be flying
                 mc.thePlayer.setVelocity(velocity.xCoord, 0.5, velocity.zCoord);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

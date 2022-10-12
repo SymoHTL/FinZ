@@ -57,7 +57,7 @@ public class MobFarmer extends Module {
                     }
                 }, 50);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

@@ -17,7 +17,7 @@ public class AnimalESP extends Module {
             for (Entity e : mc.theWorld.getLoadedEntityList())
                 if (e instanceof EntityAnimal)
                     EntityESPUtil.drawESP((EntityAnimal) e);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

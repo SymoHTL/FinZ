@@ -74,21 +74,56 @@ public class BlockInfo extends Module {
 
             // draw background
             UiDrawer.drawRectDouble(sr.getScaledWidth_double() / 2 - 80,
-                    1,
+                    2,
                     sr.getScaledWidth_double() / 2 + 90,
                     (fr.FONT_HEIGHT * 5) - 6, 0x80000000);
 
-            // draw background outline
+            // --------------------------------------------
+            // top lines
+            // top bottom line
             UiDrawer.drawRectDouble(sr.getScaledWidth_double() / 2 - 80,
-                    1,
+                    2,
                     sr.getScaledWidth_double() / 2 + 90,
-                    (fr.FONT_HEIGHT * 5) - 6, 0x80FFFFFF);
+                    3,
+                    0x80FFFFFF);
+            // top top line
+            UiDrawer.drawRectDouble(sr.getScaledWidth_double() / 2 - 79,
+                    1,
+                    sr.getScaledWidth_double() / 2 + 89,
+                    2,
+                    0x80FFFFFF);
+
+            // bottom lines
+            // bottom top line
+            UiDrawer.drawRectDouble(sr.getScaledWidth_double() / 2 - 80,
+                    (fr.FONT_HEIGHT * 5) - 7,
+                    sr.getScaledWidth_double() / 2 + 90,
+                    (fr.FONT_HEIGHT * 5) - 6,
+                    0x80FFFFFF);
+            // bottom bottom line
+            UiDrawer.drawRectDouble(sr.getScaledWidth_double() / 2 - 79,
+                    (fr.FONT_HEIGHT * 5) - 6,
+                    sr.getScaledWidth_double() / 2 + 89,
+                    (fr.FONT_HEIGHT * 5) - 5,
+                    0x80FFFFFF);
+            // left line
+            UiDrawer.drawRectDouble(sr.getScaledWidth_double() / 2 - 81,
+                    3,
+                    sr.getScaledWidth_double() / 2 - 79,
+                    (fr.FONT_HEIGHT * 5) - 7,
+                    0x80FFFFFF);
+            // right line
+            UiDrawer.drawRectDouble(sr.getScaledWidth_double() / 2 + 89,
+                    3,
+                    sr.getScaledWidth_double() / 2 + 91,
+                    (fr.FONT_HEIGHT * 5) - 7,
+                    0x80FFFFFF);
 
 
             // draw block name
             fr.drawStringWithShadow(blockName,
                     (float) ((sr.getScaledWidth_double() / 2 - fr.getStringWidth(blockName) / 2) + yOffset),
-                    3,
+                    4,
                     0xFFFFFFFF);
 
             // if unbreakable block
@@ -144,7 +179,7 @@ public class BlockInfo extends Module {
 
             } catch (Exception ignored) {
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

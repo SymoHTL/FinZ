@@ -57,7 +57,7 @@ public class GoDown extends Module {
             }
 
             mineBlockBelow();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

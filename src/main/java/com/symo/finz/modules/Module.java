@@ -46,6 +46,7 @@ public class Module {
         ChatUtils.sendMessage("Enabled " + keyBind.getKeyDescription());
         onEnable();
     }
+
     public void enable(String message) {
         enabled = true;
         ChatUtils.sendMessage("Enabled " + keyBind.getKeyDescription() + " -- reason: " + message);
@@ -57,6 +58,7 @@ public class Module {
         ChatUtils.sendMessage("Disabled " + keyBind.getKeyDescription());
         onDisable();
     }
+
     public void disable(String message) {
         enabled = false;
         ChatUtils.sendMessage("Disabled " + keyBind.getKeyDescription() + " -- reason: " + message);

@@ -12,7 +12,7 @@ public class Fly extends Module {
         try {
             mc.thePlayer.capabilities.allowFlying = true;
             super.onEnable();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }
@@ -24,7 +24,7 @@ public class Fly extends Module {
             if (!mc.thePlayer.capabilities.isCreativeMode)
                 mc.thePlayer.capabilities.allowFlying = false;
             super.onDisable();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

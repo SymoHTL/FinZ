@@ -17,7 +17,7 @@ public class PlayerESP extends Module {
             for (Entity e : mc.theWorld.getLoadedEntityList())
                 if (e instanceof EntityPlayer && e != mc.thePlayer)
                     EntityESPUtil.drawESP((EntityPlayer) e);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

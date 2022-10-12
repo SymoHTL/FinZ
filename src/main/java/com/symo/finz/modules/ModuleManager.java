@@ -39,7 +39,6 @@ public class ModuleManager {
         modules.add(new MobFarmer());
         // Misc
         modules.add(new PickUpItems());
-        modules.add(new Timer());
         // Movement
         modules.add(new Fly());
         modules.add(new GoDown());

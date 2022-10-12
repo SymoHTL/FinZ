@@ -28,7 +28,7 @@ public class Aimbot extends Module {
             float[] rotations = AimHelper.getYawAndPitchToLookAt(entity);
             mc.thePlayer.rotationYaw = rotations[0];
             mc.thePlayer.rotationPitch = rotations[1];
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

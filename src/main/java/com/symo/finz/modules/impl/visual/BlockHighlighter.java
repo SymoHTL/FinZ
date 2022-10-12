@@ -11,9 +11,9 @@ public class BlockHighlighter extends Module {
         super("BlockHighlighter", "FinZ - Visual");
     }
 
-    public void onKey(){
+    public void onKey() {
         try {
-           //check if middle mouse button is pressed
+            //check if middle mouse button is pressed
             if (!mc.gameSettings.keyBindPickBlock.isPressed())
                 return;
             if (mc.objectMouseOver == null ||
@@ -22,7 +22,7 @@ public class BlockHighlighter extends Module {
                 return;
             BlockRenderESP.blockPosList.add(this.mc.objectMouseOver.getBlockPos());
             ChatUtils.sendMessage("Added block to highlight list");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

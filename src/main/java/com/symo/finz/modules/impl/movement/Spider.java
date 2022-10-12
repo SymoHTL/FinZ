@@ -1,6 +1,5 @@
 package com.symo.finz.modules.impl.movement;
 
-import com.sun.javafx.geom.Vec3d;
 import com.symo.finz.modules.Module;
 import net.minecraft.util.Vec3;
 import org.lwjgl.input.Keyboard;
@@ -19,7 +18,7 @@ public class Spider extends Module {
                 return;
 
             mc.thePlayer.setVelocity(velocity.xCoord, 0.2, velocity.zCoord);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             this.disable("Error");
         }

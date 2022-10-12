@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ public class FindOres extends Command {
                 xRadius = Integer.parseInt(args[2]);
                 yRadius = Integer.parseInt(args[3]);
                 zRadius = Integer.parseInt(args[4]);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 ChatUtils.sendMessage("Parameters needs to be of type Integer");
                 return;
             }
@@ -81,14 +80,14 @@ public class FindOres extends Command {
                 if (amount == 0)
                     break;
             }
-            if (count > 0){
+            if (count > 0) {
                 module.enable();
                 //System.out.println("Now rendering " + count + " ores");
-            }else {
+            } else {
                 ChatUtils.sendMessage("Nothing found");
                 module.disable();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             ChatUtils.sendMessage("Error");
         }
