@@ -2,22 +2,20 @@ package com.symo.finz.commands.impl;
 
 import com.symo.finz.FinZ;
 import com.symo.finz.commands.Command;
-import com.symo.finz.modules.impl.movement.GoDown;
+import com.symo.finz.modules.impl.movement.MineUp;
 import com.symo.finz.utils.ChatUtils;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 
-public class DownCommand extends Command {
-
+public class MineUpCommand extends Command {
     @Override
     public String getCommandName() {
-        return "down";
+        return "up";
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-            GoDown module = (GoDown) FinZ.moduleManager.getModule("GoDown");
-
+            MineUp module = (MineUp) FinZ.moduleManager.getModule("MineUp");
             int y = 0;
             if (args.length >= 1) {
                 try {
@@ -29,6 +27,7 @@ public class DownCommand extends Command {
             }
             module.y = y;
             module.toggle();
-
     }
+
+
 }

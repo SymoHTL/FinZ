@@ -2,7 +2,7 @@ package com.symo.finz.commands.impl;
 
 import com.symo.finz.FinZ;
 import com.symo.finz.commands.Command;
-import com.symo.finz.modules.impl.visual.esp.FindOreESP;
+import com.symo.finz.modules.impl.visual.esp.FindBlockESP;
 import com.symo.finz.utils.ChatUtils;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
@@ -12,18 +12,18 @@ import net.minecraft.util.BlockPos;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindOres extends Command {
+public class FindBlock extends Command {
 
     public static List<BlockPos> foundBlockPos = new ArrayList<>();
 
     @Override
     public String getCommandName() {
-        return "findores";
+        return "findblock";
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-            FindOreESP module = (FindOreESP) FinZ.moduleManager.getModule("FindOreESP");
+            FindBlockESP module = (FindBlockESP) FinZ.moduleManager.getModule("FindBlockESP");
             if (args.length < 2) {
                 ChatUtils.sendMessage("Invalid arguments");
                 return;

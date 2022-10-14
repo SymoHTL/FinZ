@@ -1,5 +1,6 @@
 package com.symo.finz.modules.impl.combat;
 
+import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.Timer;
 import com.symo.finz.utils.extension.PlayerExtension;
@@ -16,6 +17,16 @@ public class MobFarmer extends Module {
 
     public MobFarmer() {
         super("MobFarmer", Keyboard.KEY_U, "FinZ - Combat");
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return FinZ.configFile.MobFarmerEnabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        FinZ.configFile.MobFarmerEnabled = enabled;
     }
 
     public void onUpdate() {

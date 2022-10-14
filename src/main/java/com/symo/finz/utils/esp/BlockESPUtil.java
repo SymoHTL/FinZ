@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
 
 public class BlockESPUtil {
@@ -29,6 +30,69 @@ public class BlockESPUtil {
         // Box
         GL11.glColor4d(0, 0, 1, alpha);
         RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(x, y, z, x + 1, y + 1, z + 1));
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public static void drawESP(BlockPos blockPos, float alpha, float lineWidth, int r, int g, int b) {
+        double x = blockPos.getX() - mc.getRenderManager().viewerPosX;
+        double y = blockPos.getY() - mc.getRenderManager().viewerPosY;
+        double z = blockPos.getZ() - mc.getRenderManager().viewerPosZ;
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glLineWidth(lineWidth);
+        GL11.glColor4d(0, 0, 1, 0.15f);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(false);
+
+        // Box
+        GL11.glColor4d(r, g, b, alpha);
+        RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(x, y, z, x + 1, y + 1, z + 1));
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public static void drawSquareWhereToAim(double[] coords, float alpha, float lineWidth){
+        double x = coords[0] - mc.getRenderManager().viewerPosX;
+        double y = coords[1] - mc.getRenderManager().viewerPosY;
+        double z = coords[2] - mc.getRenderManager().viewerPosZ;
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glLineWidth(lineWidth);
+        GL11.glColor4d(0, 1, 0, 0.15f);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(false);
+
+        // Box
+        GL11.glColor4d(0, 1, 0, alpha);
+        RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(x - 0.05, y - 0.05, z - 0.05, x + 0.05, y + 0.05, z + 0.05));
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public static void drawESPWithBody(BlockPos blockPos, float alpha, float lineWidth) {
+        double x = blockPos.getX() - mc.getRenderManager().viewerPosX;
+        double y = blockPos.getY() - mc.getRenderManager().viewerPosY;
+        double z = blockPos.getZ() - mc.getRenderManager().viewerPosZ;
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glLineWidth(lineWidth);
+        GL11.glColor4d(1, 1, 0, 0.15f);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(false);
+
+        // Box
+        GL11.glColor4d(1, 1, 1, alpha);
+        RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(x + 0.25, y + 0.25, z + 0.25, x + 0.75, y + 0.75, z + 0.75));
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(true);
@@ -71,5 +135,6 @@ public class BlockESPUtil {
     static {
         mc = FinZ.mc;
     }
+
 
 }

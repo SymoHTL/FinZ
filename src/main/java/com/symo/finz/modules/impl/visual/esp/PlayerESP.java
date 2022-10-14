@@ -1,5 +1,6 @@
 package com.symo.finz.modules.impl.visual.esp;
 
+import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.esp.EntityESPUtil;
 import net.minecraft.entity.Entity;
@@ -10,6 +11,16 @@ public class PlayerESP extends Module {
 
     public PlayerESP() {
         super("PlayerESP", Keyboard.KEY_NUMPAD0, "FinZ - Visual");
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return FinZ.configFile.PlayerESPEnabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        FinZ.configFile.PlayerESPEnabled = enabled;
     }
 
     public void onRender() {

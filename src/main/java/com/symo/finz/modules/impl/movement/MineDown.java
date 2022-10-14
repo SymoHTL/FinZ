@@ -1,7 +1,7 @@
 package com.symo.finz.modules.impl.movement;
 
+import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
-import com.symo.finz.utils.ChatUtils;
 import com.symo.finz.utils.extension.BlockExtension;
 import com.symo.finz.utils.extension.PlayerExtension;
 import com.symo.finz.utils.extension.PlayerInventoryExtension;
@@ -9,15 +9,24 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 
-public class GoDown extends Module {
+public class MineDown extends Module {
 
     public int y = 0;
 
-    public GoDown() {
-        super("GoDown", "FinZ - Movement");
+    public MineDown() {
+        super("MineDown", "FinZ - Movement");
     }
 
 
+    @Override
+    public boolean isEnabled() {
+        return FinZ.configFile.MineDownEnabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        FinZ.configFile.MineDownEnabled = enabled;
+    }
 
     public void onUpdate() {
             //if (!mineTimer.hasTimeElapsed(10,true))

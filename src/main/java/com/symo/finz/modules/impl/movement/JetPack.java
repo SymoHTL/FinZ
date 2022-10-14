@@ -1,5 +1,6 @@
 package com.symo.finz.modules.impl.movement;
 
+import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
 import net.minecraft.util.Vec3;
 import org.lwjgl.input.Keyboard;
@@ -8,6 +9,16 @@ public class JetPack extends Module {
     public JetPack() {
         super("JetPack", Keyboard.KEY_J, "FinZ - Movement");
         setKey(Keyboard.KEY_K);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return FinZ.configFile.JetpackEnabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        FinZ.configFile.JetpackEnabled = enabled;
     }
 
     public void onUpdate() {

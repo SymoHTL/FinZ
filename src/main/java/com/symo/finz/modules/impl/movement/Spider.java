@@ -1,5 +1,6 @@
 package com.symo.finz.modules.impl.movement;
 
+import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
 import net.minecraft.util.Vec3;
 import org.lwjgl.input.Keyboard;
@@ -9,6 +10,16 @@ public class Spider extends Module {
         super("Spider", Keyboard.KEY_P, "FinZ - Movement");
     }
 
+
+    @Override
+    public boolean isEnabled() {
+        return FinZ.configFile.SpiderEnabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        FinZ.configFile.SpiderEnabled = enabled;
+    }
 
     public void onUpdate() {
             if (!mc.thePlayer.isCollidedHorizontally) return;

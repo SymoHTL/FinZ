@@ -3,25 +3,21 @@ package com.symo.finz;
 import com.symo.finz.commands.CommandManager;
 import com.symo.finz.config.FinZConfig;
 import com.symo.finz.modules.ModuleManager;
-import com.symo.finz.utils.MillisecondEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 @Mod(clientSideOnly = true, name = "FinZ", modid = FinZ.modId, version = FinZ.version, acceptedMinecraftVersions = "[1.8.9]")
 public class FinZ {
@@ -31,7 +27,8 @@ public class FinZ {
     public static final Minecraft mc;
     public static final ModuleManager moduleManager = new ModuleManager();
     public static final CommandManager commandManager = new CommandManager();
-    public static Configuration config;
+    public static FinZConfig configFile;
+    public static GuiScreen display;
 
     @EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
@@ -48,6 +45,7 @@ public class FinZ {
     @EventHandler
     public void init(final FMLInitializationEvent event) {
         System.out.println("FinZ is initializing...");
+        MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(moduleManager);
         moduleManager.init();
         commandManager.init();
@@ -77,7 +75,29 @@ public class FinZ {
         //        initialDelay.getSeconds(), 1L, TimeUnit.MILLISECONDS);
     }
 
+    @SubscribeEvent
+    public void tick(final TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.START) {
+            return;
+        }
+        if (mc.thePlayer == null || mc.theWorld == null) {
+            return;
+        }
+
+        if (display != null) {
+            try {
+                mc.displayGuiScreen(display);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            display = null;
+        }
+    }
+
+
     static {
+        display = null;
         mc = Minecraft.getMinecraft();
+        configFile = FinZConfig.INSTANCE;
     }
 }

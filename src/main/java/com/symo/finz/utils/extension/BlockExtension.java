@@ -1,10 +1,20 @@
 package com.symo.finz.utils.extension;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class BlockExtension {
+
+    public static double getDistance(double x1, double y1, double z1, double x2, double y2, double z2) {
+        double d0 = x1 - x2;
+        double d1 = y1 - y2;
+        double d2 = z1 - z2;
+        return (double) MathHelper.sqrt_double(d0 * d0 + d1 * d1 + d2 * d2);
+    }
 
     public static boolean isBlockBelowAir(World worldIn, BlockPos pos) {
         return worldIn.getBlockState(pos.add(0, -1, 0)).getBlock().getMaterial() == Material.air;
@@ -84,5 +94,117 @@ public class BlockExtension {
 
     public static boolean checkForWater(BlockPos pos, World worldIn) {
         return worldIn.getBlockState(pos).getBlock().getMaterial() == Material.water;
+    }
+
+    public static boolean isWestAir(World worldIn, BlockPos pos) {
+        return worldIn.getBlockState(pos.add(-1, 0, 0)).getBlock().getMaterial() == Material.air;
+    }
+
+    public static boolean isEastAir(World worldIn, BlockPos pos) {
+        return worldIn.getBlockState(pos.add(1, 0, 0)).getBlock().getMaterial() == Material.air;
+    }
+
+    public static boolean isNorthAir(World worldIn, BlockPos pos) {
+        return worldIn.getBlockState(pos.add(0, 0, -1)).getBlock().getMaterial() == Material.air;
+    }
+
+    public static boolean isSouthAir(World worldIn, BlockPos pos) {
+        return worldIn.getBlockState(pos.add(0, 0, 1)).getBlock().getMaterial() == Material.air;
+    }
+
+    public static boolean isUpAir(World worldIn, BlockPos pos) {
+        return worldIn.getBlockState(pos.add(0, 1, 0)).getBlock().getMaterial() == Material.air;
+    }
+
+    public static boolean isDownAir(World worldIn, BlockPos pos) {
+        return worldIn.getBlockState(pos.add(0, -1, 0)).getBlock().getMaterial() == Material.air;
+    }
+
+
+    public static EnumFacing getVisibleSide(BlockPos closestBlockPos, EntityPlayerSP thePlayer) {
+        BlockPos playerPos = PlayerExtension.getAccurateBlockPos();
+        // west -- -x
+        if (isWestAir(thePlayer.worldObj, closestBlockPos) && closestBlockPos.getX() > playerPos.getX())
+            return EnumFacing.WEST;
+        // east -- +x
+        if (isEastAir(thePlayer.worldObj, closestBlockPos) && closestBlockPos.getX() < playerPos.getX())
+            return EnumFacing.EAST;
+        // north -- -z
+        if (isNorthAir(thePlayer.worldObj, closestBlockPos) && closestBlockPos.getZ() > playerPos.getZ())
+            return EnumFacing.NORTH;
+        // south -- +z
+        if (isSouthAir(thePlayer.worldObj, closestBlockPos) && closestBlockPos.getZ() < playerPos.getZ())
+            return EnumFacing.SOUTH;
+        // up -- +y
+        if (isUpAir(thePlayer.worldObj, closestBlockPos) && closestBlockPos.getY() <= playerPos.getY())
+            return EnumFacing.UP;
+        // down -- -y
+        if (isDownAir(thePlayer.worldObj, closestBlockPos) && closestBlockPos.getY() > playerPos.getY())
+            return EnumFacing.DOWN;
+
+
+        return null;
+
+
+
+
+
+
+
+        /*
+        // get the visible side of the block and check if there is a block
+        // if no then return the side
+        double d0 = thePlayer.posX - closestBlockPos.getX();
+        double d1 = thePlayer.posY - closestBlockPos.getY();
+        double d2 = thePlayer.posZ - closestBlockPos.getZ();
+        double d3 = MathHelper.abs((float) d0);
+        double d4 = MathHelper.abs((float) d1);
+        double d5 = MathHelper.abs((float) d2);
+        if (d3 > d5) {
+            if (d3 > d4) {
+                if (d0 > 0.0D) {
+                    if (thePlayer.worldObj.getBlockState(closestBlockPos.add(-1, 0, 0)).getBlock().getMaterial() == Material.air) {
+                        return EnumFacing.EAST;
+                    }
+                } else {
+                    if (thePlayer.worldObj.getBlockState(closestBlockPos.add(1, 0, 0)).getBlock().getMaterial() == Material.air) {
+                        return EnumFacing.WEST;
+                    }
+
+                }
+            } else {
+                if (d1 > 0) {
+                    if (thePlayer.worldObj.getBlockState(closestBlockPos.add(0, 1, 0)).getBlock().getMaterial() == Material.air) {
+                        return EnumFacing.UP;
+                    }
+                } else {
+                    if (thePlayer.worldObj.getBlockState(closestBlockPos.add(0, -1, 0)).getBlock().getMaterial() == Material.air) {
+                        return EnumFacing.DOWN;
+                    }
+                }
+            }
+        } else if (d5 > d4) {
+            if (d2 > 0) {
+                if (thePlayer.worldObj.getBlockState(closestBlockPos.add(0, 0, 1)).getBlock().getMaterial() == Material.air) {
+                    return EnumFacing.SOUTH;
+                }
+            }else {
+                if (thePlayer.worldObj.getBlockState(closestBlockPos.add(0, 0, -1)).getBlock().getMaterial() == Material.air) {
+                    return EnumFacing.NORTH;
+                }
+            }
+        } else {
+            if (d1 > 0) {
+                if (thePlayer.worldObj.getBlockState(closestBlockPos.add(0, 1, 0)).getBlock().getMaterial() == Material.air) {
+                    return EnumFacing.UP;
+                }
+            } else {
+                if (thePlayer.worldObj.getBlockState(closestBlockPos.add(0, -1, 0)).getBlock().getMaterial() == Material.air) {
+                    return EnumFacing.DOWN;
+                }
+            }
+        }
+        return null;
+        */
     }
 }

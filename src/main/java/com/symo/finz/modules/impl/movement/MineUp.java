@@ -1,7 +1,7 @@
 package com.symo.finz.modules.impl.movement;
 
+import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
-import com.symo.finz.utils.ChatUtils;
 import com.symo.finz.utils.Timer;
 import com.symo.finz.utils.extension.BlockExtension;
 import com.symo.finz.utils.extension.PlayerExtension;
@@ -11,16 +11,26 @@ import net.minecraft.util.BlockPos;
 
 import java.util.TimerTask;
 
-public class GoUp extends Module {
+public class MineUp extends Module {
     Timer jumpingTimer = new Timer();
     Timer placeBlockTimer = new Timer();
 
     public int y = 0;
 
-    public GoUp() {
-        super("GoUp", "FinZ - Movement");
+    public MineUp() {
+        super("MineUp", "FinZ - Movement");
     }
 
+
+    @Override
+    public boolean isEnabled() {
+        return FinZ.configFile.MineUpEnabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        FinZ.configFile.MineUpEnabled = enabled;
+    }
 
     public void onEnable() {
             if (mc.thePlayer.getPosition().getY() >= y && y != 0) {

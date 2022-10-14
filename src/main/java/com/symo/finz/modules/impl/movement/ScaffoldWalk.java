@@ -1,5 +1,6 @@
 package com.symo.finz.modules.impl.movement;
 
+import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.extension.PlayerExtension;
 import com.symo.finz.utils.extension.PlayerInventoryExtension;
@@ -14,6 +15,16 @@ public class ScaffoldWalk extends Module {
 
     public ScaffoldWalk() {
         super("ScaffoldWalk", Keyboard.KEY_I, "FinZ - Movement");
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return FinZ.configFile.ScaffoldWalkEnabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        FinZ.configFile.ScaffoldWalkEnabled = enabled;
     }
 
     public void onUpdate() {

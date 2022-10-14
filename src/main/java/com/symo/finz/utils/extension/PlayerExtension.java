@@ -91,6 +91,9 @@ public class PlayerExtension {
     public static BlockPos getAccurateBlockPos() {
         return new BlockPos(FinZ.mc.getRenderViewEntity().posX, FinZ.mc.getRenderViewEntity().getEntityBoundingBox().minY, FinZ.mc.getRenderViewEntity().posZ);
     }
+    public static double[] getAccurateBlockPosDouble() {
+        return new double[]{FinZ.mc.getRenderViewEntity().posX, FinZ.mc.getRenderViewEntity().getEntityBoundingBox().minY, FinZ.mc.getRenderViewEntity().posZ};
+    }
 
     public static boolean hasBlockAbove() {
         return player.getEntityWorld().getBlockState(getBlockPosAbove()).getBlock().getMaterial() != Material.air;

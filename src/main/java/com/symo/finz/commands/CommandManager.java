@@ -1,15 +1,15 @@
 package com.symo.finz.commands;
 
-import com.symo.finz.commands.impl.DownCommand;
-import com.symo.finz.commands.impl.FindOres;
-import com.symo.finz.commands.impl.UpCommand;
+import com.symo.finz.commands.impl.*;
 import net.minecraftforge.client.ClientCommandHandler;
 
 public class CommandManager {
 
     public void init() {
-        ClientCommandHandler.instance.registerCommand(new UpCommand());
-        ClientCommandHandler.instance.registerCommand(new DownCommand());
-        ClientCommandHandler.instance.registerCommand(new FindOres());
+        ClientCommandHandler.instance.registerCommand(new MineUpCommand());
+        ClientCommandHandler.instance.registerCommand(new MineDownCommand());
+        ClientCommandHandler.instance.registerCommand(new FindBlock());
+        ClientCommandHandler.instance.registerCommand(new select4x4());
+        ClientCommandHandler.instance.registerCommand(new OpenSettings());
     }
 }

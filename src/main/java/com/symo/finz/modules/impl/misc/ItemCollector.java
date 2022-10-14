@@ -1,13 +1,24 @@
 package com.symo.finz.modules.impl.misc;
 
+import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.extension.PlayerInventoryExtension;
 import net.minecraft.entity.item.EntityItem;
 import org.lwjgl.input.Keyboard;
 
-public class PickUpItems extends Module {
-    public PickUpItems() {
-        super("PickUpItems", Keyboard.KEY_M, "FinZ - Misc");
+public class ItemCollector extends Module {
+    public ItemCollector() {
+        super("ItemCollector", Keyboard.KEY_M, "FinZ - Misc");
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return FinZ.configFile.ItemCollectorEnabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        FinZ.configFile.ItemCollectorEnabled = enabled;
     }
 
     public void onUpdate() {

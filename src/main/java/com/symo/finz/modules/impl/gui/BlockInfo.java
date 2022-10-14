@@ -1,5 +1,6 @@
 package com.symo.finz.modules.impl.gui;
 
+import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.UiDrawer;
 import com.symo.finz.utils.extension.HarvestLevelExtension;
@@ -22,6 +23,16 @@ public class BlockInfo extends Module {
         super("BlockInfo", "FinZ - GUI");
     }
 
+
+    @Override
+    public boolean isEnabled() {
+        return FinZ.configFile.BlockInfoEnabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        FinZ.configFile.BlockInfoEnabled = enabled;
+    }
 
     public void on2DRender() {
         if (mc.objectMouseOver == null ||

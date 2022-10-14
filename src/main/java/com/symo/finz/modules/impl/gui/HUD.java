@@ -19,6 +19,16 @@ public class HUD extends Module {
     }
 
 
+    @Override
+    public boolean isEnabled() {
+        return FinZ.configFile.HUDEnabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        FinZ.configFile.HUDEnabled = enabled;
+    }
+
     public void on2DRender() {
             if (Minecraft.getMinecraft().gameSettings.showDebugInfo) return;
             ScaledResolution sr = new ScaledResolution(mc);
