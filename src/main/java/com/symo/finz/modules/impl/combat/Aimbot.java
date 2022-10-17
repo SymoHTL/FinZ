@@ -24,20 +24,21 @@ public class Aimbot extends Module {
     }
 
     public void onUpdate() {
-            if (mc.thePlayer.isDead)
-                return;
-            EntityLivingBase entity = PlayerExtension.getClosetLivingEntity();
+        if (mc.thePlayer == null || mc.theWorld == null) return;
+        if (mc.thePlayer.isDead)
+            return;
+        EntityLivingBase entity = PlayerExtension.getClosetLivingEntity();
 
-            if (entity == null)
-                return;
-            if (!PlayerExtension.canSeeEyesMidOrFeet(entity))
-                return;
-            if (entity.getDistanceToEntity(mc.thePlayer) > FinZ.configFile.AimBotReach)
-                return;
+        if (entity == null)
+            return;
+        if (!PlayerExtension.canSeeEyesMidOrFeet(entity))
+            return;
+        if (entity.getDistanceToEntity(mc.thePlayer) > FinZ.configFile.AimBotReach)
+            return;
 
-            float[] rotations = AimHelper.getYawAndPitchToLookAt(entity);
-            mc.thePlayer.rotationYaw = rotations[0];
-            mc.thePlayer.rotationPitch = rotations[1];
+        float[] rotations = AimHelper.getYawAndPitchToLookAt(entity);
+        mc.thePlayer.rotationYaw = rotations[0];
+        mc.thePlayer.rotationPitch = rotations[1];
 
     }
 

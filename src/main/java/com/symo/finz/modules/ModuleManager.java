@@ -5,16 +5,18 @@ import com.symo.finz.modules.impl.combat.Aimbot;
 import com.symo.finz.modules.impl.combat.MobFarmer;
 import com.symo.finz.modules.impl.gui.BlockInfo;
 import com.symo.finz.modules.impl.gui.HUD;
-import com.symo.finz.modules.impl.gui.InfoUi;
 import com.symo.finz.modules.impl.misc.AimAtBlock;
 import com.symo.finz.modules.impl.misc.ItemCollector;
+import com.symo.finz.modules.impl.misc.WayPointManager;
 import com.symo.finz.modules.impl.movement.*;
 import com.symo.finz.modules.impl.player.AutoEat;
 import com.symo.finz.modules.impl.player.FastPlace;
 import com.symo.finz.modules.impl.player.NoFall;
 import com.symo.finz.modules.impl.visual.FullBright;
 import com.symo.finz.modules.impl.visual.PathTracer;
-import com.symo.finz.modules.impl.visual.esp.*;
+import com.symo.finz.modules.impl.visual.esp.AnimalESP;
+import com.symo.finz.modules.impl.visual.esp.MobESP;
+import com.symo.finz.modules.impl.visual.esp.PlayerESP;
 import com.symo.finz.utils.MillisecondEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -41,6 +43,7 @@ public class ModuleManager {
         // Misc
         modules.add(new ItemCollector());
         modules.add(new AimAtBlock());
+        modules.add(new WayPointManager());
         // Movement
         modules.add(new Fly());
         modules.add(new MineDown());
@@ -63,7 +66,6 @@ public class ModuleManager {
         // ui
         modules.add(new HUD());
         modules.add(new BlockInfo());
-        modules.add(new InfoUi());
 
         for (Module module : modules) {
             ClientRegistry.registerKeyBinding(module.keyBind);
@@ -89,6 +91,7 @@ public class ModuleManager {
     public void onRender(RenderWorldLastEvent event) {
         modules.stream().filter(Module::isEnabled).forEach(Module::onRender);
     }
+
     @SubscribeEvent
     public void on2DRender(TickEvent.RenderTickEvent event) {
         modules.stream().filter(Module::isEnabled).forEach(Module::on2DRender);

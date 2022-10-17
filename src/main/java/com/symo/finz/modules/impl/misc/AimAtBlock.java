@@ -133,7 +133,7 @@ public class AimAtBlock extends Module {
                 currentBlock = pos;
             }
         }
-        if (currentBlock == null){
+        if (currentBlock == null) {
             squarePos = null;
             return;
         }

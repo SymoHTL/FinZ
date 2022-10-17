@@ -15,8 +15,6 @@ public class MineUp extends Module {
     Timer jumpingTimer = new Timer();
     Timer placeBlockTimer = new Timer();
 
-    public int y = 0;
-
     public MineUp() {
         super("MineUp", "FinZ - Movement");
     }
@@ -33,19 +31,20 @@ public class MineUp extends Module {
     }
 
     public void onEnable() {
-            if (mc.thePlayer.getPosition().getY() >= y && y != 0) {
-                this.disable("You are at the specified height! - stopped mining");
-                return;
-            }
-            if (y == 0 && mc.thePlayer.getEntityWorld().getChunkFromBlockCoords(mc.thePlayer.getPosition()).canSeeSky(mc.thePlayer.getPosition())) {
-                this.disable("You can see the sky! - stopped mining");
-                return;
-            }
-            if (PlayerInventoryExtension.getFirstNonFallableSolidBlockInHotBarIndex() == -1) {
-                this.disable("No non fallable solid block in hotbar! - stopped mining");
-                return;
-            }
-            super.onEnable();
+        if (mc.thePlayer.getPosition().getY() >= FinZ.configFile.MineUpY && FinZ.configFile.MineUpY != 0) {
+            this.disable("You are at the specified height! - stopped mining");
+            return;
+        }
+        if (FinZ.configFile.MineUpY == 0 &&
+                mc.thePlayer.getEntityWorld().getChunkFromBlockCoords(mc.thePlayer.getPosition()).canSeeSky(mc.thePlayer.getPosition())) {
+            this.disable("You can see the sky! - stopped mining");
+            return;
+        }
+        if (PlayerInventoryExtension.getFirstNonFallableSolidBlockInHotBarIndex() == -1) {
+            this.disable("No non fallable solid block in hotbar! - stopped mining");
+            return;
+        }
+        super.onEnable();
     }
 
     public void onUpdate() {
@@ -58,7 +57,7 @@ public class MineUp extends Module {
             // jumping takes around ~600ms so jump every 650 to be sure
             if (jumpingTimer.hasTimeElapsed(550, true)) {
                 BlockPos pos = mc.thePlayer.getPosition();
-                if (pos.getY() >= y && y != 0) {
+                if (pos.getY() >= FinZ.configFile.MineUpY && FinZ.configFile.MineUpY != 0) {
                     this.disable("You are at the specified height! - stopped mining");
                     return;
                 }
@@ -66,12 +65,12 @@ public class MineUp extends Module {
                     this.disable("No non fallable solid block in hotbar! - stopped mining");
                     return;
                 }
-                if (y == 0 && mc.thePlayer.getEntityWorld().getChunkFromBlockCoords(mc.thePlayer.getPosition()).canSeeSky(mc.thePlayer.getPosition())) {
+                if (FinZ.configFile.MineUpY == 0 && mc.thePlayer.getEntityWorld().getChunkFromBlockCoords(mc.thePlayer.getPosition()).canSeeSky(mc.thePlayer.getPosition())) {
                     this.disable("You can see the sky! - stopped mining");
                     return;
                 }
                 // only jump if the player in on the Ground
-                if (mc.thePlayer.onGround && y == 0 || pos.getY() <= y)
+                if (mc.thePlayer.onGround && FinZ.configFile.MineUpY == 0 || pos.getY() <= FinZ.configFile.MineUpY)
                     // jump
                     mc.thePlayer.jump();
             }

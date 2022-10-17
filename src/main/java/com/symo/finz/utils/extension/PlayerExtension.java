@@ -6,6 +6,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
@@ -27,33 +28,25 @@ public class PlayerExtension {
     @Nullable
     public static EntityLivingBase getClosetMob() {
         return getLivingEntities().stream()
-                .filter(entity -> entity instanceof EntityMob)
-                .sorted(Comparator.comparingDouble(player::getDistanceToEntity))
-                .collect(Collectors.toList()).get(0);
+                .filter(entity -> entity instanceof IMob).min(Comparator.comparingDouble(player::getDistanceToEntity)).orElse(null);
     }
 
 
     @Nullable
     public static EntityLivingBase getClosetAnimal() {
         return getLivingEntities().stream()
-                .filter(entity -> entity instanceof EntityAnimal)
-                .sorted(Comparator.comparingDouble(player::getDistanceToEntity))
-                .collect(Collectors.toList()).get(0);
+                .filter(entity -> entity instanceof EntityAnimal).min(Comparator.comparingDouble(player::getDistanceToEntity)).orElse(null);
     }
 
     @Nullable
     public static EntityLivingBase getClosetPlayer() {
         return getLivingEntities().stream()
-                .filter(entity -> entity instanceof EntityPlayer)
-                .sorted(Comparator.comparingDouble(player::getDistanceToEntity))
-                .collect(Collectors.toList()).get(0);
+                .filter(entity -> entity instanceof EntityPlayer).min(Comparator.comparingDouble(player::getDistanceToEntity)).orElse(null);
     }
 
     @Nullable
     public static EntityLivingBase getClosetLivingEntity() {
-        return getLivingEntities().stream()
-                .sorted(Comparator.comparingDouble(player::getDistanceToEntity))
-                .collect(Collectors.toList()).get(0);
+        return getLivingEntities().stream().min(Comparator.comparingDouble(player::getDistanceToEntity)).orElse(null);
     }
 
     public static List<EntityLivingBase> getLivingEntities() {
@@ -91,6 +84,7 @@ public class PlayerExtension {
     public static BlockPos getAccurateBlockPos() {
         return new BlockPos(FinZ.mc.getRenderViewEntity().posX, FinZ.mc.getRenderViewEntity().getEntityBoundingBox().minY, FinZ.mc.getRenderViewEntity().posZ);
     }
+
     public static double[] getAccurateBlockPosDouble() {
         return new double[]{FinZ.mc.getRenderViewEntity().posX, FinZ.mc.getRenderViewEntity().getEntityBoundingBox().minY, FinZ.mc.getRenderViewEntity().posZ};
     }

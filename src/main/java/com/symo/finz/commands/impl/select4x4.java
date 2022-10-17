@@ -7,7 +7,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 
-public class select4x4  extends Command {
+public class select4x4 extends Command {
     @Override
     public String getCommandName() {
         return "select4x4";

@@ -5,8 +5,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Color;
 
 public class BlockESPUtil {
     public static final Minecraft mc;
@@ -22,7 +22,7 @@ public class BlockESPUtil {
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glLineWidth(lineWidth);
-        GL11.glColor4d(0, 0, 1, 0.15f);
+        GL11.glColor4d(0, 0, 1, 0.4f);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
@@ -57,7 +57,7 @@ public class BlockESPUtil {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    public static void drawSquareWhereToAim(double[] coords, float alpha, float lineWidth){
+    public static void drawSquareWhereToAim(double[] coords, float alpha, float lineWidth) {
         double x = coords[0] - mc.getRenderManager().viewerPosX;
         double y = coords[1] - mc.getRenderManager().viewerPosY;
         double z = coords[2] - mc.getRenderManager().viewerPosZ;
@@ -75,6 +75,69 @@ public class BlockESPUtil {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public static void drawESP(double x, double y, double z, double x2, double y2, double z2, float alpha, float lineWidth, int r, int g, int b) {
+        x -= mc.getRenderManager().viewerPosX;
+        y -= mc.getRenderManager().viewerPosY;
+        z -= mc.getRenderManager().viewerPosZ;
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glLineWidth(lineWidth);
+        GL11.glColor4d(r, g, b, alpha);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(false);
+
+        // Box
+        GL11.glColor4d(r, g, b, alpha);
+        RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(x, y, z, x2, y2, z2));
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public static void drawESP(double x, double y, double z, double x2, double y2, double z2, Color color) {
+        x -= mc.getRenderManager().viewerPosX;
+        y -= mc.getRenderManager().viewerPosY;
+        z -= mc.getRenderManager().viewerPosZ;
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glLineWidth(2);
+        GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(false);
+
+        // Box
+        GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+        RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(x, y, z, x2, y2, z2));
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    public static void drawBeacon(double x, double y, double z, Color color) {
+        x -= mc.getRenderManager().viewerPosX;
+        y -= mc.getRenderManager().viewerPosY;
+        z -= mc.getRenderManager().viewerPosZ;
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glLineWidth(2);
+        GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        //GL11.glDisable(GL11.GL_DEPTH_TEST);
+        //GL11.glDepthMask(false);
+
+        // Box
+        GL11.glColor4d(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+        RenderGlobal.drawSelectionBoundingBox(new AxisAlignedBB(x + 0.25, y, z + 0.25, x + 0.75, 255, z + 0.75));
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        //GL11.glEnable(GL11.GL_DEPTH_TEST);
+        //GL11.glDepthMask(true);
         GL11.glDisable(GL11.GL_BLEND);
     }
 

@@ -20,13 +20,13 @@ public class Fly extends Module {
     }
 
     public void onEnable() {
-            mc.thePlayer.capabilities.allowFlying = true;
-            super.onEnable();
+        mc.thePlayer.capabilities.allowFlying = true;
+        super.onEnable();
     }
 
     public void onDisable() {
-            if (!mc.thePlayer.capabilities.isCreativeMode)
-                mc.thePlayer.capabilities.allowFlying = false;
-            super.onDisable();
+        if (!mc.thePlayer.capabilities.isCreativeMode)
+            mc.thePlayer.capabilities.allowFlying = false;
+        super.onDisable();
     }
 }

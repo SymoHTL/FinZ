@@ -22,14 +22,13 @@ public class Spider extends Module {
     }
 
     public void onUpdate() {
-            if (!mc.thePlayer.isCollidedHorizontally) return;
-            Vec3 velocity = new Vec3(mc.thePlayer.motionX, mc.thePlayer.motionY, mc.thePlayer.motionZ);
-            if (velocity.yCoord >= 0.2)
-                return;
+        if (!mc.thePlayer.isCollidedHorizontally) return;
+        Vec3 velocity = new Vec3(mc.thePlayer.motionX, mc.thePlayer.motionY, mc.thePlayer.motionZ);
+        if (velocity.yCoord >= 0.2)
+            return;
 
-            mc.thePlayer.setVelocity(velocity.xCoord, 0.2, velocity.zCoord);
+        mc.thePlayer.setVelocity(velocity.xCoord, 0.2, velocity.zCoord);
     }
-
 
 
 }

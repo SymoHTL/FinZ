@@ -13,7 +13,6 @@ import java.util.List;
 
 public class PathTracer extends Module {
 
-    public static int maxBlocks = 100;
     public static List<BlockPos> blockPosList = new ArrayList<>();
 
     public PathTracer() {
@@ -31,8 +30,10 @@ public class PathTracer extends Module {
                 blockPosList.add(blockPos);
             }
         }
-        if (maxBlocks < blockPosList.size())
-            blockPosList.remove(0);
+        // remove the difference between the PathTracerLength and the current blockPosList size
+        if (FinZ.configFile.PathTracerLength < blockPosList.size())
+            if (blockPosList.size() - FinZ.configFile.PathTracerLength > 0)
+                blockPosList.subList(0, blockPosList.size() - FinZ.configFile.PathTracerLength).clear();
     }
 
     @Override

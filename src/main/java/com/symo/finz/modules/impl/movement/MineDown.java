@@ -11,8 +11,6 @@ import net.minecraft.util.BlockPos;
 
 public class MineDown extends Module {
 
-    public int y = 0;
-
     public MineDown() {
         super("MineDown", "FinZ - Movement");
     }
@@ -29,35 +27,35 @@ public class MineDown extends Module {
     }
 
     public void onUpdate() {
-            //if (!mineTimer.hasTimeElapsed(10,true))
-            //    return;
+        //if (!mineTimer.hasTimeElapsed(10,true))
+        //    return;
 
-            BlockPos currentBlockPos = PlayerExtension.getAccurateBlockPos();
-            BlockPos belowBlockPos = new BlockPos(currentBlockPos.getX(), currentBlockPos.getY() - 1, currentBlockPos.getZ());
-            Block belowBlock = mc.theWorld.getBlockState(belowBlockPos).getBlock();
+        BlockPos currentBlockPos = PlayerExtension.getAccurateBlockPos();
+        BlockPos belowBlockPos = new BlockPos(currentBlockPos.getX(), currentBlockPos.getY() - 1, currentBlockPos.getZ());
+        Block belowBlock = mc.theWorld.getBlockState(belowBlockPos).getBlock();
 
 
-            if (belowBlock.getBlockHardness(mc.theWorld, belowBlockPos) >= 18000000) {
-                this.disable("You can't mine the block below! - stopped mining");
-                return;
-            }
+        if (belowBlock.getBlockHardness(mc.theWorld, belowBlockPos) >= 18000000) {
+            this.disable("You can't mine the block below! - stopped mining");
+            return;
+        }
 
-            if (currentBlockPos.getY() <= y) {
-                this.disable("You are at the specified height! - stopped mining");
-                return;
-            }
+        if (currentBlockPos.getY() <= FinZ.configFile.MineDownY) {
+            this.disable("You are at the specified height! - stopped mining");
+            return;
+        }
 
-            if (mc.theWorld.getBlockState(new BlockPos(currentBlockPos.getX(), currentBlockPos.getY() - 2, currentBlockPos.getZ())).getBlock() == Blocks.air) {
-                this.disable("Opening below detected! - stopped mining");
-                return;
-            }
+        if (mc.theWorld.getBlockState(new BlockPos(currentBlockPos.getX(), currentBlockPos.getY() - 2, currentBlockPos.getZ())).getBlock() == Blocks.air) {
+            this.disable("Opening below detected! - stopped mining");
+            return;
+        }
 
-            if (BlockExtension.checkNeighboursForLava(belowBlockPos, mc.theWorld)) {
-                this.disable("Lava below detected! - stopped mining");
-                return;
-            }
+        if (BlockExtension.checkNeighboursForLava(belowBlockPos, mc.theWorld)) {
+            this.disable("Lava below detected! - stopped mining");
+            return;
+        }
 
-            mineBlockBelow();
+        mineBlockBelow();
     }
 
 

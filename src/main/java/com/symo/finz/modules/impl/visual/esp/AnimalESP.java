@@ -24,9 +24,9 @@ public class AnimalESP extends Module {
     }
 
     public void onRender() {
-            for (Entity e : mc.theWorld.getLoadedEntityList())
-                if (e instanceof EntityAnimal)
-                    EntityESPUtil.drawESP((EntityAnimal) e);
+        for (Entity e : mc.theWorld.getLoadedEntityList())
+            if (e instanceof EntityAnimal)
+                EntityESPUtil.drawESP((EntityAnimal) e);
     }
 
 }

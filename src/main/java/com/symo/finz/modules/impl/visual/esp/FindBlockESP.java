@@ -22,7 +22,7 @@ public class FindBlockESP extends Module {
     }
 
     public void onRender() {
-            FindBlock.foundBlockPos.forEach(BlockESPUtil::drawESP);
+        FindBlock.foundBlockPos.forEach(BlockESPUtil::drawESP);
     }
 
 }

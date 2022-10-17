@@ -22,7 +22,7 @@ public class AimHelper {
         return new float[]{yaw, pitch};
     }
 
-    public static float[] getYawAndPitchToLookAt(double[] pos){
+    public static float[] getYawAndPitchToLookAt(double[] pos) {
         double deltaX = pos[0] - FinZ.mc.thePlayer.posX,
                 deltaY = pos[1] - (FinZ.mc.thePlayer.isSneaking() ? 3.08 : 3.24) - Minecraft.getMinecraft().thePlayer.posY + FinZ.mc.thePlayer.getEyeHeight(),
                 deltaZ = pos[2] - FinZ.mc.thePlayer.posZ,

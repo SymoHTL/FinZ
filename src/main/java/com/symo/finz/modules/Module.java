@@ -45,14 +45,16 @@ public abstract class Module {
 
     public void enable(String message) {
         setEnabled(true);
-        if (!Objects.equals(message, "")) ChatUtils.sendMessage("Enabled " + keyBind.getKeyDescription() + " -- reason: " + message);
+        if (!Objects.equals(message, ""))
+            ChatUtils.sendMessage("Enabled " + keyBind.getKeyDescription() + " -- reason: " + message);
         else ChatUtils.sendMessage("Enabled " + keyBind.getKeyDescription());
         onEnable();
     }
 
     public void disable(String message) {
         setEnabled(true);
-        if (!Objects.equals(message, "")) ChatUtils.sendMessage("Disabled " + keyBind.getKeyDescription() + " -- reason: " + message);
+        if (!Objects.equals(message, ""))
+            ChatUtils.sendMessage("Disabled " + keyBind.getKeyDescription() + " -- reason: " + message);
         else ChatUtils.sendMessage("Disabled " + keyBind.getKeyDescription());
         onDisable();
     }
@@ -76,12 +78,13 @@ public abstract class Module {
     }
 
     public void onServerLeave() {
-       //shouldReactivate = isEnabled();
-       //setEnabled(false);
+        //shouldReactivate = isEnabled();
+        //setEnabled(false);
     }
 
     public void onRender() {
     }
+
     public void on2DRender() {
     }
 
@@ -105,7 +108,6 @@ public abstract class Module {
     public void silentSendPacket(Packet packet) {
         mc.thePlayer.sendQueue.getNetworkManager().sendPacket(packet);
     }
-
 
 
 }

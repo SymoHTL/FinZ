@@ -1,7 +1,6 @@
 package com.symo.finz.utils.esp;
 
 import com.symo.finz.FinZ;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;

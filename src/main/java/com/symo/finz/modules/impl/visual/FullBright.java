@@ -22,14 +22,14 @@ public class FullBright extends Module {
     }
 
     public void onEnable() {
-            oldGamma = mc.gameSettings.gammaSetting;
-            mc.gameSettings.gammaSetting = 100;
-            super.onEnable();
+        oldGamma = mc.gameSettings.gammaSetting;
+        mc.gameSettings.gammaSetting = 100;
+        super.onEnable();
 
     }
 
     public void onDisable() {
-            mc.gameSettings.gammaSetting = oldGamma;
-            super.onEnable();
+        mc.gameSettings.gammaSetting = oldGamma;
+        super.onEnable();
     }
 }

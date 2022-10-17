@@ -3,7 +3,9 @@ package com.symo.finz.modules.impl.visual.esp;
 import com.symo.finz.FinZ;
 import com.symo.finz.modules.Module;
 import com.symo.finz.utils.esp.EntityESPUtil;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.IMob;
 import org.lwjgl.input.Keyboard;
 
 public class MobESP extends Module {
@@ -22,7 +24,7 @@ public class MobESP extends Module {
     }
 
     public void onRender() {
-            mc.theWorld.getLoadedEntityList().stream().filter(e -> e instanceof EntityMob).map(e -> (EntityMob) e).forEach(EntityESPUtil::drawESP);
+        mc.theWorld.getLoadedEntityList().stream().filter(e -> e instanceof IMob).map(e -> (EntityLivingBase) e).forEach(EntityESPUtil::drawESP);
     }
 
 

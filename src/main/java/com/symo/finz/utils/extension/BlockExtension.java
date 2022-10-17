@@ -13,7 +13,7 @@ public class BlockExtension {
         double d0 = x1 - x2;
         double d1 = y1 - y2;
         double d2 = z1 - z2;
-        return (double) MathHelper.sqrt_double(d0 * d0 + d1 * d1 + d2 * d2);
+        return MathHelper.sqrt_double(d0 * d0 + d1 * d1 + d2 * d2);
     }
 
     public static boolean isBlockBelowAir(World worldIn, BlockPos pos) {

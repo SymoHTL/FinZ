@@ -3,11 +3,8 @@ package com.symo.finz.commands.impl;
 import com.symo.finz.FinZ;
 import com.symo.finz.commands.Command;
 import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.BlockPos;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

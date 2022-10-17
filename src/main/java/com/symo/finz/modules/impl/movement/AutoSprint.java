@@ -9,8 +9,8 @@ public class AutoSprint extends Module {
     }
 
     public void onUpdate() {
-            if (mc.thePlayer.moveForward > 0 && !mc.thePlayer.isSneaking() && !mc.thePlayer.isCollidedHorizontally && !mc.thePlayer.isUsingItem())
-                mc.thePlayer.setSprinting(true);
+        if (mc.thePlayer.moveForward > 0 && !mc.thePlayer.isSneaking() && !mc.thePlayer.isCollidedHorizontally && !mc.thePlayer.isUsingItem())
+            mc.thePlayer.setSprinting(true);
 
     }
 
@@ -26,7 +26,7 @@ public class AutoSprint extends Module {
 
     @Override
     public void onDisable() {
-            mc.thePlayer.setSprinting(false);
-            super.onDisable();
+        mc.thePlayer.setSprinting(false);
+        super.onDisable();
     }
 }
