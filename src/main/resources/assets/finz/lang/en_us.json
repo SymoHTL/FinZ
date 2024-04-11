@@ -1,0 +1,44 @@
+{
+  "key.finz.opengui": "Open FinZ GUI",
+  "category.finz.config" : "FinZ cfg",
+  "title.finz.config": "FinZ Config",
+  "key.finz.zoom": "Zoom",
+  "key.finz.specialKey" : "Special Key (Adding Friends etc.)",
+
+  "category.finz.espEnabled": "ESP",
+  "option.finz.playerEsp": "Player ESP",
+  "option.finz.mobEsp": "Mob ESP",
+  "option.finz.mobEspRange": "Mob ESP Range",
+  "option.finz.itemEsp": "Item ESP",
+  "option.finz.itemEspRange": "Item ESP Range",
+
+
+  "category.finz.pathTracerEnabled": "Path Tracer",
+  "option.finz.pathTracerEnabled": "enable/disable Path Tracer",
+  "option.finz.pathTracerLength" : "Path Tracer Length",
+
+
+  "category.finz.materialScannerEnabled": "Material Scanner",
+  "option.finz.materialScannerEnabled": "enable/disable Material Scanner",
+  "option.finz.materialScannerRange" : "Material Scanner Range",
+  "option.finz.materialScannerMaterials" : "Material Scanner Materials",
+
+  "category.finz.zoom": "Zoom",
+  "option.finz.zoomlevel": "Zoom Level",
+
+  "category.finz.wtfail" : "What the F am I looking at?",
+  "option.finz.wtfail" : "enable/disable WTFail",
+
+  "category.finz.fastplace" : "Fast Place",
+  "option.finz.fastplace" : "enable/disable Fast Place",
+  "option.finz.fastplacevalue" : "Fast Place Speed",
+
+  "category.finz.autogetblock" : "Auto Get Block",
+  "option.finz.autogetblock" : "enable/disable Auto Get Block",
+
+  "category.finz.autogettool" : "Auto Get Tool",
+  "option.finz.autogettool" : "enable/disable Auto Get Tool",
+
+  "category.finz.chromaoutline" : "Chroma Outline",
+  "option.finz.blockoutline" : "enable/disable Block Outline"
+}

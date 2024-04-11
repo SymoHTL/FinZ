@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "finz",
+	"version": "${version}",
+	"name": "FinZ",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Symo"
+	],
+	"contact": {
+		"homepage": "https://symo.dev"
+	},
+	"license": "MIT License",
+	"icon": "assets/finz/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.symo.finz.FinZ"
+		],
+		"client": [
+			"dev.symo.finz.FinZClient"
+		]
+	},
+	"mixins": [
+		"finz.mixins.json",
+		{
+			"config": "finz.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.9",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"cloth-config-fabric": "13.x"
+	}
+}

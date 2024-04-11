@@ -1,0 +1,19 @@
+{
+	"required": true,
+	"package": "dev.symo.finz.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"client.ZoomMixin"
+	],
+	"client": [
+		"client.ClientPlayerInteractionManagerMixin",
+		"client.InputEventMixin",
+		"client.SelectedBlockOutLineMixin",
+		"client.ToolTipMixin",
+		"client.fastplace.FastPlaceClientMixin",
+		"client.fastplace.FastPlaceInvoker"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
