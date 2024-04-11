@@ -1,20 +1,15 @@
 package dev.symo.finz.modules.impl;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import dev.symo.finz.FinZ;
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.tracker.BreakProgressTracker;
 import dev.symo.finz.util.*;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
-import net.fabricmc.fabric.impl.mininglevel.MiningLevelManagerImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -254,7 +249,7 @@ public class WhatTheFAmILookingAt extends AModule {
                 block == Blocks.REPEATING_COMMAND_BLOCK ||
                 block == Blocks.STRUCTURE_BLOCK ||
                 block == Blocks.STRUCTURE_VOID) {
-            infos.add(new HudText(Text.of("\u2717 Unbreakable"), 0xFFFF0000));
+            infos.add(new HudText(Text.of("✗ Unbreakable"), 0xFFFF0000));
             return infos;
         }
 
@@ -274,9 +269,9 @@ public class WhatTheFAmILookingAt extends AModule {
         // check if the block is harvestable with the current tool
         // if not, draw a red X, if yes, draw a green checkmark
         if (canHarvest)
-            infos.add(new HudText(Text.of("\u2713 Currently Harvestable"), 0xFF00FF00));
+            infos.add(new HudText(Text.of("✓ Currently Harvestable"), 0xFF00FF00));
         else
-            infos.add(new HudText(Text.of("\u2717 Currently Harvestable"), 0xFFFF0000));
+            infos.add(new HudText(Text.of("✗ Currently Harvestable"), 0xFFFF0000));
 
         // draw effective tool
         infos.add(new HudText(Text.of("Effective Tool: " + harvestTool), hasEffectiveTool ? 0xFF00FF00 : 0xFFFF0000));
@@ -466,7 +461,6 @@ public class WhatTheFAmILookingAt extends AModule {
 
 
     public record HudText(Text text, int color) {
-        public static final HudText EMPTY = new HudText(Text.empty(), 0);
     }
 
 }

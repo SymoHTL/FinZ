@@ -26,8 +26,6 @@ public abstract class AModule {
 
     public abstract boolean IsEnabled();
 
-    public abstract void SetEnabled(boolean enabled);
-
     public void AfterEnableChange() {
         if (IsEnabled())
             onEnable();

@@ -1,6 +1,5 @@
 package dev.symo.finz.mixin.client;
 
-import dev.symo.finz.FinZ;
 import dev.symo.finz.FinZClient;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;

@@ -2,14 +2,12 @@ package dev.symo.finz.config;
 
 import com.google.gson.Gson;
 import dev.symo.finz.FinZClient;
-import dev.symo.finz.config.FinZConfig;
 import dev.symo.finz.events.ConfigChangeEvent;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
-import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

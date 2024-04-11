@@ -51,7 +51,7 @@ public final class EventManager {
         } catch (Throwable e) {
             e.printStackTrace();
 
-            CrashReport report = CrashReport.create(e, "Firing Wurst event");
+            CrashReport report = CrashReport.create(e, "Firing FinZ event");
             CrashReportSection section = report.addElement("Affected event");
             section.add("Event class", () -> event.getClass().getName());
 

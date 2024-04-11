@@ -3,24 +3,16 @@ package dev.symo.finz.modules.impl;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
-import dev.symo.finz.util.ClientUtil;
 import dev.symo.finz.util.PlayerUtil;
 import dev.symo.finz.util.RegionPos;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 public class PathTracer extends AModule {

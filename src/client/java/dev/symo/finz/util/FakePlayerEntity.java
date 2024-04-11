@@ -8,12 +8,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.player.PlayerEntity;
 
+import java.util.Objects;
+
 public class FakePlayerEntity extends OtherClientPlayerEntity {
     private final ClientPlayerEntity player = FinZClient.mc.player;
     private final ClientWorld world = FinZClient.mc.world;
 
     public FakePlayerEntity() {
-        super(FinZClient.mc.world, FinZClient.mc.player.getGameProfile());
+        super(Objects.requireNonNull(FinZClient.mc.world), Objects.requireNonNull(FinZClient.mc.player).getGameProfile());
         copyPositionAndRotation(player);
 
         copyInventory();
@@ -25,6 +27,7 @@ public class FakePlayerEntity extends OtherClientPlayerEntity {
     }
 
     private void copyInventory() {
+        assert player != null;
         getInventory().clone(player.getInventory());
     }
 

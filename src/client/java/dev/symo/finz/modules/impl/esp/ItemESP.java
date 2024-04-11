@@ -6,8 +6,6 @@ import dev.symo.finz.util.WorldSpaceRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.ArrayList;
 import java.util.Objects;

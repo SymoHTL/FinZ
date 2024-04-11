@@ -1,6 +1,5 @@
 package dev.symo.finz.modules.impl;
 
-import dev.symo.finz.FinZ;
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
 import net.minecraft.client.option.KeyBinding;

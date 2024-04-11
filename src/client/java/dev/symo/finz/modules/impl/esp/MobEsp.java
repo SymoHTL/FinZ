@@ -3,13 +3,11 @@ package dev.symo.finz.modules.impl.esp;
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.ModuleManager;
-import dev.symo.finz.util.EntityUtil;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 

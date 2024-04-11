@@ -1,17 +1,13 @@
 package dev.symo.finz.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.symo.finz.FinZClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import org.apache.http.util.EntityUtils;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
@@ -21,16 +17,6 @@ import java.util.stream.Stream;
 
 
 public class WorldSpaceRenderer {
-    private static Vec3d applyRegionalRenderOffset(MatrixStack matrixStack) {
-        Vec3d camPos = ClientUtil.getCameraPos();
-        BlockPos blockPos = ClientUtil.getCameraBlockPos();
-
-        int regionX = (blockPos.getX() >> 9) * 512;
-        int regionZ = (blockPos.getZ() >> 9) * 512;
-        var vec = new Vec3d(regionX - camPos.x, -camPos.y, regionZ - camPos.z);
-        matrixStack.translate(vec.x, vec.y, vec.z);
-        return vec;
-    }
 
     public static RegionPos getCameraRegion() {
         return RegionPos.of(ClientUtil.getCameraBlockPos());
@@ -123,14 +109,14 @@ public class WorldSpaceRenderer {
 
         RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 0.5f);
 
-        blocks.forEach(block -> renderBlock(matrixStack, color, block, region));
+        blocks.forEach(block -> renderBlock(matrixStack, block, region));
 
         matrixStack.pop();
 
         resetGlESPSettings();
     }
 
-    public static void renderBlock(MatrixStack matrixStack, Color color, BlockPos block, RegionPos region) {
+    public static void renderBlock(MatrixStack matrixStack, BlockPos block, RegionPos region) {
         matrixStack.push();
 
         var vect = region.toVec3d();

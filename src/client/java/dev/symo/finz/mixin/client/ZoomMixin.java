@@ -5,7 +5,6 @@ import dev.symo.finz.modules.impl.Zoom;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -20,7 +19,7 @@ public class ZoomMixin implements  AutoCloseable{
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
 
     }
 }

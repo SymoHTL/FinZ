@@ -24,8 +24,6 @@ public class FinZClient implements ClientModInitializer {
 
 	public static final String MOD_ID = "finz";
 
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
 	public static EventManager eventManager = new EventManager();
 	public static List<ModContainer> MODS = new ArrayList<>();
 
