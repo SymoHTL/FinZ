@@ -2,9 +2,11 @@ package dev.symo.finz.modules.impl;
 
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
+import dev.symo.finz.util.Category;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.world.GameRules;
 import org.lwjgl.glfw.GLFW;
 
 public class Zoom extends AModule {
@@ -12,7 +14,7 @@ public class Zoom extends AModule {
     private Double defaultMouseSensitivity;
 
     public Zoom() {
-        super("Zoom", "Misc");
+        super("Zoom", Category.OTHER);
         _keybind = new KeyBinding("key.finz.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "category.finz.config");
     }
 
@@ -41,18 +43,12 @@ public class Zoom extends AModule {
 
 
     @Override
-    public boolean IsEnabled() {
+    public boolean isEnabled() {
         return _keybind.isPressed();
     }
 
     @Override
-    public void SetEnabled(boolean enabled) {
+    public void setEnabled(boolean enabled) {
         _keybind.setPressed(enabled);
-        AfterEnableChange();
-    }
-
-    @Override
-    public void onConfigChange() {
-        AfterEnableChange();
     }
 }

@@ -1,8 +1,8 @@
 package dev.symo.finz.modules.impl.esp;
 
-import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.ModuleManager;
+import dev.symo.finz.util.Category;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -21,32 +21,26 @@ public class MobEsp extends AModule {
 
 
     public MobEsp() {
-        super("PlayerESP", "ESP");
+        super("PlayerESP", Category.RENDER);}
+
+    @Override
+    public boolean isEnabled() {
+        return config.mobEsp;
     }
 
     @Override
-    public boolean IsEnabled() {
-        return FinZClient.config.mobEsp;
-    }
-
-    @Override
-    public void SetEnabled(boolean enabled) {
-        FinZClient.config.mobEsp = enabled;
-    }
-
-    @Override
-    public void onConfigChange() {
-
+    public void setEnabled(boolean enabled) {
+        config.mobEsp = enabled;
     }
 
     @Override
     public void onTick() {
-        if (!IsEnabled()) return;
+        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 
         mobs.clear();
-        for (LivingEntity mob : mc.world.getEntitiesByClass(MobEntity.class, mc.player.getBoundingBox().expand(FinZClient.config.mobEspRange), Objects::nonNull)) {
+        for (LivingEntity mob : mc.world.getEntitiesByClass(MobEntity.class, mc.player.getBoundingBox().expand(config.mobEspRange), Objects::nonNull)) {
             if (mob == mc.player) continue;
             if (!mob.isAlive()) continue;
             if (ignore.contains(mob)) continue;
@@ -66,7 +60,7 @@ public class MobEsp extends AModule {
 
     @Override
     public void onWorldRender(MatrixStack matrices, float partialTicks) {
-        if (!IsEnabled()) return;
+        if (!isEnabled()) return;
 
         WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, mobs);
     }

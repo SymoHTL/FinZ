@@ -34,28 +34,23 @@ public class WhatTheFAmILookingAt extends AModule {
     private TextRenderer fr;
 
     public WhatTheFAmILookingAt() {
-        super("WhatTheFAmILookingAt", "HUD");
+        super("WhatTheFAmILookingAt", Category.RENDER);
     }
 
     @Override
-    public boolean IsEnabled() {
-        return FinZClient.config.whatTheFAmILookingAtEnabled;
+    public boolean isEnabled() {
+        return config.whatTheFAmILookingAtEnabled;
     }
 
     @Override
-    public void SetEnabled(boolean enabled) {
-        FinZClient.config.whatTheFAmILookingAtEnabled = enabled;
-        AfterEnableChange();
+    public void setEnabled(boolean enabled) {
+        config.whatTheFAmILookingAtEnabled = enabled;
     }
 
-    @Override
-    public void onConfigChange() {
-        AfterEnableChange();
-    }
 
     @Override
     public void onHudRender(DrawContext drawContext, float tickDelta){
-        if (!IsEnabled()) return;
+        if (!isEnabled()) return;
         if (mc.player == null || mc.world == null) return;
         if (mc.crosshairTarget == null) return;
 

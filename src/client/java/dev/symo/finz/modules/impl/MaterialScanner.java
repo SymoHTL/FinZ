@@ -1,7 +1,9 @@
 package dev.symo.finz.modules.impl;
 
 import dev.symo.finz.FinZClient;
+import dev.symo.finz.events.listeners.ConfigChangeListener;
 import dev.symo.finz.modules.AModule;
+import dev.symo.finz.util.Category;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.Registries;
@@ -10,31 +12,28 @@ import net.minecraft.util.math.BlockPos;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class MaterialScanner extends AModule {
+public class MaterialScanner extends AModule implements ConfigChangeListener {
 
     ArrayList<BlockPos> blocks = new ArrayList<>();
 
     int _tickDelay = 10;
 
     public MaterialScanner() {
-        super("Material Scanner", "Visual");
+        super("Material Scanner", Category.RENDER);
     }
 
 
     @Override
-    public boolean IsEnabled() {
-        return FinZClient.config.materialScannerEnabled;
+    public boolean isEnabled() {
+        return config.materialScannerEnabled;
     }
 
     @Override
-    public void SetEnabled(boolean enabled) {
-        FinZClient.config.materialScannerEnabled = enabled;
-        AfterEnableChange();
+    public void setEnabled(boolean enabled) {
+        config.materialScannerEnabled = enabled;
     }
 
     public void onConfigChange() {
-        AfterEnableChange();
-
         blocks.clear();
     }
 
@@ -43,7 +42,7 @@ public class MaterialScanner extends AModule {
     }
 
     public void onTick() {
-        if (!IsEnabled()) return;
+        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 
@@ -60,7 +59,7 @@ public class MaterialScanner extends AModule {
         var playerY = playerPos.getY();
         var playerZ = playerPos.getZ();
 
-        var range = FinZClient.config.materialScannerRange;
+        var range = config.materialScannerRange;
 
         for (int x = playerX - range; x < playerX + range; x++) {
             for (int y = playerY - range; y < playerY + range; y++) {
@@ -68,7 +67,7 @@ public class MaterialScanner extends AModule {
                     var pos = new BlockPos(x, y, z);
                     var state = mc.world.getBlockState(pos);
                     var block = state.getBlock();
-                    var match = FinZClient.config.materialScannerMaterial; // minecraft:ancient_debris
+                    var match = config.materialScannerMaterial; // minecraft:ancient_debris
                     var id = String.valueOf(Registries.BLOCK.getId(block));
                     if (match.contains(id) && !blocks.contains(pos))
                         blocks.add(pos);
@@ -80,7 +79,7 @@ public class MaterialScanner extends AModule {
     }
 
     public void onWorldRender(MatrixStack matrixStack, float partialTicks) {
-        if (!IsEnabled()) return;
+        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 

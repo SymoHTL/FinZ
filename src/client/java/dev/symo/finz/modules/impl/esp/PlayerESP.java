@@ -3,6 +3,7 @@ package dev.symo.finz.modules.impl.esp;
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.ModuleManager;
+import dev.symo.finz.util.Category;
 import dev.symo.finz.util.FakePlayerEntity;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -19,27 +20,22 @@ public class PlayerESP extends AModule {
     private final ArrayList<Entity> players = new ArrayList<>();
 
     public PlayerESP() {
-        super("PlayerESP", "ESP");
+        super("PlayerESP", Category.RENDER);
     }
 
     @Override
-    public boolean IsEnabled() {
-        return FinZClient.config.playerEsp;
+    public boolean isEnabled() {
+        return config.playerEsp;
     }
 
     @Override
-    public void SetEnabled(boolean enabled) {
-        FinZClient.config.playerEsp = enabled;
-    }
-
-    @Override
-    public void onConfigChange() {
-
+    public void setEnabled(boolean enabled) {
+        config.playerEsp = enabled;
     }
 
     @Override
     public void onTick() {
-        if (!IsEnabled()) return;
+        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 
@@ -66,7 +62,7 @@ public class PlayerESP extends AModule {
 
     @Override
     public void onWorldRender(MatrixStack matrices, float partialTicks) {
-        if (!IsEnabled()) return;
+        if (!isEnabled()) return;
 
         WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, players);
     }

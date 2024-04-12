@@ -3,6 +3,7 @@ package dev.symo.finz.modules.impl;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
+import dev.symo.finz.util.Category;
 import dev.symo.finz.util.PlayerUtil;
 import dev.symo.finz.util.RegionPos;
 import dev.symo.finz.util.WorldSpaceRenderer;
@@ -20,28 +21,22 @@ public class PathTracer extends AModule {
     public List<BlockPos> path = new ArrayList<>();
 
     public PathTracer() {
-        super("PathTracer", "Misc");
+        super("PathTracer", Category.RENDER);
 
     }
 
     @Override
-    public boolean IsEnabled() {
+    public boolean isEnabled() {
         return FinZClient.config.pathTracerEnabled;
     }
 
     @Override
-    public void SetEnabled(boolean enabled) {
-        FinZClient.config.pathTracerEnabled = enabled;
-        AfterEnableChange();
-    }
-
-    @Override
-    public void onConfigChange() {
-        AfterEnableChange();
+    public void setEnabled(boolean enabled) {
+        config.pathTracerEnabled = enabled;
     }
 
     public void onTick() {
-        if (!IsEnabled()) return;
+        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 
@@ -54,14 +49,14 @@ public class PathTracer extends AModule {
             }
         }
 
-        if (FinZClient.config.pathTracerLength < path.size())
-            if (path.size() - FinZClient.config.pathTracerLength > 0)
-                path.subList(0, path.size() - FinZClient.config.pathTracerLength).clear();
+        if (config.pathTracerLength < path.size())
+            if (path.size() - config.pathTracerLength > 0)
+                path.subList(0, path.size() - config.pathTracerLength).clear();
 
     }
 
     public void onWorldRender(MatrixStack matrixStack, float partialTicks) {
-        if (!IsEnabled()) return;
+        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 

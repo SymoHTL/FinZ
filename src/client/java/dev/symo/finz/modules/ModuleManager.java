@@ -2,10 +2,8 @@ package dev.symo.finz.modules;
 
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.events.*;
-import dev.symo.finz.modules.impl.MaterialScanner;
-import dev.symo.finz.modules.impl.PathTracer;
-import dev.symo.finz.modules.impl.WhatTheFAmILookingAt;
-import dev.symo.finz.modules.impl.Zoom;
+import dev.symo.finz.events.listeners.ConfigChangeListener;
+import dev.symo.finz.modules.impl.*;
 import dev.symo.finz.modules.impl.esp.ItemESP;
 import dev.symo.finz.modules.impl.esp.MobEsp;
 import dev.symo.finz.modules.impl.esp.PlayerESP;
@@ -32,13 +30,7 @@ public class ModuleManager {
 
 
     public static void init() {
-        _modules.add(new Zoom());
-        _modules.add(new WhatTheFAmILookingAt());
-        _modules.add(new PathTracer());
-        _modules.add(new MaterialScanner());
-        _modules.add(new PlayerESP());
-        _modules.add(new MobEsp());
-        _modules.add(new ItemESP());
+        _modules.addAll(Modules.all);
 
 
         specialKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.finz.specialKey", InputUtil.Type.MOUSE, 2, "category.finz.config"));
@@ -46,11 +38,9 @@ public class ModuleManager {
         _openGuiKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.finz.opengui",
                 InputUtil.Type.KEYSYM, 77, "category.finz.config"));
 
-
         for (AModule module : _modules)
             if (module._keybind != null)
                 KeyBindingHelper.registerKeyBinding(module._keybind);
-
 
 
         // register events
@@ -59,17 +49,8 @@ public class ModuleManager {
             HandleKeyEvent();
             return ActionResult.PASS;
         });
-        ConfigChangeEvent.CHANGE.register(() -> {
-            HandleConfigChangeEvent();
-            return ActionResult.PASS;
-        });
         WorldRenderEvents.END.register(ModuleManager::RenderWorld);
         HudRenderCallback.EVENT.register(ModuleManager::RenderHud);
-    }
-
-    private static void HandleConfigChangeEvent() {
-        for (AModule module : _modules)
-            module.onConfigChange();
     }
 
     private static void HandleKeyEvent() {

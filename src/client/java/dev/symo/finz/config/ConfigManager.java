@@ -2,7 +2,8 @@ package dev.symo.finz.config;
 
 import com.google.gson.Gson;
 import dev.symo.finz.FinZClient;
-import dev.symo.finz.events.ConfigChangeEvent;
+import dev.symo.finz.events.impl.EventManager;
+import dev.symo.finz.events.listeners.ConfigChangeListener;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -49,7 +50,7 @@ public class ConfigManager {
                 throw new RuntimeException(e);
             }
 
-            ConfigChangeEvent.CHANGE.invoker().onChange();
+            EventManager.fire(new ConfigChangeListener.ConfigChangeEvent());
         });
     }
 
@@ -80,7 +81,7 @@ public class ConfigManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        ConfigChangeEvent.CHANGE.invoker().onChange();
+        EventManager.fire(new ConfigChangeListener.ConfigChangeEvent());
     }
 
     public static void buildSettings() {
