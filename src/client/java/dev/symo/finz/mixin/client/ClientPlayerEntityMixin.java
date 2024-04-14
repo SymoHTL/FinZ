@@ -14,8 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ClientPlayerEntity.class)
-public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
-        implements IClientPlayerEntity {
+public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
     @Shadow
     @Final
     protected MinecraftClient client;
@@ -34,11 +33,6 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         KnockbackListener.KnockbackEvent event = new KnockbackListener.KnockbackEvent(x, y, z);
         EventManager.fire(event);
         super.setVelocityClient(event.getX(), event.getY(), event.getZ());
-    }
-
-    @Override
-    public boolean isTouchingWaterBypass() {
-        return super.isTouchingWater();
     }
 }
 
