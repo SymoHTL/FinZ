@@ -6,13 +6,11 @@ import dev.symo.finz.config.FinZConfig;
 import dev.symo.finz.config.FriendList;
 import dev.symo.finz.events.impl.EventManager;
 import dev.symo.finz.modules.ModuleManager;
+import dev.symo.finz.ui.ConfigScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -62,9 +60,10 @@ public class FinZClient implements ClientModInitializer {
 	}
 
 	public static void showConfigScreen() {
-		ConfigManager.build();
-		Screen screen = ConfigManager.configBuilder.build();
-		mc.setScreen(screen);
+		mc.setScreen(new ConfigScreen());
+		//ConfigManager.build();
+		//Screen screen = ConfigManager.configBuilder.build();
+		//mc.setScreen(screen);
 	}
 
 }
