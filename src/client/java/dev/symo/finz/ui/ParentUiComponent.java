@@ -19,10 +19,20 @@ public class ParentUiComponent extends UiComponent implements ParentElement {
     private final boolean draggable;
     private int dragOffsetX;
     private int dragOffsetY;
+    protected final int padding;
 
     public ParentUiComponent(String title, int x, int y, int width, int height, boolean draggable, boolean scrollable, ParentUiComponent parent) {
+        this(title, x, y, width, height, draggable, scrollable, parent, 20);
+    }
+
+    public ParentUiComponent(String title, int x, int y, int width, int height, boolean draggable, boolean scrollable, ParentUiComponent parent, int padding) {
         super(title, x, y, width, height, scrollable, parent);
         this.draggable = draggable;
+        this.padding = padding;
+    }
+
+    public boolean isDraggable() {
+        return draggable;
     }
 
     public final boolean isDragging() {
@@ -31,6 +41,24 @@ public class ParentUiComponent extends UiComponent implements ParentElement {
 
     public final void setDragging(boolean dragging) {
         this.dragging = dragging;
+        if (!dragging) {
+            dragOffsetX = 0;
+            dragOffsetY = 0;
+        }
+    }
+
+    @Override
+    public int getHeight() {
+        int height = 0;
+        for (UiComponent child : children) height = Math.max(height, child.getMinHeight());
+        return height + padding;
+    }
+
+    @Override
+    public int getWidth() {
+        int width = 0;
+        for (UiComponent child : children) width = Math.max(width, child.getMinWidth());
+        return width + padding;
     }
 
     @Nullable
@@ -44,7 +72,6 @@ public class ParentUiComponent extends UiComponent implements ParentElement {
         if (focused != null) focused.setFocused(true);
 
         this.focused = focused;
-        System.out.println("Focused: " + focused);
     }
 
     public final void addChildren(UiComponent... children) {
@@ -55,13 +82,26 @@ public class ParentUiComponent extends UiComponent implements ParentElement {
         for (UiComponent child : children) this.children.remove(child);
     }
 
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (!isMouseOver(mouseX, mouseY)) return false;
+
+        for (UiComponent child : children) {
+            if (child.mouseClicked(mouseX, mouseY, button)) {
+                return true;
+            }
+        }
+
+        return true;
+    }
+
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (!IsMouseOver(mouseX, mouseY)) return false;
+        if (!isMouseOver(mouseX, mouseY)) return false;
 
         if (draggable && !isDragging()) {
             setDragging(true);
-            dragOffsetX = x - (int) mouseX;
-            dragOffsetY = y - (int) mouseY;
+            dragOffsetX = (int) (getX() - mouseX);
+            dragOffsetY = (int) (getY() - mouseY);
         }
 
         if (dragging) {
@@ -72,11 +112,6 @@ public class ParentUiComponent extends UiComponent implements ParentElement {
 
         return false;
     }
-
-    private boolean IsMouseOver(double mouseX, double mouseY) {
-        return mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= getY() && mouseY <= getY() + getHeight();
-    }
-
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {

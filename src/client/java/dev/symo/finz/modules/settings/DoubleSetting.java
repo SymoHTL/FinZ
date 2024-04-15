@@ -47,4 +47,12 @@ public class DoubleSetting extends ModuleSetting{
     public String toString() {
         return _display.getValueString(_value);
     }
+
+    public double getMin() {
+        return _min;
+    }
+
+    public double getMax() {
+        return _max;
+    }
 }

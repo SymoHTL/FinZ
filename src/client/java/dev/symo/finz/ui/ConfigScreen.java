@@ -25,11 +25,12 @@ public final class ConfigScreen extends Screen {
 
     @Override
     protected void init() {
-        var parent = new ParentUiComponent("FinZ Config", 0, 0, FinZClient.mc.getWindow().getWidth(),
-                FinZClient.mc.getWindow().getHeight(), false, false, null);
+        var parent = new ParentUiComponent("FinZ Config", 0, 0,
+                FinZClient.mc.getWindow().getWidth(), FinZClient.mc.getWindow().getHeight(),
+                false, false, null, 0);
         AModule[] modules = Modules.all.toArray(new AModule[0]);
         for (int i = 0; i < modules.length; i++) {
-            var comp = new ModuleComponent(modules[i]._name, i * 120, 0, 100, 100, true, false, parent, modules[i].getSettings());
+            var comp = new ModuleComponent(modules[i]._name, i * 250, 0, 200, 200, true, false, parent, modules[i].getSettings());
             addDrawableChild(comp);
         }
     }
@@ -45,11 +46,31 @@ public final class ConfigScreen extends Screen {
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (!super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)) {
-            for (Element child : children())
-                if (child.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)) return true;
-        } else return true;
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        var flag = false;
+        for (Element element : this.children()) {
+            if (element.mouseClicked(mouseX, mouseY, button)) {
+                this.setFocused(element);
+                if (button == 0) {
+                    this.setDragging(true);
+                }
+
+                flag = true;
+                if (!(element instanceof ParentUiComponent))
+                    return true;
+            }
+            if (element instanceof ParentUiComponent parent) {
+                if (parent.isDraggable() && parent.isMouseOver(mouseX, mouseY)) {
+                    this.setFocused(parent);
+                    if (button == 0) this.setDragging(true);
+                    return true;
+                }
+                if (flag){
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 }

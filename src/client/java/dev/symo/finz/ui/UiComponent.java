@@ -12,10 +12,10 @@ public abstract class UiComponent implements Element, Drawable, Selectable {
 
     protected String title;
 
-    protected int x; // left offset
-    protected int y;  // top offset
-    private int width;
-    private int height;
+    protected int x; // x center
+    protected int y;  // y center
+    private int minWidth;
+    private int minHeight;
 
     protected boolean isFocused;
 
@@ -31,8 +31,8 @@ public abstract class UiComponent implements Element, Drawable, Selectable {
         this.title = title;
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.minWidth = width;
+        this.minHeight = height;
         this.scrollable = scrollable;
         this.parent = parent;
     }
@@ -46,63 +46,85 @@ public abstract class UiComponent implements Element, Drawable, Selectable {
     }
 
     public final int rightX() {
-        return x + width;
+        return x + minWidth / 2;
     }
 
     public final int bottomY() {
-        return y + height;
+        return y + minHeight / 2;
     }
 
-    protected final int getParentWidth(){
+    protected final int getParentWidth() {
         if (parent == null) return FinZClient.mc.getWindow().getWidth();
-        else return parent.getWidth();
+        else return parent.getMinWidth();
     }
 
-    protected final int getParentHeight(){
+    protected final int getParentHeight() {
         if (parent == null) return FinZClient.mc.getWindow().getHeight();
-        else return parent.getHeight();
+        else return this.parent.getMinHeight();
+    }
+
+    public final int getXLeft() {
+        return this.getX() - this.getWidth() / 2;
+    }
+
+    public final int getYTop() {
+        return this.getY() - this.getHeight() / 2;
+    }
+
+    public final int getXRight() {
+        return this.getX() + this.getWidth() / 2;
+    }
+
+    public final int getYBottom() {
+        return this.getY() + this.getHeight() / 2;
     }
 
     public final int getX() {
-        return Math.max(0, Math.min(x, getParentWidth() / 2 - width));
+        return Math.max(minWidth / 2, Math.min(x, this.getParentWidth() / 2 - this.getWidth() / 2));
     }
 
     public final int getY() {
-        return Math.max(0, Math.min(y, getParentHeight() / 2 - height));
+        return Math.max(minHeight / 2, Math.min(y, this.getParentHeight() / 2 - this.getHeight() / 2));
     }
 
-    public final int getWidth() {
-        return width;
+    public int getMinWidth() {
+        return minWidth;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public int getMinHeight() {
+        return minHeight;
     }
 
-    public final int getHeight() {
-        return height;
+    public int getHeight() {
+        return minHeight;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public int getWidth() {
+        return minWidth;
     }
 
-    public final int getXCentered() {
-        return width / 2 + getX();
+    public void setMinWidth(int minWidth) {
+        this.minWidth = minWidth;
     }
 
-    public final int getYCentered() {
-        return height / 2 + getY();
+    public void setMinHeight(int minHeight) {
+        this.minHeight = minHeight;
     }
 
-    public final void setXSanitized(int x) {
+    public void setXSanitized(int x) {
         this.x = x;
-        this.x = getX();
+        this.x = this.getX();
     }
 
-    public final void setYSanitized(int y) {
+    public void setYSanitized(int y) {
         this.y = y;
-        this.y = getY();
+        this.y = this.getY();
+    }
+
+
+    @Override
+    public boolean isMouseOver(double mouseX, double mouseY) {
+        return mouseX >= this.getXLeft() && mouseX <= this.getXRight() && mouseY >= this.getYTop() && mouseY <= this.getYBottom();
     }
 
     @Override
@@ -128,17 +150,11 @@ public abstract class UiComponent implements Element, Drawable, Selectable {
     @Override
     public void setFocused(boolean focused) {
         isFocused = focused;
-        System.out.println("Focused: " + isFocused + " on " + getTitle());
     }
 
     @Override
     public boolean isFocused() {
         return isFocused;
-    }
-
-    @Override
-    public int getNavigationOrder() {
-        return 0;
     }
 
     @Override
