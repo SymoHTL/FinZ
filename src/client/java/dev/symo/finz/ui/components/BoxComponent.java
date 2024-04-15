@@ -13,6 +13,7 @@ public class BoxComponent extends ParentUiComponent {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         context.drawCenteredTextWithShadow(textRenderer, this.getTitle(), this.getX(), this.getYTop() + 4, 0xFFFFFFFF);
         context.fill(this.getXLeft(), this.getYTop(),this. getXRight(), this.getYBottom(), 0x80000000);
+        context.drawBorder(getXLeft(), getYTop(), getWidth(), getHeight(), 0xFFFFFFFF);
     }
 
 }

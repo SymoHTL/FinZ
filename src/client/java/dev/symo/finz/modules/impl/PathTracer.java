@@ -3,6 +3,7 @@ package dev.symo.finz.modules.impl;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
+import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.util.Category;
 import dev.symo.finz.util.PlayerUtil;
 import dev.symo.finz.util.RegionPos;
@@ -18,21 +19,15 @@ import java.util.List;
 
 public class PathTracer extends AModule {
 
+    private final IntSetting _pathTracerLength = new IntSetting("Path Tracer Length", "Length of the path tracer",
+            50, 1, 100);
+
+
     public List<BlockPos> path = new ArrayList<>();
 
     public PathTracer() {
         super("PathTracer", Category.RENDER);
-
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return FinZClient.config.pathTracerEnabled;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        config.pathTracerEnabled = enabled;
+        addSetting(_pathTracerLength);
     }
 
     public void onTick() {
@@ -49,9 +44,11 @@ public class PathTracer extends AModule {
             }
         }
 
-        if (config.pathTracerLength < path.size())
-            if (path.size() - config.pathTracerLength > 0)
-                path.subList(0, path.size() - config.pathTracerLength).clear();
+        var length = _pathTracerLength.getValue();
+
+        if (length < path.size())
+            if (path.size() - length > 0)
+                path.subList(0, path.size() - length).clear();
 
     }
 

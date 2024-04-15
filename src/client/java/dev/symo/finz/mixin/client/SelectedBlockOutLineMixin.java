@@ -1,6 +1,8 @@
 package dev.symo.finz.mixin.client;
 
 import dev.symo.finz.FinZClient;
+import dev.symo.finz.modules.Modules;
+import dev.symo.finz.modules.impl.ChromaOutline;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -38,7 +40,7 @@ public class SelectedBlockOutLineMixin {
         float green = 0;
         float blue = 0;
 
-        if (FinZClient.config.chromaBlockOutlineEnabled) {
+        if (Modules.chromaOutline.isEnabled()){
             var hue = (float) (System.currentTimeMillis() % 4000) / 4000;
             var color = Color.HSBtoRGB(hue, 1, 1);
             red = (color >> 16 & 255) / 255.0F;

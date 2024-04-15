@@ -46,11 +46,11 @@ public abstract class UiComponent implements Element, Drawable, Selectable {
     }
 
     public final int rightX() {
-        return x + minWidth / 2;
+        return x + getWidth() / 2;
     }
 
     public final int bottomY() {
-        return y + minHeight / 2;
+        return y + getWidth() / 2;
     }
 
     protected final int getParentWidth() {
@@ -120,7 +120,6 @@ public abstract class UiComponent implements Element, Drawable, Selectable {
         this.y = y;
         this.y = this.getY();
     }
-
 
     @Override
     public boolean isMouseOver(double mouseX, double mouseY) {

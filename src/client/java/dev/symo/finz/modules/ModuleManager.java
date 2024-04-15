@@ -2,11 +2,6 @@ package dev.symo.finz.modules;
 
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.events.*;
-import dev.symo.finz.events.listeners.ConfigChangeListener;
-import dev.symo.finz.modules.impl.*;
-import dev.symo.finz.modules.impl.esp.ItemESP;
-import dev.symo.finz.modules.impl.esp.MobEsp;
-import dev.symo.finz.modules.impl.esp.PlayerESP;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;

@@ -2,6 +2,7 @@ package dev.symo.finz.modules.impl.esp;
 
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.ModuleManager;
+import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.util.Category;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -15,6 +16,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class MobEsp extends AModule {
+
+    private final IntSetting itemEspRange = new IntSetting("Range", "Range to scan for items",
+            50, 1, 100);
+
     private final ArrayList<Entity> mobs = new ArrayList<>();
 
     public ArrayList<Entity> ignore = new ArrayList<>();
@@ -23,15 +28,6 @@ public class MobEsp extends AModule {
     public MobEsp() {
         super("MobESP", Category.RENDER);}
 
-    @Override
-    public boolean isEnabled() {
-        return config.mobEsp;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        config.mobEsp = enabled;
-    }
 
     @Override
     public void onTick() {
@@ -40,7 +36,7 @@ public class MobEsp extends AModule {
         if (mc.world == null) return;
 
         mobs.clear();
-        for (LivingEntity mob : mc.world.getEntitiesByClass(MobEntity.class, mc.player.getBoundingBox().expand(config.mobEspRange), Objects::nonNull)) {
+        for (LivingEntity mob : mc.world.getEntitiesByClass(MobEntity.class, mc.player.getBoundingBox().expand(itemEspRange.getValue()), Objects::nonNull)) {
             if (mob == mc.player) continue;
             if (!mob.isAlive()) continue;
             if (ignore.contains(mob)) continue;

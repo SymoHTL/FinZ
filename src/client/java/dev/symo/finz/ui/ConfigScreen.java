@@ -2,10 +2,8 @@ package dev.symo.finz.ui;
 
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
-import dev.symo.finz.modules.impl.Modules;
-import dev.symo.finz.ui.components.BoxComponent;
+import dev.symo.finz.modules.Modules;
 import dev.symo.finz.ui.components.ModuleComponent;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
@@ -30,19 +28,13 @@ public final class ConfigScreen extends Screen {
                 false, false, null, 0);
         AModule[] modules = Modules.all.toArray(new AModule[0]);
         for (int i = 0; i < modules.length; i++) {
-            var comp = new ModuleComponent(modules[i]._name, i * 250, 0, 200, 200, true, false, parent, modules[i].getSettings());
-            addDrawableChild(comp);
+            addDrawableChild(new ModuleComponent(modules[i]._name, i * 250, 0, 200, 200, true, false, parent, modules[i].getSettings()));
         }
     }
 
     @Override
     public boolean shouldPause() {
         return false;
-    }
-
-    @Override
-    public void resize(MinecraftClient client, int width, int height) {
-        super.resize(client, width, height);
     }
 
     @Override
@@ -65,7 +57,7 @@ public final class ConfigScreen extends Screen {
                     if (button == 0) this.setDragging(true);
                     return true;
                 }
-                if (flag){
+                if (flag) {
                     return true;
                 }
             }

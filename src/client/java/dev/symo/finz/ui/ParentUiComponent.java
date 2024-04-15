@@ -31,6 +31,33 @@ public class ParentUiComponent extends UiComponent implements ParentElement {
         this.padding = padding;
     }
 
+
+    public void setXChildren(int x) {
+        for (UiComponent child : children)
+            child.x = x;
+    }
+
+    public void setYChildren(int y) {
+        for (UiComponent child : children)
+            child.y = y;
+    }
+
+    @Override
+    public void setXSanitized(int x) {
+        var prevX = getX();
+        super.setXSanitized(x);
+        var deltaX = getX() - prevX;
+        setXChildren(getX() + deltaX);
+    }
+
+    @Override
+    public void setYSanitized(int y) {
+        var prevY = getY();
+        super.setYSanitized(y);
+        var deltaY = getY() - prevY;
+        setYChildren(getY() + deltaY);
+    }
+
     public boolean isDraggable() {
         return draggable;
     }
@@ -50,14 +77,14 @@ public class ParentUiComponent extends UiComponent implements ParentElement {
     @Override
     public int getHeight() {
         int height = 0;
-        for (UiComponent child : children) height = Math.max(height, child.getMinHeight());
+        for (UiComponent child : children) height = Math.max(height, child.getHeight());
         return height + padding;
     }
 
     @Override
     public int getWidth() {
         int width = 0;
-        for (UiComponent child : children) width = Math.max(width, child.getMinWidth());
+        for (UiComponent child : children) width = Math.max(width, child.getWidth());
         return width + padding;
     }
 
@@ -82,18 +109,18 @@ public class ParentUiComponent extends UiComponent implements ParentElement {
         for (UiComponent child : children) this.children.remove(child);
     }
 
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (!isMouseOver(mouseX, mouseY)) return false;
+    //@Override
+    //public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    //    if (!isMouseOver(mouseX, mouseY)) return false;
 
-        for (UiComponent child : children) {
-            if (child.mouseClicked(mouseX, mouseY, button)) {
-                return true;
-            }
-        }
+    //    for (UiComponent child : children) {
+    //        if (child.mouseClicked(mouseX, mouseY, button)) {
+    //            return true;
+    //        }
+    //    }
 
-        return true;
-    }
+    //    return true;
+    //}
 
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         if (!isMouseOver(mouseX, mouseY)) return false;

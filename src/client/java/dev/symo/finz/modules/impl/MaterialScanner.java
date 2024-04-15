@@ -1,8 +1,9 @@
 package dev.symo.finz.modules.impl;
 
-import dev.symo.finz.FinZClient;
 import dev.symo.finz.events.listeners.ConfigChangeListener;
 import dev.symo.finz.modules.AModule;
+import dev.symo.finz.modules.settings.IntSetting;
+import dev.symo.finz.modules.settings.StringSetting;
 import dev.symo.finz.util.Category;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -13,6 +14,11 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class MaterialScanner extends AModule implements ConfigChangeListener {
+    private final IntSetting _range = new IntSetting("Range", "Range to scan for blocks",
+            50, 1, 100);
+
+    private final StringSetting _material = new StringSetting("Material", "Material to scan for",
+            "minecraft:ancient_debris");
 
     ArrayList<BlockPos> blocks = new ArrayList<>();
 
@@ -20,17 +26,8 @@ public class MaterialScanner extends AModule implements ConfigChangeListener {
 
     public MaterialScanner() {
         super("Material Scanner", Category.RENDER);
-    }
-
-
-    @Override
-    public boolean isEnabled() {
-        return config.materialScannerEnabled;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        config.materialScannerEnabled = enabled;
+        addSetting(_range);
+        addSetting(_material);
     }
 
     public void onConfigChange() {
@@ -59,7 +56,7 @@ public class MaterialScanner extends AModule implements ConfigChangeListener {
         var playerY = playerPos.getY();
         var playerZ = playerPos.getZ();
 
-        var range = config.materialScannerRange;
+        var range = _range.getValue();
 
         for (int x = playerX - range; x < playerX + range; x++) {
             for (int y = playerY - range; y < playerY + range; y++) {
@@ -67,9 +64,9 @@ public class MaterialScanner extends AModule implements ConfigChangeListener {
                     var pos = new BlockPos(x, y, z);
                     var state = mc.world.getBlockState(pos);
                     var block = state.getBlock();
-                    var match = config.materialScannerMaterial; // minecraft:ancient_debris
+                    // _material.getValue() -> minecraft:ancient_debris
                     var id = String.valueOf(Registries.BLOCK.getId(block));
-                    if (match.contains(id) && !blocks.contains(pos))
+                    if (_material.getValue().contains(id) && !blocks.contains(pos))
                         blocks.add(pos);
                 }
             }

@@ -2,14 +2,17 @@ package dev.symo.finz.modules.impl;
 
 import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
+import dev.symo.finz.modules.settings.DoubleSetting;
 import dev.symo.finz.util.Category;
+import dev.symo.finz.util.InputType;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.world.GameRules;
 import org.lwjgl.glfw.GLFW;
 
 public class Zoom extends AModule {
+
+    private final DoubleSetting _zoomLevel = new DoubleSetting("Zoom Level", "Zoom level", 1, 1, 50, InputType.DECIMAL_SLIDER);
 
     private Double defaultMouseSensitivity;
 
@@ -19,7 +22,6 @@ public class Zoom extends AModule {
     }
 
     public double zoom(double fov) {
-
         SimpleOption<Double> mouseSensitivitySetting = mc.options.getMouseSensitivity();
 
         if (!_keybind.isPressed()) {
@@ -36,19 +38,8 @@ public class Zoom extends AModule {
         // Adjust mouse sensitivity in relation to zoom level.
         // 1.0 / currentLevel is a value between 0.02 (50x zoom)
         // and 1 (no zoom).
-        mouseSensitivitySetting.setValue(defaultMouseSensitivity * (1.0 / FinZClient.config.zoomLevel));
+        mouseSensitivitySetting.setValue(defaultMouseSensitivity * (1.0 / _zoomLevel.getValue()));
 
-        return fov / FinZClient.config.zoomLevel;
-    }
-
-
-    @Override
-    public boolean isEnabled() {
-        return _keybind.isPressed();
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        _keybind.setPressed(enabled);
+        return fov / _zoomLevel.getValue();
     }
 }

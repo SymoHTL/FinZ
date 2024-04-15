@@ -19,8 +19,8 @@ public class FastPlaceInvoker {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;emitGameEvent(Lnet/minecraft/world/event/GameEvent;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/event/GameEvent$Emitter;)V",
                     shift = At.Shift.AFTER))
     public void onBlockPlace(ItemPlacementContext context, CallbackInfoReturnable<ActionResult> cir) {
-        if (FinZClient.config.fastPlaceEnabled)
-            ((FastPlaceClientMixin) FinZClient.mc).setItemUseCooldown(FinZClient.config.fastPlaceValue);
+        //if (FinZClient.config.fastPlaceEnabled)
+        //    ((FastPlaceClientMixin) FinZClient.mc).setItemUseCooldown(FinZClient.config.fastPlaceValue);
 
     }
 }

@@ -2,7 +2,7 @@ package dev.symo.finz.config;
 
 public class FinZConfig {
 
-    public boolean materialScannerEnabled = false;
+    /*public boolean materialScannerEnabled = false;
     public int materialScannerRange = 25;
     public String materialScannerMaterial = "minecraft:ancient_debris";
 
@@ -28,7 +28,7 @@ public class FinZConfig {
     public float mobEspRange = 50;
 
     public boolean itemEsp;
-    public float itemEspRange = 50;
+    public float itemEspRange = 50;*/
 
     //public boolean fullBrightEnabled = false;
 

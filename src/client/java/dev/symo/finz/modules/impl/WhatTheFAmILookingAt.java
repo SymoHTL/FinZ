@@ -37,16 +37,6 @@ public class WhatTheFAmILookingAt extends AModule {
         super("WhatTheFAmILookingAt", Category.RENDER);
     }
 
-    @Override
-    public boolean isEnabled() {
-        return config.whatTheFAmILookingAtEnabled;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        config.whatTheFAmILookingAtEnabled = enabled;
-    }
-
 
     @Override
     public void onHudRender(DrawContext drawContext, float tickDelta){

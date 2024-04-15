@@ -6,7 +6,7 @@ import dev.symo.finz.util.InputType;
 public class StringSetting extends ModuleSetting{
     private String _value;
 
-    protected StringSetting(String name, String description, String value) {
+    public StringSetting(String name, String description, String value) {
         super(name, description, InputType.TEXT);
         _value = value;
     }

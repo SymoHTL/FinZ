@@ -16,7 +16,10 @@ public class OptionComponent extends UiComponent {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        //context.drawBorder(getXLeft(), getYTop(), getWidth(), getHeight(), 0xFFFFFFFF);
         context.drawTextWithShadow(textRenderer, title, getXLeft(), getYTop(), 0xFFFFFFFF);
+        widget.setX(getXLeft() + textRenderer.getWidth(title));
+        widget.setY(getYTop());
         widget.render(context, mouseX, mouseY, delta);
     }
 
@@ -27,7 +30,7 @@ public class OptionComponent extends UiComponent {
 
     @Override
     public int getHeight() {
-        return (int) (textRenderer.fontHeight * 1.5 + widget.getHeight());
+        return (int) (Math.max(textRenderer.fontHeight * 1.5, widget.getHeight()));
     }
 
     @Override

@@ -2,7 +2,7 @@ package dev.symo.finz.util;
 
 public enum InputType {
     TEXT("text"),
-    //NUMBER("number"),
+    NUMBER("number"),
     BOOLEAN("boolean"),
     //SELECT("select"),
     DECIMAL("decimal"),

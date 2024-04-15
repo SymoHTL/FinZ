@@ -86,7 +86,7 @@ public class ConfigManager {
 
     public static void buildSettings() {
         // categories
-
+/*
         ConfigEntryBuilder entryBuilder = configBuilder.entryBuilder();
 
         // esp
@@ -155,7 +155,7 @@ public class ConfigManager {
                 .setSaveConsumer(newValue -> FinZClient.config.materialScannerMaterial = newValue)
                 .build());
 
-        /*// Fullbright
+        // Fullbright
         ConfigCategory fullbright = configBuilder.getOrCreateCategory(Text.translatable("category.finz.fullbright"));
         fullbright.addEntry(entryBuilder.startBooleanToggle(Text.translatable("option.finz.fullbrightenabled"), FinZClient.config.fullBrightEnabled)
                 .setDefaultValue(false)
@@ -165,7 +165,7 @@ public class ConfigManager {
                 .setDefaultValue(1.0)
                 .setTooltip(Text.of("The gamma level to set when fullbright is enabled."))
                 .setSaveConsumer(newValue -> FinZClient.config.fullBrightGamma = newValue)
-                .build());*/
+                .build());*//*
 
 
         // ZOOM
@@ -199,7 +199,7 @@ public class ConfigManager {
                 .build());
 
         //    auto get block
-        /*ConfigCategory autoGetBlock = configBuilder.getOrCreateCategory(Text.translatable("category.finz.autogetblock"));
+        ConfigCategory autoGetBlock = configBuilder.getOrCreateCategory(Text.translatable("category.finz.autogetblock"));
         autoGetBlock.addEntry(entryBuilder.startBooleanToggle(Text.translatable("option.finz.autogetblock"), FinZClient.config.autoGetBlockEnabled)
                 .setDefaultValue(true)
                 .setTooltip(Text.of("Automatically restocks your hotbar with the block you placed"))
@@ -211,13 +211,13 @@ public class ConfigManager {
                 .setDefaultValue(true)
                 .setTooltip(Text.of("Automatically restocks your hotbar with the tool that broke"))
                 .setSaveConsumer(newValue -> FinZClient.config.autoGetToolEnabled = newValue)
-                .build());*/
+                .build());
         //    chroma block outline
         ConfigCategory chromaOutline = configBuilder.getOrCreateCategory(Text.translatable("category.finz.chromaoutline"));
         chromaOutline.addEntry(entryBuilder.startBooleanToggle(Text.translatable("option.finz.blockoutline"), FinZClient.config.chromaBlockOutlineEnabled)
                 .setDefaultValue(true)
                 .setTooltip(Text.of("Enables chroma block outline"))
                 .setSaveConsumer(newValue -> FinZClient.config.chromaBlockOutlineEnabled = newValue)
-                .build());
+                .build());*/
     }
 }

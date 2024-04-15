@@ -43,11 +43,11 @@ public abstract class AModule {
         return settings.values();
     }
 
-    public boolean isEnabled() {
+    public final boolean isEnabled() {
         return ((BoolSetting)settings.get("enabled")).getValue();
     }
 
-    public void setEnabled(boolean enabled) {
+    public final void setEnabled(boolean enabled) {
         ((BoolSetting)settings.get("enabled")).setValue(enabled);
 
         if (enabled) onEnable();

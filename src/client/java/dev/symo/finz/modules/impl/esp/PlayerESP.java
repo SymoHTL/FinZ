@@ -23,15 +23,6 @@ public class PlayerESP extends AModule {
         super("PlayerESP", Category.RENDER);
     }
 
-    @Override
-    public boolean isEnabled() {
-        return config.playerEsp;
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        config.playerEsp = enabled;
-    }
 
     @Override
     public void onTick() {
