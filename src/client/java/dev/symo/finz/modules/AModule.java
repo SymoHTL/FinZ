@@ -11,6 +11,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.math.MatrixStack;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 
 public abstract class AModule {
@@ -37,6 +39,9 @@ public abstract class AModule {
         settings.put(setting.getName().toLowerCase(), setting);
     }
 
+    public Collection<ModuleSetting> getSettings() {
+        return settings.values();
+    }
 
     public boolean isEnabled() {
         return ((BoolSetting)settings.get("enabled")).getValue();

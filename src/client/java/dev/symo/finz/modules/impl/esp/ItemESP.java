@@ -15,7 +15,7 @@ public class ItemESP extends AModule {
 
 
     public ItemESP() {
-        super("PlayerESP", Category.RENDER);
+        super("ItemESP", Category.RENDER);
     }
 
     @Override

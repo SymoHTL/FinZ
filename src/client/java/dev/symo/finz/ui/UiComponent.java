@@ -1,43 +1,38 @@
 package dev.symo.finz.ui;
 
 import dev.symo.finz.FinZClient;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
+public abstract class UiComponent implements Element, Drawable, Selectable {
 
-public abstract class UiComponent {
+    protected String title;
 
-    private String title;
-
-    private int x; // left offset
-    private int y;  // top offset
+    protected int x; // left offset
+    protected int y;  // top offset
     private int width;
     private int height;
 
-    private final ArrayList<UiComponent> children = new ArrayList<>();
+    protected boolean isFocused;
 
-    private final boolean draggable;
-    private boolean dragging;
-    private int dragOffsetX;
-    private int dragOffsetY;
+    protected final boolean scrollable;
 
-    private final boolean scrollable;
-    private boolean scrolling;
-    private int yScrollOffset;
+    protected TextRenderer textRenderer = FinZClient.mc.textRenderer;
 
     @Nullable
-    private UiComponent parent;
+    private final ParentUiComponent parent;
 
 
-    public UiComponent(String title, int x, int y, int width, int height, boolean draggable, boolean scrollable, @Nullable UiComponent parent) {
+    public UiComponent(String title, int x, int y, int width, int height, boolean scrollable, @Nullable ParentUiComponent parent) {
         this.title = title;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.draggable = draggable;
         this.scrollable = scrollable;
         this.parent = parent;
     }
@@ -58,20 +53,46 @@ public abstract class UiComponent {
         return y + height;
     }
 
+    protected final int getParentWidth(){
+        if (parent == null) return FinZClient.mc.getWindow().getWidth();
+        else return parent.getWidth();
+    }
+
+    protected final int getParentHeight(){
+        if (parent == null) return FinZClient.mc.getWindow().getHeight();
+        else return parent.getHeight();
+    }
+
     public final int getX() {
-        return Math.max(0, Math.min(x, FinZClient.mc.getWindow().getScaledWidth() - width));
+        return Math.max(0, Math.min(x, getParentWidth() / 2 - width));
     }
 
     public final int getY() {
-        return Math.max(0, Math.min(y, FinZClient.mc.getWindow().getScaledHeight() - height));
+        return Math.max(0, Math.min(y, getParentHeight() / 2 - height));
     }
 
     public final int getWidth() {
         return width;
     }
 
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
     public final int getHeight() {
         return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public final int getXCentered() {
+        return width / 2 + getX();
+    }
+
+    public final int getYCentered() {
+        return height / 2 + getY();
     }
 
     public final void setXSanitized(int x) {
@@ -84,95 +105,48 @@ public abstract class UiComponent {
         this.y = getY();
     }
 
-    public final void startDragging(int mouseX, int mouseY) {
-        dragging = true;
-        dragOffsetX = getX() - mouseX;
-        dragOffsetY = getY() - mouseY;
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        return false;
     }
 
-    public final void dragTo(int mouseX, int mouseY) {
-        if (!dragging || !draggable) return;
-        setXSanitized(mouseX + dragOffsetX);
-        setYSanitized(mouseY + dragOffsetY);
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        return false;
     }
 
-    public final void stopDragging() {
-        dragging = false;
-        dragOffsetX = 0;
-        dragOffsetY = 0;
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        return false;
     }
 
-    public final void scroll(int amount) {
-        if (!scrollable) return;
-        yScrollOffset += amount;
+    @Override
+    public boolean charTyped(char chr, int modifiers) {
+        return false;
     }
 
-    public final void startDraggingScrollbar(int mouseY) {
-        scrolling = true;
-        dragOffsetY = yScrollOffset - mouseY;
+    @Override
+    public void setFocused(boolean focused) {
+        isFocused = focused;
+        System.out.println("Focused: " + isFocused + " on " + getTitle());
     }
 
-    public final void dragScrollbarTo(int mouseY) {
-        if (!scrolling || !scrollable) return;
-        yScrollOffset = mouseY + dragOffsetY;
+    @Override
+    public boolean isFocused() {
+        return isFocused;
     }
 
-    public final void stopDraggingScrollbar() {
-        scrolling = false;
-        dragOffsetY = 0;
+    @Override
+    public int getNavigationOrder() {
+        return 0;
     }
 
-    public final ArrayList<UiComponent> getChildren() {
-        return children;
+    @Override
+    public void appendNarrations(NarrationMessageBuilder builder) {
     }
 
-    public final void addChildren(UiComponent... children) {
-        Collections.addAll(this.children, children);
+    @Override
+    public boolean isNarratable() {
+        return false;
     }
-
-    public final void removeChildren(UiComponent... children) {
-        for (UiComponent child : children) {
-            this.children.remove(child);
-        }
-    }
-
-    public @Nullable UiComponent getParent() {
-        return parent;
-    }
-
-    public void setParent(@Nullable UiComponent parent) {
-        this.parent = parent;
-    }
-
-    public void render(DrawContext drawContext, float tickDelta, int mouseX, int mouseY) {
-        // Render this component
-        renderComponent(drawContext, tickDelta, mouseX, mouseY);
-
-        // Render children
-        for (UiComponent child : children) {
-            child.render(drawContext, tickDelta, mouseX, mouseY);
-        }
-    }
-
-    // Abstract method that each component must implement to render itself
-    protected abstract void renderComponent(DrawContext drawContext, float tickDelta, int mouseX, int mouseY);
-
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (!isMouseOver(mouseX, mouseY)) return false;
-
-        for (UiComponent child : children) {
-            if (child.mouseClicked(mouseX, mouseY, button)) {
-                return true;
-            }
-        }
-
-        return onMouseClicked(mouseX, mouseY, button);
-    }
-
-    private boolean isMouseOver(double mouseX, double mouseY) {
-        return mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= getY() && mouseY <= getY() + getHeight();
-    }
-
-    protected abstract boolean onMouseClicked(double mouseX, double mouseY, int button);
-
 }

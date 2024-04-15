@@ -21,7 +21,7 @@ public class MobEsp extends AModule {
 
 
     public MobEsp() {
-        super("PlayerESP", Category.RENDER);}
+        super("MobESP", Category.RENDER);}
 
     @Override
     public boolean isEnabled() {

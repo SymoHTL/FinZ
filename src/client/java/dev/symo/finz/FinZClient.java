@@ -27,6 +27,8 @@ public class FinZClient implements ClientModInitializer {
 
 	public static FinZConfig config = new FinZConfig();
 
+	public static boolean isConfigOpen = false;
+	private static ConfigScreen configScreen;
 
 	public static final MinecraftClient mc = MinecraftClient.getInstance();
 
@@ -60,7 +62,11 @@ public class FinZClient implements ClientModInitializer {
 	}
 
 	public static void showConfigScreen() {
-		mc.setScreen(new ConfigScreen());
+		if (isConfigOpen) {
+			 configScreen.close();
+			return;
+		}
+		mc.setScreen(configScreen = new ConfigScreen());
 		//ConfigManager.build();
 		//Screen screen = ConfigManager.configBuilder.build();
 		//mc.setScreen(screen);
