@@ -19,6 +19,7 @@ public class AntiKnockback extends AModule implements KnockbackListener {
         super("AntiKnockback", Category.MOVEMENT);
         addSetting(_horizontal);
         addSetting(_vertical);
+        addSetting(_everyNth);
     }
 
     @Override
@@ -36,6 +37,7 @@ public class AntiKnockback extends AModule implements KnockbackListener {
     @Override
     public void onEnable() {
         EVENTS.add(KnockbackListener.class, this);
+        _hitCount = 0;
     }
 
     @Override

@@ -27,8 +27,7 @@ public class FinZSettings {
             var json = JsonParser.parseReader(reader).getAsJsonObject();
 
             if (!json.get("version").getAsString().equals(FinZClient.CONFIG_VERSION)) {
-                Files.copy(path, Path.of(this.path + ".bak"));
-                Files.delete(path);
+                backupAndDelete();
                 return;
             }
 
@@ -42,8 +41,17 @@ public class FinZSettings {
                 module.checkEnabled();
             });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            try {
+                backupAndDelete();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
+    }
+
+    private void backupAndDelete() throws IOException {
+        Files.copy(Path.of(path), Path.of(path + ".bak"));
+        Files.delete(Path.of(path));
     }
 
     public void save() {

@@ -23,7 +23,7 @@ public class ItemESP extends AModule implements TickListener, WorldRenderListene
     private final ArrayList<Entity> items = new ArrayList<>();
 
     private final BoolSetting renderItemSprite = new BoolSetting("Render Sprite", "Render the item sprite",
-            true);
+            false);
 
     private final IntSetting itemEspRange = new IntSetting("Range", "Range to scan for items",
             50, 1, 100);

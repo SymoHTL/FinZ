@@ -25,9 +25,6 @@ public class FinZClient implements ClientModInitializer {
     public static EventManager eventManager = new EventManager();
     public static List<ModContainer> MODS = new ArrayList<>();
 
-    public static boolean isConfigOpen = false;
-    private static ConfigScreen configScreen;
-
     public static final MinecraftClient mc = MinecraftClient.getInstance();
 
     public static Path FinZPath = FabricLoader.getInstance().getConfigDir().resolve("finz");
@@ -60,16 +57,7 @@ public class FinZClient implements ClientModInitializer {
     }
 
     public static void showConfigScreen() {
-        System.out.println("showConfigScreen");
-        if (isConfigOpen) {
-            configScreen.close();
-            configScreen = null;
-            isConfigOpen = false;
-            return;
-        }
-        configScreen = new ConfigScreen();
-        mc.setScreen(configScreen);
-        isConfigOpen = true;
+        mc.setScreen(new ConfigScreen());
         //ConfigManager.build();
         //Screen screen = ConfigManager.configBuilder.build();
         //mc.setScreen(screen);
