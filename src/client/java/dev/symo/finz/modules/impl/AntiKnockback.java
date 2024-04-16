@@ -8,8 +8,8 @@ import dev.symo.finz.util.InputType;
 
 public class AntiKnockback extends AModule implements KnockbackListener {
 
-    private final DoubleSetting _horizontal = new DoubleSetting("Horizontal", "100% = no knockback -- >100% = reverse knockback", 1, 0.0, 1.0, InputType.PERCENT_SLIDER);
-    private final DoubleSetting _vertical = new DoubleSetting("Vertical", "100% = no knockback -- >100% = reverse knockback",1, 0.0, 1.0, InputType.PERCENT_SLIDER);
+    private final DoubleSetting _horizontal = new DoubleSetting("Horizontal", "100% = no knockback -- >100% = reverse knockback", 0.2, 0.0, 1.0, InputType.PERCENT_SLIDER);
+    private final DoubleSetting _vertical = new DoubleSetting("Vertical", "100% = no knockback -- >100% = reverse knockback",0.2, 0.0, 1.0, InputType.PERCENT_SLIDER);
 
     public AntiKnockback() {
         super("AntiKnockback", Category.MOVEMENT);

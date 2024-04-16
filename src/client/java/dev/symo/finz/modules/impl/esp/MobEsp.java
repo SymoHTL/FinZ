@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class MobEsp extends AModule {
 
-    private final IntSetting itemEspRange = new IntSetting("Range", "Range to scan for items",
+    private final IntSetting mobEspRange = new IntSetting("Range", "Range to scan for items",
             50, 1, 100);
 
     private final ArrayList<Entity> mobs = new ArrayList<>();
@@ -26,7 +26,9 @@ public class MobEsp extends AModule {
 
 
     public MobEsp() {
-        super("MobESP", Category.RENDER);}
+        super("MobESP", Category.RENDER);
+        addSetting(mobEspRange);
+    }
 
 
     @Override
@@ -36,7 +38,7 @@ public class MobEsp extends AModule {
         if (mc.world == null) return;
 
         mobs.clear();
-        for (LivingEntity mob : mc.world.getEntitiesByClass(MobEntity.class, mc.player.getBoundingBox().expand(itemEspRange.getValue()), Objects::nonNull)) {
+        for (LivingEntity mob : mc.world.getEntitiesByClass(MobEntity.class, mc.player.getBoundingBox().expand(mobEspRange.getValue()), Objects::nonNull)) {
             if (mob == mc.player) continue;
             if (!mob.isAlive()) continue;
             if (ignore.contains(mob)) continue;

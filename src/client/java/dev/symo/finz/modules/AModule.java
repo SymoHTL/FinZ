@@ -1,7 +1,6 @@
 package dev.symo.finz.modules;
 
 import dev.symo.finz.FinZClient;
-import dev.symo.finz.config.FinZConfig;
 import dev.symo.finz.events.impl.EventManager;
 import dev.symo.finz.modules.settings.BoolSetting;
 import dev.symo.finz.modules.settings.ModuleSetting;
@@ -11,13 +10,11 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.math.MatrixStack;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
 public abstract class AModule {
 
-    protected static final FinZConfig config = FinZClient.config;
     protected static final EventManager EVENTS = FinZClient.eventManager;
     protected static final MinecraftClient mc = FinZClient.mc;
 

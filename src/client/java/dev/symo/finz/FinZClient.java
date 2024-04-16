@@ -1,8 +1,7 @@
 package dev.symo.finz;
 
 import com.google.common.collect.ImmutableList;
-import dev.symo.finz.config.ConfigManager;
-import dev.symo.finz.config.FinZConfig;
+import dev.symo.finz.config.FinZSettings;
 import dev.symo.finz.config.FriendList;
 import dev.symo.finz.events.impl.EventManager;
 import dev.symo.finz.modules.ModuleManager;
@@ -21,11 +20,10 @@ import java.util.List;
 public class FinZClient implements ClientModInitializer {
 
 	public static final String MOD_ID = "finz";
+	public static final String CONFIG_VERSION = "1";
 
 	public static EventManager eventManager = new EventManager();
 	public static List<ModContainer> MODS = new ArrayList<>();
-
-	public static FinZConfig config = new FinZConfig();
 
 	public static boolean isConfigOpen = false;
 	private static ConfigScreen configScreen;
@@ -36,6 +34,7 @@ public class FinZClient implements ClientModInitializer {
 
 	public static final FriendList friendList = new FriendList(FinZPath.resolve("friends.json").toString());
 
+	public static final FinZSettings settings = new FinZSettings(FinZPath.resolve("config.json").toString());
 
 	@Override
 	public void onInitializeClient() {
@@ -43,8 +42,7 @@ public class FinZClient implements ClientModInitializer {
 
 		ModuleManager.init();
 
-
-		ConfigManager.readConfig(FinZPath.resolve("config.json").toString());
+		settings.load();
 		friendList.load();
 		FinZClient.MODS = ImmutableList.copyOf(FabricLoader.getInstance().getAllMods());
 	}
