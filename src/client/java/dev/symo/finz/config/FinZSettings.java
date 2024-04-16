@@ -36,7 +36,7 @@ public class FinZSettings {
             modules.forEach(module -> {
                 var moduleJson = json.getAsJsonObject(module._name.toLowerCase());
                 module.getSettings().forEach(setting -> {
-                    setting.fromJson(moduleJson.get(setting.getName()));
+                    setting.fromJson(moduleJson.get(setting.getName().toLowerCase()));
                 });
                 module.checkEnabled();
             });
@@ -63,7 +63,7 @@ public class FinZSettings {
         modules.forEach(module -> {
             JsonObject moduleJson = new JsonObject();
             module.getSettings().forEach(setting -> {
-                moduleJson.add(setting.getName(), setting.toJson());
+                moduleJson.add(setting.getName().toLowerCase(), setting.toJson());
             });
             json.add(module._name.toLowerCase(), moduleJson);
         });
