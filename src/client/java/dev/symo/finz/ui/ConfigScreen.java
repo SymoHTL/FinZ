@@ -14,13 +14,6 @@ public final class ConfigScreen extends Screen {
 
     public ConfigScreen() {
         super(Text.literal("FinZ Config"));
-        FinZClient.isConfigOpen = true;
-    }
-
-    @Override
-    public void close() {
-        FinZClient.isConfigOpen = false;
-        super.close();
     }
 
     @Override
@@ -90,5 +83,8 @@ public final class ConfigScreen extends Screen {
         }
 
         return false;
+    }
+
+    public void savePositions() {
     }
 }

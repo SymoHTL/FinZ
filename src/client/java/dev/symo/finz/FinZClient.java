@@ -19,55 +19,60 @@ import java.util.List;
 
 public class FinZClient implements ClientModInitializer {
 
-	public static final String MOD_ID = "finz";
-	public static final String CONFIG_VERSION = "1";
+    public static final String MOD_ID = "finz";
+    public static final String CONFIG_VERSION = "1";
 
-	public static EventManager eventManager = new EventManager();
-	public static List<ModContainer> MODS = new ArrayList<>();
+    public static EventManager eventManager = new EventManager();
+    public static List<ModContainer> MODS = new ArrayList<>();
 
-	public static boolean isConfigOpen = false;
-	private static ConfigScreen configScreen;
+    public static boolean isConfigOpen = false;
+    private static ConfigScreen configScreen;
 
-	public static final MinecraftClient mc = MinecraftClient.getInstance();
+    public static final MinecraftClient mc = MinecraftClient.getInstance();
 
-	public static Path FinZPath = FabricLoader.getInstance().getConfigDir().resolve("finz");
+    public static Path FinZPath = FabricLoader.getInstance().getConfigDir().resolve("finz");
 
-	public static final FriendList friendList = new FriendList(FinZPath.resolve("friends.json").toString());
+    public static final FriendList friendList = new FriendList(FinZPath.resolve("friends.json").toString());
 
-	public static final FinZSettings settings = new FinZSettings(FinZPath.resolve("config.json").toString());
+    public static final FinZSettings settings = new FinZSettings(FinZPath.resolve("config.json").toString());
 
-	@Override
-	public void onInitializeClient() {
-		createFinZFolder();
+    @Override
+    public void onInitializeClient() {
+        createFinZFolder();
 
-		ModuleManager.init();
+        ModuleManager.init();
 
-		settings.load();
-		friendList.load();
-		FinZClient.MODS = ImmutableList.copyOf(FabricLoader.getInstance().getAllMods());
-	}
+        settings.load();
+        friendList.load();
+        FinZClient.MODS = ImmutableList.copyOf(FabricLoader.getInstance().getAllMods());
+    }
 
-	private void createFinZFolder(){
-		var cfgDir = FabricLoader.getInstance().getConfigDir();
-		var finzDir = cfgDir.resolve("finz");
-		if (!finzDir.toFile().exists()) {
-			try {
-				Files.createDirectories(finzDir);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    private void createFinZFolder() {
+        var cfgDir = FabricLoader.getInstance().getConfigDir();
+        var finzDir = cfgDir.resolve("finz");
+        if (!finzDir.toFile().exists()) {
+            try {
+                Files.createDirectories(finzDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	public static void showConfigScreen() {
-		if (isConfigOpen) {
-			 configScreen.close();
-			return;
-		}
-		mc.setScreen(configScreen = new ConfigScreen());
-		//ConfigManager.build();
-		//Screen screen = ConfigManager.configBuilder.build();
-		//mc.setScreen(screen);
-	}
+    public static void showConfigScreen() {
+        System.out.println("showConfigScreen");
+        if (isConfigOpen) {
+            configScreen.close();
+            configScreen = null;
+            isConfigOpen = false;
+            return;
+        }
+        configScreen = new ConfigScreen();
+        mc.setScreen(configScreen);
+        isConfigOpen = true;
+        //ConfigManager.build();
+        //Screen screen = ConfigManager.configBuilder.build();
+        //mc.setScreen(screen);
+    }
 
 }

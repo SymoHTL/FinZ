@@ -31,6 +31,7 @@ public class ModuleRenderer implements Drawable, Element, Selectable, ParentElem
     private final int parentHeight = FinZClient.mc.getWindow().getHeight();
 
     private final TextRenderer textRenderer = FinZClient.mc.textRenderer;
+    private final ConfigScreen scr;
 
     @Nullable
     private Element focused;
@@ -47,6 +48,7 @@ public class ModuleRenderer implements Drawable, Element, Selectable, ParentElem
 
     public ModuleRenderer(Text text, int x, int y, Collection<ModuleSetting> settings, ConfigScreen screen) {
         this.text = text;
+        this.scr = screen;
         headerHeight = (int) (textRenderer.fontHeight * 1.5 + 4);
         var settingWidth = settings.stream()
                 .mapToInt(setting -> textRenderer.getWidth(setting.getName())).max().orElse(0) + 5;
@@ -134,6 +136,11 @@ public class ModuleRenderer implements Drawable, Element, Selectable, ParentElem
     @Override
     public void setDragging(boolean dragging) {
         this.dragging = dragging;
+        if (!dragging) {
+            dragOffsetX = 0;
+            dragOffsetY = 0;
+            scr.savePositions();
+        }
     }
 
     @Nullable

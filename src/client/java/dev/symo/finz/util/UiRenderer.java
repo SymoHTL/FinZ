@@ -24,6 +24,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.Checks;
 
 public class UiRenderer {
 
@@ -37,40 +38,32 @@ public class UiRenderer {
     private static final MinecraftClient client = MinecraftClient.getInstance();
 
     public static Vec3d worldSpaceToScreenSpace(Vec3d pos) {
-        Camera camera = client.gameRenderer.getCamera();
+        Camera camera = client.getEntityRenderDispatcher().camera;
         int displayHeight = client.getWindow().getHeight();
         int[] viewport = new int[4];
-        RenderSystem.recordRenderCall(() -> GL11.glGetIntegerv(GL11.GL_VIEWPORT, viewport)); // Ensuring this runs in the render thread
+        GL11.glGetIntegerv(GL11.GL_VIEWPORT, viewport);
+        Vector3f target = new Vector3f();
 
-        Vector3f cameraPos = new Vector3f((float) camera.getPos().x, (float) camera.getPos().y, (float) camera.getPos().z);
-        Vector3f deltaPos = new Vector3f((float) (pos.x - cameraPos.x), (float) (pos.y - cameraPos.y), (float) (pos.z - cameraPos.z));
+        double deltaX = pos.x - camera.getPos().x;
+        double deltaY = pos.y - camera.getPos().y;
+        double deltaZ = pos.z - camera.getPos().z;
 
-        // Create the transformation matrix for model-view-projection
-        Matrix4f transformationMatrix = new Matrix4f(lastModMat);
-        transformationMatrix.mul(lastProjMat); // Apply the projection matrix
+        Vector4f transformedCoordinates = new Vector4f((float) deltaX, (float) deltaY, (float) deltaZ, 1.f).mul(
+                lastWorldSpaceMatrix);
 
-        // Create and transform the world coordinates
-        Vector4f worldCoords = new Vector4f(deltaPos.x(), deltaPos.y(), deltaPos.z(), 1.0f);
-        worldCoords.mul(transformationMatrix);
+        Matrix4f matrixProj = new Matrix4f(lastProjMat);
+        Matrix4f matrixModel = new Matrix4f(lastModMat);
 
-        if (worldCoords.w() == 0) {
-            // Avoid division by zero in perspective divide
-            return null;
-        }
+        matrixProj.mul(matrixModel)
+                .project(transformedCoordinates.x(), transformedCoordinates.y(), transformedCoordinates.z(), viewport,
+                        target);
 
-        // Perform the perspective divide to get normalized device coordinates
-        float ndcX = worldCoords.x() / worldCoords.w();
-        float ndcY = worldCoords.y() / worldCoords.w();
-        float ndcZ = worldCoords.z() / worldCoords.w();
+        return new Vec3d(target.x / client.getWindow().getScaleFactor(),
+                (displayHeight - target.y) / client.getWindow().getScaleFactor(), target.z);
+    }
 
-        // Convert NDC to window coordinates
-        float windowX = viewport[0] + (ndcX + 1) * viewport[2] / 2;
-        float windowY = viewport[1] + (1 - ndcY) * viewport[3] / 2; // Y is inverted in OpenGL
-        float windowZ = (ndcZ + 1) / 2;
-
-        return new Vec3d(windowX / client.getWindow().getScaleFactor(),
-                (displayHeight - windowY) / client.getWindow().getScaleFactor(),
-                windowZ);
+    public static boolean screenSpaceCoordinateIsVisible(Vec3d pos) {
+        return pos != null && pos.z > -1 && pos.z < 1;
     }
 
 

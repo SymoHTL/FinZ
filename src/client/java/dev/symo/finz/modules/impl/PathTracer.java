@@ -9,6 +9,7 @@ import dev.symo.finz.util.Category;
 import dev.symo.finz.util.PlayerUtil;
 import dev.symo.finz.util.RegionPos;
 import dev.symo.finz.util.WorldSpaceRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
@@ -65,7 +66,7 @@ public class PathTracer extends AModule implements TickListener, WorldRenderList
 
     }
 
-    public void onWorldRender(MatrixStack matrixStack, float partialTicks) {
+    public void onWorldRender(MatrixStack matrixStack, float partialTicks, WorldRenderContext context) {
         if (mc.player == null) return;
         if (mc.world == null) return;
 

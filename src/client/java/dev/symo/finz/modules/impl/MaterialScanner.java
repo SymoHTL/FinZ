@@ -8,6 +8,7 @@ import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.modules.settings.StringSetting;
 import dev.symo.finz.util.Category;
 import dev.symo.finz.util.WorldSpaceRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.BlockPos;
@@ -85,7 +86,7 @@ public class MaterialScanner extends AModule implements ConfigChangeListener, Ti
         blocks.removeIf(pos -> Math.abs(pos.getX() - playerX) > range + range / 2 || Math.abs(pos.getY() - playerY) > range + range / 2 || Math.abs(pos.getZ() - playerZ) > range + range / 2);
     }
 
-    public void onWorldRender(MatrixStack matrixStack, float partialTicks) {
+    public void onWorldRender(MatrixStack matrixStack, float partialTicks, WorldRenderContext context) {
         if (mc.player == null) return;
         if (mc.world == null) return;
 

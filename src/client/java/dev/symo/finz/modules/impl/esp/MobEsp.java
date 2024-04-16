@@ -7,6 +7,7 @@ import dev.symo.finz.modules.ModuleManager;
 import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.util.Category;
 import dev.symo.finz.util.WorldSpaceRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -69,7 +70,7 @@ public class MobEsp extends AModule implements TickListener, WorldRenderListener
     }
 
     @Override
-    public void onWorldRender(MatrixStack matrices, float partialTicks) {
+    public void onWorldRender(MatrixStack matrices, float partialTicks, WorldRenderContext context) {
         WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, mobs);
     }
 }

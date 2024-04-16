@@ -41,21 +41,17 @@ public class ModuleManager {
 
         // register events
         KeyEvent.KEY_EVENT.register(() -> {
-            HandleKeyEvent();
+            if (_openGuiKey.wasPressed()) {
+                FinZClient.showConfigScreen();
+            }
             return ActionResult.PASS;
         });
         ClientTickEvents.END_CLIENT_TICK.register(mc ->
                 EventManager.fire(TickListener.UpdateEvent.INSTANCE));
         WorldRenderEvents.END.register(context ->
-                EventManager.fire(new WorldRenderListener.RenderEvent(context.matrixStack(), context.tickDelta())));
+                EventManager.fire(new WorldRenderListener.RenderEvent(context.matrixStack(), context.tickDelta(), context)));
         HudRenderCallback.EVENT.register((c, t) ->
                 EventManager.fire(new HudRenderListener.HudRenderEvent(c, t)));
-    }
-
-    private static void HandleKeyEvent() {
-        if (_openGuiKey.wasPressed()) {
-            FinZClient.showConfigScreen();
-        }
     }
 
     public static AModule getModule(String name) {

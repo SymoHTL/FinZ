@@ -8,6 +8,7 @@ import dev.symo.finz.modules.ModuleManager;
 import dev.symo.finz.util.Category;
 import dev.symo.finz.util.FakePlayerEntity;
 import dev.symo.finz.util.WorldSpaceRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class PlayerESP extends AModule implements TickListener, WorldRenderListener {
+
     private final ArrayList<Entity> players = new ArrayList<>();
 
     public PlayerESP() {
@@ -66,7 +68,7 @@ public class PlayerESP extends AModule implements TickListener, WorldRenderListe
     }
 
     @Override
-    public void onWorldRender(MatrixStack matrices, float partialTicks) {
+    public void onWorldRender(MatrixStack matrices, float partialTicks, WorldRenderContext context) {
         WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, players);
     }
 }
