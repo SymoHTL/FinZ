@@ -1,6 +1,9 @@
 package dev.symo.finz.modules.impl;
 
 import dev.symo.finz.FinZClient;
+import dev.symo.finz.events.listeners.HudRenderListener;
+import dev.symo.finz.events.listeners.TickListener;
+import dev.symo.finz.events.listeners.WorldRenderListener;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.tracker.BreakProgressTracker;
 import dev.symo.finz.util.*;
@@ -26,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhatTheFAmILookingAt extends AModule {
+public class WhatTheFAmILookingAt extends AModule implements HudRenderListener {
 
     private final int yTextOffset = 25;
     private int width;
@@ -39,8 +42,17 @@ public class WhatTheFAmILookingAt extends AModule {
 
 
     @Override
+    public void onEnable() {
+        EVENTS.add(HudRenderListener.class, this);
+    }
+
+    @Override
+    public void onDisable() {
+        EVENTS.remove(HudRenderListener.class, this);
+    }
+
+    @Override
     public void onHudRender(DrawContext drawContext, float tickDelta){
-        if (!isEnabled()) return;
         if (mc.player == null || mc.world == null) return;
         if (mc.crosshairTarget == null) return;
 

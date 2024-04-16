@@ -2,21 +2,78 @@ package dev.symo.finz.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.symo.finz.FinZClient;
+import net.fabricmc.fabric.mixin.blockview.WorldViewMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
+import org.lwjgl.opengl.GL11;
 
 public class UiRenderer {
+
+    @ApiStatus.Internal
+    public static final Matrix4f lastProjMat = new Matrix4f();
+    @ApiStatus.Internal
+    public static final Matrix4f lastModMat = new Matrix4f();
+    @ApiStatus.Internal
+    public static final Matrix4f lastWorldSpaceMatrix = new Matrix4f();
+
+    private static final MinecraftClient client = MinecraftClient.getInstance();
+
+    public static Vec3d worldSpaceToScreenSpace(Vec3d pos) {
+        Camera camera = client.gameRenderer.getCamera();
+        int displayHeight = client.getWindow().getHeight();
+        int[] viewport = new int[4];
+        RenderSystem.recordRenderCall(() -> GL11.glGetIntegerv(GL11.GL_VIEWPORT, viewport)); // Ensuring this runs in the render thread
+
+        Vector3f cameraPos = new Vector3f((float) camera.getPos().x, (float) camera.getPos().y, (float) camera.getPos().z);
+        Vector3f deltaPos = new Vector3f((float) (pos.x - cameraPos.x), (float) (pos.y - cameraPos.y), (float) (pos.z - cameraPos.z));
+
+        // Create the transformation matrix for model-view-projection
+        Matrix4f transformationMatrix = new Matrix4f(lastModMat);
+        transformationMatrix.mul(lastProjMat); // Apply the projection matrix
+
+        // Create and transform the world coordinates
+        Vector4f worldCoords = new Vector4f(deltaPos.x(), deltaPos.y(), deltaPos.z(), 1.0f);
+        worldCoords.mul(transformationMatrix);
+
+        if (worldCoords.w() == 0) {
+            // Avoid division by zero in perspective divide
+            return null;
+        }
+
+        // Perform the perspective divide to get normalized device coordinates
+        float ndcX = worldCoords.x() / worldCoords.w();
+        float ndcY = worldCoords.y() / worldCoords.w();
+        float ndcZ = worldCoords.z() / worldCoords.w();
+
+        // Convert NDC to window coordinates
+        float windowX = viewport[0] + (ndcX + 1) * viewport[2] / 2;
+        float windowY = viewport[1] + (1 - ndcY) * viewport[3] / 2; // Y is inverted in OpenGL
+        float windowZ = (ndcZ + 1) / 2;
+
+        return new Vec3d(windowX / client.getWindow().getScaleFactor(),
+                (displayHeight - windowY) / client.getWindow().getScaleFactor(),
+                windowZ);
+    }
+
+
     public static void drawRectDouble(DrawContext drawContext, double left, double top, double right, double bottom, int color) {
         if (left < right) {
             double i = left;

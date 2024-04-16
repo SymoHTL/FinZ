@@ -19,15 +19,16 @@ public class FinZSettings {
 
     public void load() {
         try {
-            if (!Files.exists(Path.of(path)))
+            Path path = Path.of(this.path);
+            if (!Files.exists(path))
                 return;
 
-            var reader = Files.newBufferedReader(Path.of(path));
+            var reader = Files.newBufferedReader(path);
             var json = JsonParser.parseReader(reader).getAsJsonObject();
 
             if (!json.get("version").getAsString().equals(FinZClient.CONFIG_VERSION)) {
-                Files.copy(Path.of(path), Path.of(path + ".bak"));
-                Files.delete(Path.of(path));
+                Files.copy(path, Path.of(this.path + ".bak"));
+                Files.delete(path);
                 return;
             }
 
@@ -38,6 +39,7 @@ public class FinZSettings {
                 module.getSettings().forEach(setting -> {
                     setting.fromJson(moduleJson.get(setting.getName()));
                 });
+                module.checkEnabled();
             });
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -1,5 +1,7 @@
 package dev.symo.finz.modules.impl.esp;
 
+import dev.symo.finz.events.listeners.TickListener;
+import dev.symo.finz.events.listeners.WorldRenderListener;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.ModuleManager;
 import dev.symo.finz.modules.settings.IntSetting;
@@ -15,7 +17,7 @@ import net.minecraft.util.hit.HitResult;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MobEsp extends AModule {
+public class MobEsp extends AModule implements TickListener, WorldRenderListener {
 
     private final IntSetting mobEspRange = new IntSetting("Range", "Range to scan for items",
             50, 1, 100);
@@ -30,10 +32,20 @@ public class MobEsp extends AModule {
         addSetting(mobEspRange);
     }
 
+    @Override
+    public void onEnable() {
+        EVENTS.add(TickListener.class, this);
+        EVENTS.add(WorldRenderListener.class, this);
+    }
+
+    @Override
+    public void onDisable() {
+        EVENTS.remove(TickListener.class, this);
+        EVENTS.remove(WorldRenderListener.class, this);
+    }
 
     @Override
     public void onTick() {
-        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 
@@ -58,8 +70,6 @@ public class MobEsp extends AModule {
 
     @Override
     public void onWorldRender(MatrixStack matrices, float partialTicks) {
-        if (!isEnabled()) return;
-
         WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, mobs);
     }
 }

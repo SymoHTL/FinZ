@@ -51,20 +51,14 @@ public abstract class AModule {
         else onDisable();
     }
 
+    public final void checkEnabled() {
+        if (isEnabled()) onEnable();
+        else onDisable();
+    }
+
     public void onEnable() {
     }
 
     public void onDisable() {
-    }
-
-    public void onTick() {
-    }
-
-    public void onWorldRender(MatrixStack matrices, float partialTicks) {
-
-    }
-
-    public void onHudRender(DrawContext drawContext, float tickDelta) {
-
     }
 }

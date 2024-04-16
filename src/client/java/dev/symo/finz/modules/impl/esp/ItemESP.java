@@ -1,18 +1,28 @@
 package dev.symo.finz.modules.impl.esp;
 
+import dev.symo.finz.events.listeners.HudRenderListener;
+import dev.symo.finz.events.listeners.TickListener;
+import dev.symo.finz.events.listeners.WorldRenderListener;
 import dev.symo.finz.modules.AModule;
+import dev.symo.finz.modules.settings.BoolSetting;
 import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.util.Category;
+import dev.symo.finz.util.UiRenderer;
 import dev.symo.finz.util.WorldSpaceRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ItemESP extends AModule {
+public class ItemESP extends AModule implements TickListener, WorldRenderListener {
     private final ArrayList<Entity> items = new ArrayList<>();
+
+    private final BoolSetting renderItemSprite = new BoolSetting("Render Sprite", "Render the item sprite",
+            true);
 
     private final IntSetting itemEspRange = new IntSetting("Range", "Range to scan for items",
             50, 1, 100);
@@ -21,12 +31,23 @@ public class ItemESP extends AModule {
     public ItemESP() {
         super("ItemESP", Category.RENDER);
         addSetting(itemEspRange);
+        //addSetting(renderItemSprite);
     }
 
+    @Override
+    public void onEnable() {
+        EVENTS.add(TickListener.class, this);
+        EVENTS.add(WorldRenderListener.class, this);
+    }
+
+    @Override
+    public void onDisable() {
+        EVENTS.remove(TickListener.class, this);
+        EVENTS.remove(WorldRenderListener.class, this);
+    }
 
     @Override
     public void onTick() {
-        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 
@@ -36,8 +57,8 @@ public class ItemESP extends AModule {
 
     @Override
     public void onWorldRender(MatrixStack matrices, float partialTicks) {
-        if (!isEnabled()) return;
 
         WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, items);
     }
+
 }

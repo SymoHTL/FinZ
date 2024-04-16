@@ -1,6 +1,8 @@
 package dev.symo.finz.modules.impl;
 
 import dev.symo.finz.events.listeners.ConfigChangeListener;
+import dev.symo.finz.events.listeners.TickListener;
+import dev.symo.finz.events.listeners.WorldRenderListener;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.modules.settings.StringSetting;
@@ -13,16 +15,16 @@ import net.minecraft.util.math.BlockPos;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class MaterialScanner extends AModule implements ConfigChangeListener {
+public class MaterialScanner extends AModule implements ConfigChangeListener, TickListener, WorldRenderListener {
     private final IntSetting _range = new IntSetting("Range", "Range to scan for blocks",
             50, 1, 100);
 
     private final StringSetting _material = new StringSetting("Material", "Material to scan for",
             "minecraft:ancient_debris");
 
-    ArrayList<BlockPos> blocks = new ArrayList<>();
+    private final ArrayList<BlockPos> blocks = new ArrayList<>();
 
-    int _tickDelay = 10;
+    private int _tickDelay = 0;
 
     public MaterialScanner() {
         super("Material Scanner", Category.RENDER);
@@ -34,12 +36,20 @@ public class MaterialScanner extends AModule implements ConfigChangeListener {
         blocks.clear();
     }
 
+    @Override
+    public void onEnable() {
+        EVENTS.add(TickListener.class, this);
+        EVENTS.add(WorldRenderListener.class, this);
+    }
+
+    @Override
     public void onDisable() {
+        EVENTS.remove(TickListener.class, this);
+        EVENTS.remove(WorldRenderListener.class, this);
         blocks.clear();
     }
 
     public void onTick() {
-        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 
@@ -76,7 +86,6 @@ public class MaterialScanner extends AModule implements ConfigChangeListener {
     }
 
     public void onWorldRender(MatrixStack matrixStack, float partialTicks) {
-        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 

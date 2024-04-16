@@ -1,14 +1,15 @@
 package dev.symo.finz.modules;
 
 import dev.symo.finz.FinZClient;
-import dev.symo.finz.events.*;
+import dev.symo.finz.events.KeyEvent;
+import dev.symo.finz.events.impl.EventManager;
+import dev.symo.finz.events.listeners.HudRenderListener;
+import dev.symo.finz.events.listeners.TickListener;
+import dev.symo.finz.events.listeners.WorldRenderListener;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.ActionResult;
@@ -39,13 +40,16 @@ public class ModuleManager {
 
 
         // register events
-        ClientTickEvents.END_CLIENT_TICK.register(ModuleManager::HandleTickEvent);
         KeyEvent.KEY_EVENT.register(() -> {
             HandleKeyEvent();
             return ActionResult.PASS;
         });
-        WorldRenderEvents.END.register(ModuleManager::RenderWorld);
-        HudRenderCallback.EVENT.register(ModuleManager::RenderHud);
+        ClientTickEvents.END_CLIENT_TICK.register(mc ->
+                EventManager.fire(TickListener.UpdateEvent.INSTANCE));
+        WorldRenderEvents.END.register(context ->
+                EventManager.fire(new WorldRenderListener.RenderEvent(context.matrixStack(), context.tickDelta())));
+        HudRenderCallback.EVENT.register((c, t) ->
+                EventManager.fire(new HudRenderListener.HudRenderEvent(c, t)));
     }
 
     private static void HandleKeyEvent() {
@@ -58,21 +62,5 @@ public class ModuleManager {
         return _modules.stream().filter(module -> module._name.equalsIgnoreCase(name))
                 .findFirst().orElse(null);
     }
-
-    public static void HandleTickEvent(MinecraftClient minecraftClient) {
-        for (AModule module : _modules)
-            module.onTick();
-    }
-
-    public static void RenderWorld(WorldRenderContext worldRenderContext) {
-        for (AModule module : _modules)
-            module.onWorldRender(worldRenderContext.matrixStack(), worldRenderContext.tickDelta());
-    }
-
-    private static void RenderHud(DrawContext drawContext, float tickDelta) {
-        for (AModule module : _modules)
-            module.onHudRender(drawContext, tickDelta);
-    }
-
 
 }

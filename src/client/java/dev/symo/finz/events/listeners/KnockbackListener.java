@@ -6,7 +6,7 @@ import dev.symo.finz.events.impl.Listener;
 import java.util.ArrayList;
 
 public interface KnockbackListener extends Listener {
-    public void onKnockback(KnockbackEvent event);
+    void onKnockback(KnockbackEvent event);
 
     public static class KnockbackEvent extends Event<KnockbackListener> {
         private double x;

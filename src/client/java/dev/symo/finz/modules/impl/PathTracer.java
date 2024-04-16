@@ -1,7 +1,8 @@
 package dev.symo.finz.modules.impl;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.symo.finz.FinZClient;
+import dev.symo.finz.events.listeners.TickListener;
+import dev.symo.finz.events.listeners.WorldRenderListener;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.util.Category;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PathTracer extends AModule {
+public class PathTracer extends AModule implements TickListener, WorldRenderListener {
 
     private final IntSetting _pathTracerLength = new IntSetting("Path Tracer Length", "Length of the path tracer",
             50, 1, 100);
@@ -30,8 +31,20 @@ public class PathTracer extends AModule {
         addSetting(_pathTracerLength);
     }
 
+    @Override
+    public void onEnable() {
+        EVENTS.add(TickListener.class, this);
+        EVENTS.add(WorldRenderListener.class, this);
+    }
+
+    @Override
+    public void onDisable() {
+        EVENTS.remove(TickListener.class, this);
+        EVENTS.remove(WorldRenderListener.class, this);
+    }
+
+
     public void onTick() {
-        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 
@@ -53,7 +66,6 @@ public class PathTracer extends AModule {
     }
 
     public void onWorldRender(MatrixStack matrixStack, float partialTicks) {
-        if (!isEnabled()) return;
         if (mc.player == null) return;
         if (mc.world == null) return;
 
