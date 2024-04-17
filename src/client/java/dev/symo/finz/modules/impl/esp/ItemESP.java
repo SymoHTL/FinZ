@@ -75,8 +75,6 @@ public class ItemESP extends AModule implements TickListener, WorldRenderListene
         if (mc.player == null) return;
         if (!renderItemSprite.getValue()) return;
 
-        var playerPos = mc.player.getPos();
-
         for (Entity item : items) {
             var itemPos = item.getPos();
             itemPos = itemPos.add(0, item.getHeight() / 2, 0);
