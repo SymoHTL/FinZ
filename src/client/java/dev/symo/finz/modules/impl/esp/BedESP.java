@@ -54,7 +54,7 @@ public class BedESP extends AModule implements ConfigChangeListener, TickListene
             _tickDelay--;
             return;
         }
-        _tickDelay = 10;
+        _tickDelay = 40;
 
         // look for beds in range around player
 
@@ -80,7 +80,7 @@ public class BedESP extends AModule implements ConfigChangeListener, TickListene
         beds.removeIf(pos -> !(mc.world.getBlockState(pos).getBlock() instanceof BedBlock));
 
         beds.removeIf(pos -> Math.abs(pos.getX() - playerX) > range + range / 2 || Math.abs(pos.getY() - playerY) > range + range / 2 || Math.abs(pos.getZ() - playerZ) > range + range / 2);
-}
+    }
 
     public void onWorldRender(MatrixStack matrixStack, float partialTicks, WorldRenderContext context) {
         if (mc.player == null) return;
