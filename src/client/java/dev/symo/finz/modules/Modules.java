@@ -27,6 +27,9 @@ public class Modules {
     public static MobEsp mobEsp = new MobEsp();
     public static ItemESP itemESP = new ItemESP();
 
+    // settings
+    public static SettingsModule settings = new SettingsModule();
+
     static  {
         // misc
         all.add(knockback);
@@ -42,5 +45,8 @@ public class Modules {
         all.add(playerESP);
         all.add(mobEsp);
         all.add(itemESP);
+
+        // settings
+        all.add(settings);
     }
 }

@@ -1,6 +1,7 @@
 package dev.symo.finz.ui.components;
 
 import dev.symo.finz.FinZClient;
+import dev.symo.finz.modules.Modules;
 import dev.symo.finz.modules.settings.*;
 import dev.symo.finz.ui.ConfigScreen;
 import dev.symo.finz.ui.widgets.SliderWidget;
@@ -71,7 +72,19 @@ public class ModuleRenderer implements Drawable, Element, Selectable, ParentElem
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         context.fillGradient(x, y, x + getWidth(), y + getHeight(), 0x80000000, 0x08000000);
-        context.drawBorder(x, y, getWidth(), getHeight(), 0xFFFFFFFF);
+
+        int color;
+        if (Modules.settings.isRainbow()) {
+            long time = System.currentTimeMillis();
+            int red = (int) (Math.sin(time / 2000.0) * 127 + 128);
+            int green = (int) (Math.sin(time / 2000.0 + 2 * Math.PI / 3) * 127 + 128);
+            int blue = (int) (Math.sin(time / 2000.0 + 4 * Math.PI / 3) * 127 + 128);
+            color = 0xFF000000 | (red << 16) | (green << 8) | blue;
+        } else {
+            color = Modules.settings.getColorFromHex();
+        }
+        context.drawBorder(x, y, getWidth(), getHeight(), color);
+
         context.drawCenteredTextWithShadow(textRenderer, text,
                 x + getWidth() / 2, y + 4, 0xFFFFFFFF);
     }
