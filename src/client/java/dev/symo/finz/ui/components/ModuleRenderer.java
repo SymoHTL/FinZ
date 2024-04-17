@@ -5,6 +5,7 @@ import dev.symo.finz.modules.Modules;
 import dev.symo.finz.modules.settings.*;
 import dev.symo.finz.ui.ConfigScreen;
 import dev.symo.finz.ui.widgets.SliderWidget;
+import dev.symo.finz.util.ColorUtil;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -75,11 +76,7 @@ public class ModuleRenderer implements Drawable, Element, Selectable, ParentElem
 
         int color;
         if (Modules.settings.isRainbow()) {
-            long time = System.currentTimeMillis();
-            int red = (int) (Math.sin(time / 2000.0) * 127 + 128);
-            int green = (int) (Math.sin(time / 2000.0 + 2 * Math.PI / 3) * 127 + 128);
-            int blue = (int) (Math.sin(time / 2000.0 + 4 * Math.PI / 3) * 127 + 128);
-            color = 0xFF000000 | (red << 16) | (green << 8) | blue;
+            color = ColorUtil.GetRainbowColor();
         } else {
             color = Modules.settings.getColorFromHex();
         }

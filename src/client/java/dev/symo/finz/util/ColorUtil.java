@@ -12,4 +12,12 @@ public class ColorUtil {
         int blue = 0;
         return new Color(red, green, blue, 127);
     }
+
+    public static int GetRainbowColor(){
+        long time = System.currentTimeMillis();
+        int red = (int) (Math.sin(time / 2000.0) * 127 + 128);
+        int green = (int) (Math.sin(time / 2000.0 + 2 * Math.PI / 3) * 127 + 128);
+        int blue = (int) (Math.sin(time / 2000.0 + 4 * Math.PI / 3) * 127 + 128);
+        return 0xFF000000 | (red << 16) | (green << 8) | blue;
+    }
 }
