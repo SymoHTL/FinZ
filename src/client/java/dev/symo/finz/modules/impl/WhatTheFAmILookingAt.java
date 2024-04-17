@@ -226,8 +226,8 @@ public class WhatTheFAmILookingAt extends AModule implements HudRenderListener {
             yTextAddOffset++;
         }
 
-        var x = width / 2 - 70;
-        var y = 16;
+        var x = width / 2 - 62;
+        var y = 24;
         UiRenderer.drawItem(drawContext, new ItemStack(block.asItem()), x, y, 32);
     }
 

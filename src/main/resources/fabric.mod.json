@@ -33,8 +33,5 @@
 		"minecraft": "~1.20.4",
 		"java": ">=17",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"cloth-config-fabric": "13.x"
 	}
 }

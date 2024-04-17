@@ -9,6 +9,7 @@ import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.util.Category;
 import dev.symo.finz.util.UiRenderer;
 import dev.symo.finz.util.WorldSpaceRenderer;
+import me.x150.renderer.util.RendererUtils;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
@@ -28,11 +29,15 @@ public class ItemESP extends AModule implements TickListener, WorldRenderListene
     private final IntSetting itemEspRange = new IntSetting("Range", "Range to scan for items",
             50, 1, 100);
 
+    private final IntSetting scale = new IntSetting("Scale", "Scale of the item sprite",
+            14, 1, 100);
+
 
     public ItemESP() {
         super("ItemESP", Category.RENDER);
         addSetting(itemEspRange);
         addSetting(renderItemSprite);
+        addSetting(scale);
     }
 
     @Override
@@ -67,15 +72,19 @@ public class ItemESP extends AModule implements TickListener, WorldRenderListene
 
     @Override
     public void onHudRender(DrawContext drawContext, float tickDelta) {
+        if (mc.player == null) return;
         if (!renderItemSprite.getValue()) return;
 
+        var playerPos = mc.player.getPos();
+
         for (Entity item : items) {
-            Vec3d screenPos = UiRenderer.worldSpaceToScreenSpace(item.getPos());
-            if (!UiRenderer.screenSpaceCoordinateIsVisible(screenPos)) continue;
+            var itemPos = item.getPos();
+            itemPos = itemPos.add(0, item.getHeight() / 2, 0);
+            Vec3d screenPos = RendererUtils.worldSpaceToScreenSpace(itemPos);
+            if (!RendererUtils.screenSpaceCoordinateIsVisible(screenPos)) continue;
 
             var itemStack = ((ItemEntity) item).getStack();
-
-            UiRenderer.drawItem(drawContext, itemStack, (int) screenPos.x, (int) screenPos.z, 32);
+            UiRenderer.drawItem(drawContext, itemStack, (int) screenPos.x, (int) screenPos.y, scale.getValue());
         }
     }
 }

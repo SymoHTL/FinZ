@@ -2,69 +2,21 @@ package dev.symo.finz.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.symo.finz.FinZClient;
-import net.fabricmc.fabric.mixin.blockview.WorldViewMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.WorldView;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.system.Checks;
 
 public class UiRenderer {
-
-    @ApiStatus.Internal
-    public static final Matrix4f lastProjMat = new Matrix4f();
-    @ApiStatus.Internal
-    public static final Matrix4f lastModMat = new Matrix4f();
-    @ApiStatus.Internal
-    public static final Matrix4f lastWorldSpaceMatrix = new Matrix4f();
-
-    private static final MinecraftClient client = MinecraftClient.getInstance();
-
-    public static Vec3d worldSpaceToScreenSpace(Vec3d pos) {
-        Camera camera = client.getEntityRenderDispatcher().camera;
-        int displayHeight = client.getWindow().getHeight();
-        int[] viewport = new int[4];
-        GL11.glGetIntegerv(GL11.GL_VIEWPORT, viewport);
-        Vector3f target = new Vector3f();
-
-        double deltaX = pos.x - camera.getPos().x;
-        double deltaY = pos.y - camera.getPos().y;
-        double deltaZ = pos.z - camera.getPos().z;
-
-        Vector4f transformedCoordinates = new Vector4f((float) deltaX, (float) deltaY, (float) deltaZ, 1.f).mul(
-                lastWorldSpaceMatrix);
-
-        Matrix4f matrixProj = new Matrix4f(lastProjMat);
-        Matrix4f matrixModel = new Matrix4f(lastModMat);
-
-        matrixProj.mul(matrixModel)
-                .project(transformedCoordinates.x(), transformedCoordinates.y(), transformedCoordinates.z(), viewport,
-                        target);
-
-        return new Vec3d(target.x / client.getWindow().getScaleFactor(),
-                (displayHeight - target.y) / client.getWindow().getScaleFactor(), target.z);
-    }
-
-    public static boolean screenSpaceCoordinateIsVisible(Vec3d pos) {
-        return pos != null && pos.z > -1 && pos.z < 1;
-    }
 
 
     public static void drawRectDouble(DrawContext drawContext, double left, double top, double right, double bottom, int color) {
@@ -89,7 +41,8 @@ public class UiRenderer {
         var vertexConsumers = context.getVertexConsumers();
         BakedModel bakedModel = FinZClient.mc.getItemRenderer().getModel(stack, FinZClient.mc.world, FinZClient.mc.player, 0);
         matrices.push();
-        matrices.translate((float) (x + 8), (float) (y + 8), 150);
+        //matrices.translate((float) (x + 8), (float) (y + 8), 150);
+        matrices.translate(x , y, 150);
 
         matrices.multiplyPositionMatrix((new Matrix4f()).scaling(1.0F, -1.0F, 1.0F));
         matrices.scale(scale, scale, scale);
