@@ -35,6 +35,7 @@ public class FinZSettings {
             // load the settings for each module
             modules.forEach(module -> {
                 var moduleJson = json.getAsJsonObject(module._name.toLowerCase());
+                if (moduleJson == null) return;
                 module.getSettings().forEach(setting -> {
                     setting.fromJson(moduleJson.get(setting.getName().toLowerCase()));
                 });
