@@ -6,7 +6,7 @@ import dev.symo.finz.modules.settings.StringSetting;
 import dev.symo.finz.util.Category;
 
 public class SettingsModule extends AModule {
-    private final StringSetting _color = new StringSetting("UI Color", "Example: For green use #00ff00",
+    private final StringSetting _color = new StringSetting("UI Color", "Example: green = #00ff00",
             "#00ff00");
 
     private final BoolSetting _rainbow = new BoolSetting("Rainbow", "Rainbow UI", false);
