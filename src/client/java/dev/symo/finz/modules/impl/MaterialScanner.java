@@ -7,6 +7,7 @@ import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.modules.settings.StringSetting;
 import dev.symo.finz.util.Category;
+import dev.symo.finz.util.ColorUtil;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.util.math.MatrixStack;
@@ -90,8 +91,7 @@ public class MaterialScanner extends AModule implements ConfigChangeListener, Ti
         if (mc.player == null) return;
         if (mc.world == null) return;
 
-        var hue = (float) (System.currentTimeMillis() % 4000) / 4000;
-        var color = Color.HSBtoRGB(hue, 1, 1);
+        var color = ColorUtil.getRainbowColor();
 
         WorldSpaceRenderer.renderBlocks(matrixStack, new Color(color), blocks.stream());
     }

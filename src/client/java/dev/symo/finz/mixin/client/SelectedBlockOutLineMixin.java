@@ -1,8 +1,7 @@
 package dev.symo.finz.mixin.client;
 
-import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.Modules;
-import dev.symo.finz.modules.impl.ChromaOutline;
+import dev.symo.finz.util.ColorUtil;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -16,8 +15,6 @@ import net.minecraft.util.shape.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-
-import java.awt.*;
 
 @Environment(net.fabricmc.api.EnvType.CLIENT)
 @Mixin(WorldRenderer.class)
@@ -41,11 +38,10 @@ public class SelectedBlockOutLineMixin {
         float blue = 0;
 
         if (Modules.chromaOutline.isEnabled()){
-            var hue = (float) (System.currentTimeMillis() % 4000) / 4000;
-            var color = Color.HSBtoRGB(hue, 1, 1);
-            red = (color >> 16 & 255) / 255.0F;
-            green = (color >> 8 & 255) / 255.0F;
-            blue = (color & 255) / 255.0F;
+            int color = ColorUtil.getRainbowColor();
+            red = (float) (color >> 16 & 255) / 255.0F;
+            green = (float) (color >> 8 & 255) / 255.0F;
+            blue = (float) (color & 255) / 255.0F;
         }
 
         // chroma outline

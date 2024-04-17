@@ -12,7 +12,6 @@ import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -68,7 +67,7 @@ public class WorldSpaceRenderer {
 
             if (entity instanceof LivingEntity livingEntity) {
                 var hpPercent = livingEntity.getHealth() / livingEntity.getMaxHealth();
-                var color = ColorUtil.PercentageToColor(hpPercent * 100);
+                var color = ColorUtil.percentageToColor(hpPercent * 100);
                 RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 0.5f);
             }else
                 RenderSystem.setShaderColor(1, 1, 1, 0.5f);

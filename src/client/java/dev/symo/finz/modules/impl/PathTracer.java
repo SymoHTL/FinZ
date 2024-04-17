@@ -5,16 +5,12 @@ import dev.symo.finz.events.listeners.TickListener;
 import dev.symo.finz.events.listeners.WorldRenderListener;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.settings.IntSetting;
-import dev.symo.finz.util.Category;
-import dev.symo.finz.util.PlayerUtil;
-import dev.symo.finz.util.RegionPos;
-import dev.symo.finz.util.WorldSpaceRenderer;
+import dev.symo.finz.util.*;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,8 +66,7 @@ public class PathTracer extends AModule implements TickListener, WorldRenderList
         if (mc.player == null) return;
         if (mc.world == null) return;
 
-        var hue = (float) (System.currentTimeMillis() % 4000) / 4000;
-        var color = Color.HSBtoRGB(hue, 1, 1);
+        int color = ColorUtil.getRainbowColor();
 
         WorldSpaceRenderer.setupGlESPSettings();
         matrixStack.push();

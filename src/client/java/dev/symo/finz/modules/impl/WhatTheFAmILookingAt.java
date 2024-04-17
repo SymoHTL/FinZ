@@ -1,9 +1,6 @@
 package dev.symo.finz.modules.impl;
 
-import dev.symo.finz.FinZClient;
 import dev.symo.finz.events.listeners.HudRenderListener;
-import dev.symo.finz.events.listeners.TickListener;
-import dev.symo.finz.events.listeners.WorldRenderListener;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.tracker.BreakProgressTracker;
 import dev.symo.finz.util.*;
@@ -78,7 +75,7 @@ public class WhatTheFAmILookingAt extends AModule implements HudRenderListener {
         float entityMaxHealth = (float) MathUtil.round(livingEntity.getMaxHealth() / 2, 1);
         var entityHealthPercentage = (int) ((entityHealth / entityMaxHealth) * 100);
         // set the background color according to the health percentage
-        var color = ColorUtil.PercentageToColor(entityHealthPercentage);
+        var color = ColorUtil.percentageToColor(entityHealthPercentage);
 
         var infos = buildBasicEntityInfo(livingEntity);
         if (livingEntity instanceof AnimalEntity)
@@ -253,7 +250,7 @@ public class WhatTheFAmILookingAt extends AModule implements HudRenderListener {
         assert mc.player != null;
         boolean canHarvest = mc.player.canHarvest(blockState);
         int harvestLevel = MiningLevelManager.getRequiredMiningLevel(blockState);
-        String harvestLevelName = HarvestLevelExtension.LevelToString(harvestLevel);
+        String harvestLevelName = HarvestLevelExtension.levelToString(harvestLevel);
 
 
         // effective tool variables
@@ -261,7 +258,7 @@ public class WhatTheFAmILookingAt extends AModule implements HudRenderListener {
         if (mc.player.getMainHandStack() != null && blockState.isToolRequired())
             hasEffectiveTool = mc.player.getMainHandStack().getItem().isSuitableFor(blockState);
 
-        String harvestTool = HarvestLevelExtension.BlockStateTagToString(blockState);
+        String harvestTool = HarvestLevelExtension.blockStateTagToString(blockState);
 
         // check if the block is harvestable with the current tool
         // if not, draw a red X, if yes, draw a green checkmark

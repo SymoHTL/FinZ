@@ -72,14 +72,12 @@ public class ModuleRenderer implements Drawable, Element, Selectable, ParentElem
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        context.fillGradient(x, y, x + getWidth(), y + getHeight(), 0x80000000, 0x08000000);
+        context.fill(x, y, x + getWidth(), y + getHeight(), 0x80000000, 0x08000000);
 
         int color;
-        if (Modules.settings.isRainbow()) {
-            color = ColorUtil.GetRainbowColor();
-        } else {
-            color = Modules.settings.getColorFromHex();
-        }
+        if (Modules.settings.isRainbow()) color = ColorUtil.getRainbowColor();
+        else color = Modules.settings.getColorFromHex();
+
         context.drawBorder(x, y, getWidth(), getHeight(), color);
 
         context.drawCenteredTextWithShadow(textRenderer, text,

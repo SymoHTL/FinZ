@@ -5,7 +5,7 @@ import net.minecraft.registry.tag.BlockTags;
 
 public class HarvestLevelExtension {
 
-    public static String LevelToString(int level) {
+    public static String levelToString(int level) {
         return switch (level) {
             case -1 -> "None";
             case 0 -> "Wood";
@@ -17,7 +17,7 @@ public class HarvestLevelExtension {
         };
     }
 
-    public static String BlockStateTagToString(BlockState state) {
+    public static String blockStateTagToString(BlockState state) {
         if (state.isIn(BlockTags.AXE_MINEABLE)) return "Axe";
         if (state.isIn(BlockTags.PICKAXE_MINEABLE)) return "Pickaxe";
         if (state.isIn(BlockTags.SHOVEL_MINEABLE)) return "Shovel";
