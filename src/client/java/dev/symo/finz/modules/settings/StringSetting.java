@@ -32,6 +32,7 @@ public class StringSetting extends ModuleSetting{
 
     public void setValue(String value) {
         _value = value;
+        changed();
         save();
     }
 

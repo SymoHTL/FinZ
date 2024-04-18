@@ -47,6 +47,7 @@ public class DoubleSetting extends ModuleSetting{
 
     public void setValue(double value) {
         _value = Math.max(_min, Math.min(_max, value));
+        changed();
         save();
     }
 

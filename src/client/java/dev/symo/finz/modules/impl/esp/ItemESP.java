@@ -55,6 +55,11 @@ public class ItemESP extends AModule implements TickListener, WorldRenderListene
     }
 
     @Override
+    protected void onSettingsChanged() {
+        items.clear();
+    }
+
+    @Override
     public void onTick() {
         if (mc.player == null) return;
         if (mc.world == null) return;

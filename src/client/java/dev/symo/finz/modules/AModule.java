@@ -6,13 +6,10 @@ import dev.symo.finz.modules.settings.BoolSetting;
 import dev.symo.finz.modules.settings.ModuleSetting;
 import dev.symo.finz.util.Category;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.Stack;
 
 public abstract class AModule {
 
@@ -26,20 +23,20 @@ public abstract class AModule {
 
     public KeyBinding _keybind;
 
-    private final BoolSetting _enabled = new BoolSetting(ENABLED, "Enable", false);
-
     private final LinkedHashMap<String, ModuleSetting> settings = new LinkedHashMap<>();
 
     public AModule(String name, Category category) {
         this._name = name;
         this._category = category;
 
-        settings.put(ENABLED, _enabled);
-        _enabled.onChanged(this::checkEnabled);
+        BoolSetting enabled = new BoolSetting(ENABLED, "Enable", false);
+        enabled.onChanged(this::checkEnabled);
+        settings.put(ENABLED, enabled);
     }
 
     public void addSetting(ModuleSetting setting) {
         settings.put(setting.getName().toLowerCase(), setting);
+        setting.onChanged(this::onSettingsChanged);
     }
 
     public Collection<ModuleSetting> getSettings() {
@@ -66,5 +63,8 @@ public abstract class AModule {
     }
 
     public void onDisable() {
+    }
+
+    protected void onSettingsChanged() {
     }
 }

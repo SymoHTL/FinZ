@@ -44,6 +44,7 @@ public class IntSetting extends ModuleSetting{
 
     public void setValue(int value) {
         _value = Math.max(_min, Math.min(_max, value));
+        changed();
         save();
     }
 

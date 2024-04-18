@@ -10,18 +10,27 @@ import dev.symo.finz.util.FakePlayerEntity;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.scoreboard.Team;
+import net.minecraft.util.Nullables;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.GameMode;
+import org.apache.logging.log4j.Level;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class PlayerESP extends AModule implements TickListener, WorldRenderListener {
 
-    private final ArrayList<Entity> players = new ArrayList<>();
+    private final Set<Entity> players = new HashSet<>();
+
+    private List<PlayerListEntry> playerListEntries;
+
+    private int _tickDelay = 10;
 
     public PlayerESP() {
         super("PlayerESP", Category.RENDER);
@@ -41,18 +50,31 @@ public class PlayerESP extends AModule implements TickListener, WorldRenderListe
     }
 
     @Override
+    protected void onSettingsChanged() {
+        players.clear();
+    }
+
+
+
+    @Override
     public void onTick() {
         if (mc.player == null) return;
         if (mc.world == null) return;
 
+        if (_tickDelay == 10)
+            playerListEntries = mc.player.networkHandler.getListedPlayerListEntries().stream().limit(80L).toList();
+        _tickDelay = (_tickDelay + 1) % 20;
+
         players.clear();
         Stream<AbstractClientPlayerEntity> stream = mc.world.getPlayers()
                 .parallelStream()
-                .filter(e -> !e.isRemoved() && e.getHealth() > 0)
                 .filter(e -> e != mc.player)
+                .filter(e -> !e.isRemoved() && e.getHealth() > 0)
                 .filter(e -> !(e instanceof FakePlayerEntity))
                 .filter(e -> Math.abs(e.getY() - mc.player.getY()) <= 1e6)
-                .filter(e -> !FinZClient.friendList.contains(e.getName().getString()));
+                .filter(e -> !FinZClient.friendList.contains(e.getName().getString()))
+                .filter(e -> playerListEntries.stream().anyMatch(p -> p.getProfile().getId().equals(e.getUuid())));
+
         players.addAll(stream.toList());
 
 

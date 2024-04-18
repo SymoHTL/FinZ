@@ -10,6 +10,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.MinecraftClient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +21,7 @@ import java.util.List;
 
 public class FinZClient implements ClientModInitializer {
 
+    public static final Logger LOGGER = LogManager.getLogger("FinZ");
     public static final String MOD_ID = "finz";
     public static final String CONFIG_VERSION = "1";
 
