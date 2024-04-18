@@ -1,6 +1,6 @@
 package dev.symo.finz.mixin.client;
 
-import dev.symo.finz.tracker.BreakProgressTracker;
+import dev.symo.finz.mixininterfaces.BreakProgressTracker;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.util.math.MathHelper;

@@ -1,14 +1,15 @@
 package dev.symo.finz.mixin.client;
 
 import com.mojang.authlib.GameProfile;
-import dev.symo.finz.FinZClient;
 import dev.symo.finz.events.impl.EventManager;
 import dev.symo.finz.events.listeners.KnockbackListener;
+import dev.symo.finz.modules.Modules;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.MovementType;
+import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,11 +20,7 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
     @Final
     protected MinecraftClient client;
 
-    private Screen tempCurrentScreen;
-    private boolean hideNextItemUse;
-
-    public ClientPlayerEntityMixin(FinZClient finz, ClientWorld world,
-                                   GameProfile profile) {
+    public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
         super(world, profile);
     }
 
@@ -33,6 +30,22 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
         KnockbackListener.KnockbackEvent event = new KnockbackListener.KnockbackEvent(x, y, z);
         EventManager.fire(event);
         super.setVelocityClient(event.getX(), event.getY(), event.getZ());
+    }
+
+
+    @Override
+    protected boolean clipAtLedge() {
+        return super.clipAtLedge() || Modules.autoSneak.isEnabled();
+    }
+
+    @Override
+    protected Vec3d adjustMovementForSneaking(Vec3d movement, MovementType type) {
+        Vec3d result = super.adjustMovementForSneaking(movement, type);
+
+        if (movement != null)
+            Modules.autoSneak.sneak(!movement.equals(result));
+
+        return result;
     }
 }
 

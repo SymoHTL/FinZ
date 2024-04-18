@@ -1,7 +1,6 @@
 package dev.symo.finz.modules;
 
 import dev.symo.finz.FinZClient;
-import dev.symo.finz.events.KeyEvent;
 import dev.symo.finz.events.impl.EventManager;
 import dev.symo.finz.events.listeners.HudRenderListener;
 import dev.symo.finz.events.listeners.TickListener;
@@ -14,8 +13,6 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.ActionResult;
 
-import java.util.ArrayList;
-
 public class ModuleManager {
 
     private static KeyBinding _openGuiKey;
@@ -24,8 +21,6 @@ public class ModuleManager {
 
 
     public static void init() {
-
-
         specialKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.finz.specialKey", InputUtil.Type.MOUSE, 2, "category.finz.config"));
         // register gui keybind
         _openGuiKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.finz.opengui", InputUtil.Type.KEYSYM, 77, "category.finz.config"));
@@ -35,15 +30,11 @@ public class ModuleManager {
                 KeyBindingHelper.registerKeyBinding(module._keybind);
 
 
-        // register events
-        KeyEvent.KEY_EVENT.register(() -> {
-            if (_openGuiKey.wasPressed()) {
-                FinZClient.showConfigScreen();
-            }
-            return ActionResult.PASS;
+        ClientTickEvents.END_CLIENT_TICK.register(mc -> {
+            EventManager.fire(TickListener.UpdateEvent.INSTANCE);
+
+            if (_openGuiKey.wasPressed()) FinZClient.showConfigScreen();
         });
-        ClientTickEvents.END_CLIENT_TICK.register(mc ->
-                EventManager.fire(TickListener.UpdateEvent.INSTANCE));
         WorldRenderEvents.END.register(context ->
                 EventManager.fire(new WorldRenderListener.RenderEvent(context.matrixStack(), context.tickDelta(), context)));
         HudRenderCallback.EVENT.register((c, t) ->
