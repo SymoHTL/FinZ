@@ -9,15 +9,17 @@ public class AutoSneak extends AModule {
 
     public AutoSneak() {
         super("Auto Sneak", Category.MOVEMENT);
+        registerKeyBind("key.keyboard.v");
     }
 
     public void sneak(boolean clipping) {
-        if (!isEnabled() || !mc.player.isOnGround()) {
+        if (!isEnabled() || !(mc.player != null && mc.player.isOnGround())) {
             if (sneaking) setSneaking(false);
             return;
         }
 
-        if (mc.world.isSpaceEmpty(mc.player, mc.player.getBoundingBox().stretch(0, -mc.player.getStepHeight(),0))) clipping = true;
+        if (mc.world != null && mc.world.isSpaceEmpty(mc.player, mc.player.getBoundingBox().stretch(0, -mc.player.getStepHeight(), 0)))
+            clipping = true;
 
         setSneaking(clipping);
     }

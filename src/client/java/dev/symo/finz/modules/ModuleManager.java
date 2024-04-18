@@ -11,7 +11,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.ActionResult;
 
 public class ModuleManager {
 
@@ -26,8 +25,8 @@ public class ModuleManager {
         _openGuiKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.finz.opengui", InputUtil.Type.KEYSYM, 77, "category.finz.config"));
 
         for (AModule module : Modules.all)
-            if (module._keybind != null)
-                KeyBindingHelper.registerKeyBinding(module._keybind);
+            if (module.keybind != null)
+                KeyBindingHelper.registerKeyBinding(module.keybind);
 
 
         ClientTickEvents.END_CLIENT_TICK.register(mc -> {

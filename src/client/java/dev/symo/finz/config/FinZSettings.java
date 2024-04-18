@@ -34,18 +34,16 @@ public class FinZSettings {
             var modules = Modules.all;
             // load the settings for each module
             modules.forEach(module -> {
-                var moduleJson = json.getAsJsonObject(module._name.toLowerCase());
+                var moduleJson = json.getAsJsonObject(module.name.toLowerCase());
                 if (moduleJson == null) return;
-                module.getSettings().forEach(setting -> {
-                    setting.fromJson(moduleJson.get(setting.getName().toLowerCase()));
-                });
+                module.getSettings().forEach(setting -> setting.fromJson(moduleJson.get(setting.getName().toLowerCase())));
                 module.checkEnabled();
             });
         } catch (IOException e) {
             try {
                 backupAndDelete();
             } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                FinZClient.LOGGER.error("Failed to backup and delete config file", ex);
             }
         }
     }
@@ -63,10 +61,8 @@ public class FinZSettings {
 
         modules.forEach(module -> {
             JsonObject moduleJson = new JsonObject();
-            module.getSettings().forEach(setting -> {
-                moduleJson.add(setting.getName().toLowerCase(), setting.toJson());
-            });
-            json.add(module._name.toLowerCase(), moduleJson);
+            module.getSettings().forEach(setting -> moduleJson.add(setting.getName().toLowerCase(), setting.toJson()));
+            json.add(module.name.toLowerCase(), moduleJson);
         });
 
         try {
@@ -75,7 +71,7 @@ public class FinZSettings {
             gson.toJson(json, writer);
             writer.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            FinZClient.LOGGER.error("Failed to save config file", e);
         }
     }
 }

@@ -8,6 +8,7 @@
     "client.ClientPlayerEntityMixin",
     "client.ClientPlayerInteractionManagerMixin",
     "client.KeyBindingMixin",
+    "client.KeyboardMixin",
     "client.SelectedBlockOutLineMixin",
     "client.ToolTipMixin",
     "client.WorldRendererMixin",
