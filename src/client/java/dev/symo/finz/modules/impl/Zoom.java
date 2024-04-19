@@ -1,6 +1,5 @@
 package dev.symo.finz.modules.impl;
 
-import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.settings.DoubleSetting;
 import dev.symo.finz.util.Category;
@@ -18,13 +17,13 @@ public class Zoom extends AModule {
 
     public Zoom() {
         super("Zoom", Category.OTHER);
-        _keybind = new KeyBinding("key.finz.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "category.finz.config");
+        keybind = new KeyBinding("key.finz.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "category.finz.config");
     }
 
     public double zoom(double fov) {
         SimpleOption<Double> mouseSensitivitySetting = mc.options.getMouseSensitivity();
 
-        if (!_keybind.isPressed()) {
+        if (!keybind.isPressed()) {
             if (defaultMouseSensitivity != null) {
                 mouseSensitivitySetting.setValue(defaultMouseSensitivity);
                 defaultMouseSensitivity = null;

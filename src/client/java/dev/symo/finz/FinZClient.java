@@ -4,12 +4,16 @@ import com.google.common.collect.ImmutableList;
 import dev.symo.finz.config.FinZSettings;
 import dev.symo.finz.config.FriendList;
 import dev.symo.finz.events.impl.EventManager;
+import dev.symo.finz.events.listeners.KeyPressListener;
+import dev.symo.finz.config.KeyBindSettings;
 import dev.symo.finz.modules.ModuleManager;
 import dev.symo.finz.ui.ConfigScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.MinecraftClient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,7 +23,7 @@ import java.util.List;
 
 public class FinZClient implements ClientModInitializer {
 
-    public static final String MOD_ID = "finz";
+    public static final Logger LOGGER = LogManager.getLogger("FinZ");
     public static final String CONFIG_VERSION = "1";
 
     public static EventManager eventManager = new EventManager();
@@ -33,14 +37,17 @@ public class FinZClient implements ClientModInitializer {
 
     public static final FinZSettings settings = new FinZSettings(FinZPath.resolve("config.json").toString());
 
+    public static final KeyBindSettings keyBindSettings = new KeyBindSettings(FinZPath.resolve("keybinds.json").toString());
+
     @Override
     public void onInitializeClient() {
         createFinZFolder();
-
         ModuleManager.init();
 
         settings.load();
         friendList.load();
+        keyBindSettings.load();
+        eventManager.add(KeyPressListener.class, keyBindSettings);
         FinZClient.MODS = ImmutableList.copyOf(FabricLoader.getInstance().getAllMods());
     }
 
@@ -51,7 +58,7 @@ public class FinZClient implements ClientModInitializer {
             try {
                 Files.createDirectories(finzDir);
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.error("Failed to create FinZ folder", e);
             }
         }
     }

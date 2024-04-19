@@ -46,6 +46,11 @@ public class MobEsp extends AModule implements TickListener, WorldRenderListener
     }
 
     @Override
+    protected void onSettingsChanged() {
+        mobs.clear();
+    }
+
+    @Override
     public void onTick() {
         if (mc.player == null) return;
         if (mc.world == null) return;

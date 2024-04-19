@@ -1,18 +1,16 @@
 package dev.symo.finz.modules;
 
 import dev.symo.finz.FinZClient;
+import dev.symo.finz.config.KeyBind;
 import dev.symo.finz.events.impl.EventManager;
 import dev.symo.finz.modules.settings.BoolSetting;
 import dev.symo.finz.modules.settings.ModuleSetting;
 import dev.symo.finz.util.Category;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.Stack;
 
 public abstract class AModule {
 
@@ -21,25 +19,29 @@ public abstract class AModule {
     protected static final EventManager EVENTS = FinZClient.eventManager;
     protected static final MinecraftClient mc = FinZClient.mc;
 
-    public String _name;
-    public Category _category;
+    public String name;
+    public Category category;
 
-    public KeyBinding _keybind;
-
-    private final BoolSetting _enabled = new BoolSetting(ENABLED, "Enable", false);
+    public KeyBinding keybind;
 
     private final LinkedHashMap<String, ModuleSetting> settings = new LinkedHashMap<>();
 
     public AModule(String name, Category category) {
-        this._name = name;
-        this._category = category;
+        this.name = name;
+        this.category = category;
 
-        settings.put(ENABLED, _enabled);
-        _enabled.onChanged(this::checkEnabled);
+        BoolSetting enabled = new BoolSetting(ENABLED, "Enable", false);
+        enabled.onChanged(this::checkEnabled);
+        settings.put(ENABLED, enabled);
     }
 
     public void addSetting(ModuleSetting setting) {
         settings.put(setting.getName().toLowerCase(), setting);
+        setting.onChanged(this::onSettingsChanged);
+    }
+
+    public void registerKeyBind(String keyName){
+        FinZClient.keyBindSettings.addAndSave(new KeyBind(keyName, this));
     }
 
     public Collection<ModuleSetting> getSettings() {
@@ -62,9 +64,23 @@ public abstract class AModule {
         else onDisable();
     }
 
+    public void toggle() {
+        setEnabled(!isEnabled());
+    }
+
     public void onEnable() {
     }
 
     public void onDisable() {
+    }
+
+    protected void onSettingsChanged() {
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof AModule module)) return false;
+        return name.equals(module.name);
     }
 }

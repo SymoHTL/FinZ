@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class BoolSetting extends ModuleSetting {
     private boolean _value;
     private final boolean _default;
-    private final ArrayList<Runnable> _onChanged = new ArrayList<>();
 
     public BoolSetting(String name, String description, boolean value) {
         super(name, description, InputType.BOOLEAN);
@@ -39,12 +38,10 @@ public class BoolSetting extends ModuleSetting {
 
     public void setValue(boolean _value) {
         this._value = _value;
-        _onChanged.forEach(Runnable::run);
+        changed();
         save();
     }
 
 
-    public void onChanged(Runnable runnable) {
-        _onChanged.add(runnable);
-    }
+
 }

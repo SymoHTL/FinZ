@@ -1,4 +1,4 @@
-package dev.symo.finz.tracker;
+package dev.symo.finz.mixininterfaces;
 
 public interface BreakProgressTracker {
     float getBreakProgress(float tickDelta);

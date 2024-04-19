@@ -17,11 +17,16 @@ public class Modules {
 
     public static Zoom zoom = new Zoom();
 
+    // movement
+    public static AutoSneak autoSneak = new AutoSneak();
+
     // render
     public static WhatTheFAmILookingAt wtfaila = new WhatTheFAmILookingAt();
     public static MaterialScanner materialScanner = new MaterialScanner();
     public static PathTracer pathTracer = new PathTracer();
     public static ChromaOutline chromaOutline = new ChromaOutline();
+
+    public static NoBlindness noBlindness = new NoBlindness();
 
     // esp
     public static PlayerESP playerESP = new PlayerESP();
@@ -37,11 +42,16 @@ public class Modules {
         all.add(knockback);
         all.add(zoom);
 
+        // movement
+        all.add(autoSneak);
+
         // render
         all.add(wtfaila);
         all.add(pathTracer);
         all.add(materialScanner);
         all.add(chromaOutline);
+
+        all.add(noBlindness);
 
         // esp
         all.add(playerESP);

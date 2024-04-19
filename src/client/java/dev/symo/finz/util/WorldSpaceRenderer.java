@@ -12,6 +12,7 @@ import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -40,7 +41,7 @@ public class WorldSpaceRenderer {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    public static void renderEntitiesEsp(MatrixStack matrixStack, float partialTicks, List<Entity> entities) {
+    public static void renderEntitiesEsp(MatrixStack matrixStack, float partialTicks, Collection<Entity> entities) {
         setupGlESPSettings();
 
         matrixStack.push();
@@ -56,7 +57,7 @@ public class WorldSpaceRenderer {
     }
 
 
-    public static void renderEntitiesEsp(MatrixStack matrixStack, float partialTicks, RegionPos pos, List<Entity> entities) {
+    public static void renderEntitiesEsp(MatrixStack matrixStack, float partialTicks, RegionPos pos, Collection<Entity> entities) {
         for (Entity entity : entities) {
             matrixStack.push();
 
@@ -134,91 +135,55 @@ public class WorldSpaceRenderer {
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         RenderSystem.setShader(GameRenderer::getPositionProgram);
 
-        bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINES,
-                VertexFormats.POSITION);
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.minY, (float) bb.minZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.minY, (float) bb.minZ)
-                .next();
+        bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.minY, (float) bb.minZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.minY, (float) bb.maxZ)
-                .next();
+        float minX = (float) bb.minX;
+        float minY = (float) bb.minY;
+        float minZ = (float) bb.minZ;
+        float maxX = (float) bb.maxX;
+        float maxY = (float) bb.maxY;
+        float maxZ = (float) bb.maxZ;
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.minY, (float) bb.maxZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.minY, (float) bb.maxZ)
-                .next();
+        // Draw bottom face
+        bufferBuilder.vertex(matrix, minX, minY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, minY, minZ).next();
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.minY, (float) bb.maxZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.minY, (float) bb.minZ)
-                .next();
+        bufferBuilder.vertex(matrix, maxX, minY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, minY, maxZ).next();
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.minY, (float) bb.minZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.maxY, (float) bb.minZ)
-                .next();
+        bufferBuilder.vertex(matrix, maxX, minY, maxZ).next();
+        bufferBuilder.vertex(matrix, minX, minY, maxZ).next();
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.minY, (float) bb.minZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.maxY, (float) bb.minZ)
-                .next();
+        bufferBuilder.vertex(matrix, minX, minY, maxZ).next();
+        bufferBuilder.vertex(matrix, minX, minY, minZ).next();
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.minY, (float) bb.maxZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ)
-                .next();
+        // Draw top face
+        bufferBuilder.vertex(matrix, minX, maxY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, maxY, minZ).next();
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.minY, (float) bb.maxZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.maxY, (float) bb.maxZ)
-                .next();
+        bufferBuilder.vertex(matrix, maxX, maxY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, maxY, maxZ).next();
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.maxY, (float) bb.minZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.maxY, (float) bb.minZ)
-                .next();
+        bufferBuilder.vertex(matrix, maxX, maxY, maxZ).next();
+        bufferBuilder.vertex(matrix, minX, maxY, maxZ).next();
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.maxY, (float) bb.minZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ)
-                .next();
+        bufferBuilder.vertex(matrix, minX, maxY, maxZ).next();
+        bufferBuilder.vertex(matrix, minX, maxY, minZ).next();
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.maxY, (float) bb.maxZ)
-                .next();
+        // Draw vertical lines (connectors)
+        bufferBuilder.vertex(matrix, minX, minY, minZ).next();
+        bufferBuilder.vertex(matrix, minX, maxY, minZ).next();
 
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.maxY, (float) bb.maxZ)
-                .next();
-        bufferBuilder
-                .vertex(matrix, (float) bb.minX, (float) bb.maxY, (float) bb.minZ)
-                .next();
+        bufferBuilder.vertex(matrix, maxX, minY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, maxY, minZ).next();
+
+        bufferBuilder.vertex(matrix, maxX, minY, maxZ).next();
+        bufferBuilder.vertex(matrix, maxX, maxY, maxZ).next();
+
+        bufferBuilder.vertex(matrix, minX, minY, maxZ).next();
+        bufferBuilder.vertex(matrix, minX, maxY, maxZ).next();
+
         tessellator.draw();
     }
+
 }

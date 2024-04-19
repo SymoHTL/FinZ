@@ -1,6 +1,5 @@
 package dev.symo.finz.modules.impl;
 
-import dev.symo.finz.events.listeners.ConfigChangeListener;
 import dev.symo.finz.events.listeners.TickListener;
 import dev.symo.finz.events.listeners.WorldRenderListener;
 import dev.symo.finz.modules.AModule;
@@ -12,19 +11,22 @@ import dev.symo.finz.util.WorldSpaceRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.IntStream;
 
-public class MaterialScanner extends AModule implements ConfigChangeListener, TickListener, WorldRenderListener {
+public class MaterialScanner extends AModule implements TickListener, WorldRenderListener {
     private final IntSetting _range = new IntSetting("Range", "Range to scan for blocks",
             50, 1, 100);
 
     private final StringSetting _material = new StringSetting("Material", "Material to scan for",
             "minecraft:ancient_debris");
 
-    private final ArrayList<BlockPos> blocks = new ArrayList<>();
+    private final Set<BlockPos> blocks = new HashSet<>();
 
     private int _tickDelay = 0;
 
@@ -34,7 +36,8 @@ public class MaterialScanner extends AModule implements ConfigChangeListener, Ti
         addSetting(_material);
     }
 
-    public void onConfigChange() {
+    @Override
+    protected void onSettingsChanged() {
         blocks.clear();
     }
 
@@ -64,27 +67,30 @@ public class MaterialScanner extends AModule implements ConfigChangeListener, Ti
         // look for blocks in range around player
 
         var playerPos = mc.player.getBlockPos();
-        var playerX = playerPos.getX();
-        var playerY = playerPos.getY();
-        var playerZ = playerPos.getZ();
-
         var range = _range.getValue();
+        var desiredBlockId = new Identifier(_material.getValue());
+        Set<BlockPos> newBlocks = ConcurrentHashMap.newKeySet();
 
-        for (int x = playerX - range; x < playerX + range; x++) {
-            for (int y = playerY - range; y < playerY + range; y++) {
-                for (int z = playerZ - range; z < playerZ + range; z++) {
-                    var pos = new BlockPos(x, y, z);
-                    var state = mc.world.getBlockState(pos);
-                    var block = state.getBlock();
-                    // _material.getValue() -> minecraft:ancient_debris
-                    var id = String.valueOf(Registries.BLOCK.getId(block));
-                    if (_material.getValue().contains(id) && !blocks.contains(pos))
-                        blocks.add(pos);
-                }
-            }
-        }
+        IntStream.rangeClosed(playerPos.getX() - range, playerPos.getX() + range).parallel().forEach(x -> {
+            IntStream.rangeClosed(playerPos.getY() - range, playerPos.getY() + range).forEach(y -> {
+                IntStream.rangeClosed(playerPos.getZ() - range, playerPos.getZ() + range).forEach(z -> {
+                    BlockPos pos = new BlockPos(x, y, z);
+                    var blockId = Registries.BLOCK.getId(mc.world.getBlockState(pos).getBlock());
+                    if (blockId.equals(desiredBlockId)) newBlocks.add(pos);
+                });
+            });
+        });
 
-        blocks.removeIf(pos -> Math.abs(pos.getX() - playerX) > range + range / 2 || Math.abs(pos.getY() - playerY) > range + range / 2 || Math.abs(pos.getZ() - playerZ) > range + range / 2);
+        // Safely apply changes on the main thread
+        blocks.addAll(newBlocks);
+
+        blocks.parallelStream().filter(block -> !inRange(block, playerPos, range)).toList().forEach(blocks::remove);
+    }
+
+    private boolean inRange(BlockPos pos, BlockPos playerPos, int range) {
+        return Math.abs(pos.getX() - playerPos.getX()) <= range &&
+                Math.abs(pos.getY() - playerPos.getY()) <= range &&
+                Math.abs(pos.getZ() - playerPos.getZ()) <= range;
     }
 
     public void onWorldRender(MatrixStack matrixStack, float partialTicks, WorldRenderContext context) {

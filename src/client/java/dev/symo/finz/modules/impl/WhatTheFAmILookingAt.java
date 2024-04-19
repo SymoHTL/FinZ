@@ -2,7 +2,7 @@ package dev.symo.finz.modules.impl;
 
 import dev.symo.finz.events.listeners.HudRenderListener;
 import dev.symo.finz.modules.AModule;
-import dev.symo.finz.tracker.BreakProgressTracker;
+import dev.symo.finz.mixininterfaces.BreakProgressTracker;
 import dev.symo.finz.util.*;
 import net.fabricmc.fabric.api.mininglevel.v1.MiningLevelManager;
 import net.minecraft.block.Block;

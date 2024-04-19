@@ -1,6 +1,7 @@
 package dev.symo.finz.config;
 
 import com.google.gson.Gson;
+import dev.symo.finz.FinZClient;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class FriendList {
                  }
 
              } catch (IOException e) {
-                 e.printStackTrace();
+                 FinZClient.LOGGER.error("Failed to load friends list", e);
              }
          }
     }
@@ -57,7 +58,7 @@ public class FriendList {
         try {
             Files.write(Paths.get(path), new Gson().toJson(Friends).getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
+            FinZClient.LOGGER.error("Failed to save friends list", e);
         }
     }
 }

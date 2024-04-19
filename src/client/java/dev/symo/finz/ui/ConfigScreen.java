@@ -1,6 +1,5 @@
 package dev.symo.finz.ui;
 
-import dev.symo.finz.FinZClient;
 import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.Modules;
 import dev.symo.finz.ui.components.ModuleRenderer;
@@ -24,7 +23,7 @@ public final class ConfigScreen extends Screen {
         int maxWidthInColumn = 0; // Track the maximum width in the current column
 
         for (AModule module : modules) {
-            var renderer = new ModuleRenderer(Text.literal(module._name), x, y, module.getSettings(), this);
+            var renderer = new ModuleRenderer(Text.literal(module.name), x, y, module.getSettings(), this);
             y += renderer.getHeight() + 10; // Move down after placing each module
 
             // Update the maxWidthInColumn with the widest renderer in this column
