@@ -1,6 +1,5 @@
 package dev.symo.finz.modules.impl.esp;
 
-import dev.symo.finz.events.listeners.ConfigChangeListener;
 import dev.symo.finz.events.listeners.TickListener;
 import dev.symo.finz.events.listeners.WorldRenderListener;
 import dev.symo.finz.modules.AModule;
@@ -16,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class BedESP extends AModule implements ConfigChangeListener, TickListener, WorldRenderListener {
+public class BedESP extends AModule implements TickListener, WorldRenderListener {
     private final IntSetting _range = new IntSetting("Range", "Range to scan for blocks",
             50, 1, 100);
 
@@ -29,7 +28,7 @@ public class BedESP extends AModule implements ConfigChangeListener, TickListene
         addSetting(_range);
     }
 
-    public void onConfigChange() {
+    protected void onSettingsChanged() {
         beds.clear();
     }
 
