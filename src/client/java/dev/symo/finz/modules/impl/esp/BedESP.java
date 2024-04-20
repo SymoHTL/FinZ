@@ -56,9 +56,7 @@ public class BedESP extends AModule implements TickListener, WorldRenderListener
             _tickDelay--;
             return;
         }
-        _tickDelay = 10;
-
-        // look for blocks in range around player
+        _tickDelay = 40;
 
         var playerPos = mc.player.getBlockPos();
         var range = _range.getValue();
@@ -77,10 +75,8 @@ public class BedESP extends AModule implements TickListener, WorldRenderListener
             });
         });
 
-        // Safely apply changes on the main thread
         beds.addAll(newBlocks);
 
-        // Remove blocks that are out of range or no longer beds
         beds.parallelStream().filter(block -> !inRange(block, playerPos, range) || !(mc.world.getBlockState(block).getBlock() instanceof BedBlock)).toList().forEach(beds::remove);
     }
 
