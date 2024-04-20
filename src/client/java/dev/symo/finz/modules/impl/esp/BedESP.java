@@ -31,6 +31,10 @@ public class BedESP extends AModule implements TickListener, WorldRenderListener
         addSetting(_range);
     }
 
+    protected void onSettingsChanged() {
+        beds.clear();
+    }
+
     @Override
     public void onEnable() {
         EVENTS.add(TickListener.class, this);
