@@ -116,8 +116,8 @@ public class WhatTheFAmILookingAt extends AModule implements HudRenderListener {
             scale = (int) (scale / 1.5);
 
         // draw entity
-        UiRenderer.drawEntity(drawContext, (int) (width / 2 - width * 0.048), 2 + fr.fontHeight * 2, scale,(float) width / 7,
-                height  * 0.75f, livingEntity);
+        UiRenderer.drawEntity(drawContext, (int) (width / 2 - width * 0.048), 2 + fr.fontHeight * 2, scale,
+                height * 0.75f, livingEntity);
     }
 
     private @NotNull List<HudText> buildBasicEntityInfo(@NotNull LivingEntity livingEntity) {
