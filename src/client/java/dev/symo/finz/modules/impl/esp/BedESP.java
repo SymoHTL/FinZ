@@ -14,6 +14,9 @@ import net.minecraft.util.math.BlockPos;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.IntStream;
 
 public class BedESP extends AModule implements TickListener, WorldRenderListener {
     private final IntSetting _range = new IntSetting("Range", "Range to scan for blocks",
@@ -55,30 +58,32 @@ public class BedESP extends AModule implements TickListener, WorldRenderListener
         }
         _tickDelay = 40;
 
-        // look for beds in range around player
-
         var playerPos = mc.player.getBlockPos();
-        var playerX = playerPos.getX();
-        var playerY = playerPos.getY();
-        var playerZ = playerPos.getZ();
-
         var range = _range.getValue();
 
-        for (int x = playerX - range; x < playerX + range; x++) {
-            for (int y = playerY - range; y < playerY + range; y++) {
-                for (int z = playerZ - range; z < playerZ + range; z++) {
-                    var pos = new BlockPos(x, y, z);
-                    var state = mc.world.getBlockState(pos);
-                    var block = state.getBlock();
-                    if (block instanceof BedBlock && !beds.contains(pos))
-                        beds.add(pos);
-                }
-            }
-        }
+        Set<BlockPos> newBlocks = ConcurrentHashMap.newKeySet();
 
-        beds.removeIf(pos -> !(mc.world.getBlockState(pos).getBlock() instanceof BedBlock));
+        IntStream.rangeClosed(playerPos.getX() - range, playerPos.getX() + range).parallel().forEach(x -> {
+            IntStream.rangeClosed(playerPos.getY() - range, playerPos.getY() + range).forEach(y -> {
+                IntStream.rangeClosed(playerPos.getZ() - range, playerPos.getZ() + range).forEach(z -> {
+                    BlockPos pos = new BlockPos(x, y, z);
+                    var block = mc.world.getBlockState(pos).getBlock();
+                    if (block instanceof BedBlock) {
+                        newBlocks.add(pos);
+                    }
+                });
+            });
+        });
 
-        beds.removeIf(pos -> Math.abs(pos.getX() - playerX) > range + range / 2 || Math.abs(pos.getY() - playerY) > range + range / 2 || Math.abs(pos.getZ() - playerZ) > range + range / 2);
+        beds.addAll(newBlocks);
+
+        beds.parallelStream().filter(block -> !inRange(block, playerPos, range) || !(mc.world.getBlockState(block).getBlock() instanceof BedBlock)).toList().forEach(beds::remove);
+    }
+
+    private boolean inRange(BlockPos pos, BlockPos playerPos, int range) {
+        return Math.abs(pos.getX() - playerPos.getX()) <= range &&
+                Math.abs(pos.getY() - playerPos.getY()) <= range &&
+                Math.abs(pos.getZ() - playerPos.getZ()) <= range;
     }
 
     public void onWorldRender(MatrixStack matrixStack, float partialTicks, WorldRenderContext context) {
