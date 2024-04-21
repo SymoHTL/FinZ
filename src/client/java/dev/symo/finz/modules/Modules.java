@@ -13,6 +13,7 @@ public class Modules {
     public static final ArrayList<AModule> all = new ArrayList<>();
 
     // combat
+    public static AutoTool autoTool = new AutoTool();
     public static ProjectileWarner projectileWarner = new ProjectileWarner();
     public static AntiKnockback knockback = new AntiKnockback();
 
@@ -43,6 +44,7 @@ public class Modules {
     static  {
 
         // combat
+        all.add(autoTool);
         all.add(projectileWarner);
         all.add(knockback);
 

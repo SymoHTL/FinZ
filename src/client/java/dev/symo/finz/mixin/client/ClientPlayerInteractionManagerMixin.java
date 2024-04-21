@@ -1,8 +1,12 @@
 package dev.symo.finz.mixin.client;
 
+import dev.symo.finz.events.impl.EventManager;
+import dev.symo.finz.events.listeners.BreakingListener;
 import dev.symo.finz.mixininterfaces.BreakProgressTracker;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,5 +35,14 @@ public class ClientPlayerInteractionManagerMixin implements BreakProgressTracker
             target = "Lnet/minecraft/block/BlockState;calcBlockBreakingDelta(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)F"))
     public void updateLastBreakingProgress(CallbackInfoReturnable<Boolean> ci) {
         this.lastBreakingProgress = this.currentBreakingProgress;
+    }
+
+    @Inject(at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/network/ClientPlayerEntity;getId()I",
+            ordinal = 0),
+            method = "updateBlockBreakingProgress(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z")
+    private void onPlayerDamageBlock(BlockPos pos, Direction direction,
+                                     CallbackInfoReturnable<Boolean> cir) {
+        EventManager.fire(new BreakingListener.BreakingProgressEvent(pos, direction));
     }
 }
