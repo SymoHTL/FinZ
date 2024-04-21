@@ -21,14 +21,16 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 
 import java.awt.*;
-import java.util.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class PlayerESP extends AModule implements TickListener, WorldRenderListener {
 
     private final BoolSetting filterNps = new BoolSetting("Filter Npcs", "If enabled, only \"real\" players will be shown", true);
 
+    private final BoolSetting showTracers = new BoolSetting("Tracers", "If enabled, tracers will be shown", false);
     private final Set<Entity> players = new HashSet<>();
 
     private List<PlayerListEntry> playerListEntries;
@@ -38,6 +40,7 @@ public class PlayerESP extends AModule implements TickListener, WorldRenderListe
     public PlayerESP() {
         super("PlayerESP", Category.RENDER);
         addSetting(filterNps);
+        addSetting(showTracers);
     }
 
 
@@ -80,7 +83,7 @@ public class PlayerESP extends AModule implements TickListener, WorldRenderListe
                 .filter(e -> !FinZClient.friendList.contains(e.getName().getString()))
                 .filter(e -> {
                     var team = sb.getScoreHolderTeam(e.getName().getString());
-                    if (team == null ||clientTeam == null) return true;
+                    if (team == null || clientTeam == null) return true;
                     return !clientTeam.getName().equals(team.getName());
                 });
         if (filterNps.getValue())
@@ -104,6 +107,8 @@ public class PlayerESP extends AModule implements TickListener, WorldRenderListe
     public void onWorldRender(MatrixStack matrices, float partialTicks, WorldRenderContext context) {
         assert mc.world != null;
         var sb = mc.world.getScoreboard();
+
+
         WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, players, entity -> {
             var color = Color.BLACK;
             if (FinZClient.friendList.contains(entity.getName().getString())) color = Color.GREEN;
@@ -114,7 +119,6 @@ public class PlayerESP extends AModule implements TickListener, WorldRenderListe
                     if (teamColor != null) color = new Color(teamColor);
                 }
             }
-
             return color;
         }, entity -> {
             if (entity instanceof LivingEntity livingEntity) {
@@ -124,5 +128,9 @@ public class PlayerESP extends AModule implements TickListener, WorldRenderListe
 
             return Color.WHITE;
         }, true);
+
+        if (showTracers.getValue()) {
+            WorldSpaceRenderer.renderTracers(matrices, partialTicks, players);
+        }
     }
 }

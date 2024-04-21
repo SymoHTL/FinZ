@@ -1,9 +1,11 @@
 package dev.symo.finz.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.symo.finz.FinZClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -12,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.Collection;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -72,7 +75,7 @@ public class WorldSpaceRenderer {
             RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 0.5f);
             drawOutlinedBox(bb, matrixStack);
 
-            if (drawFace){
+            if (drawFace) {
                 color = faceColor.apply(entity);
                 RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 0.1f);
                 drawFace(bb, matrixStack);
@@ -150,7 +153,7 @@ public class WorldSpaceRenderer {
 
         bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
         bufferBuilder.vertex(matrix, 0.5f, 1f, 0.5f).next();
-        bufferBuilder.vertex(matrix, end.getX() - start.getX() + 0.5f, end.getY() - start.getY() +1f, end.getZ() - start.getZ() + 0.5f).next();
+        bufferBuilder.vertex(matrix, end.getX() - start.getX() + 0.5f, end.getY() - start.getY() + 1f, end.getZ() - start.getZ() + 0.5f).next();
         tessellator.draw();
 
         matrixStack.pop();
@@ -241,6 +244,59 @@ public class WorldSpaceRenderer {
         bufferBuilder.vertex(matrix, minX, maxY, maxZ).next();
 
         tessellator.draw();
+    }
+
+    public static void renderTracers(MatrixStack matrixStack, float partialTicks, Set<Entity> players) {
+        var region = RenderUtils.getCameraRegion();
+
+        applyRegionalRenderOffset(matrixStack, region);
+
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+
+        Matrix4f matrix = matrixStack.peek().getPositionMatrix();
+
+        Tessellator tessellator = RenderSystem.renderThreadTesselator();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINES,
+                VertexFormats.POSITION_COLOR);
+
+        Vec3d regionVec = region.toVec3d();
+        Vec3d start = RotationUtils.getClientLookVec(partialTicks)
+                .add(RenderUtils.getCameraPos()).subtract(regionVec);
+
+        var sb = FinZClient.mc.world.getScoreboard();
+
+        // Disable depth testing so lines are not occluded by blocks
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+
+        for (Entity e : players) {
+            Vec3d end = EntityUtil.getLerpedBox(e, partialTicks).getCenter()
+                    .subtract(regionVec);
+
+            var color = Color.BLACK;
+            if (FinZClient.friendList.contains(e.getName().getString())) color = Color.GREEN;
+            else if (e instanceof PlayerEntity pe) {
+                var team = sb.getScoreHolderTeam(pe.getName().getString());
+                if (team != null) {
+                    var teamColor = team.getColor().getColorValue();
+                    if (teamColor != null) color = new Color(teamColor);
+                }
+            }
+
+            bufferBuilder
+                    .vertex(matrix, (float) start.x, (float) start.y, (float) start.z)
+                    .color(color.getRGB()).next();
+
+            bufferBuilder
+                    .vertex(matrix, (float) end.x, (float) end.y, (float) end.z)
+                    .color(color.getRGB()).next();
+        }
+
+        tessellator.draw();
+
+        // Enable depth testing again
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
 }
