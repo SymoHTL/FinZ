@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -13,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.Collection;
-import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 
@@ -41,23 +40,25 @@ public class WorldSpaceRenderer {
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    public static void renderEntitiesEsp(MatrixStack matrixStack, float partialTicks, Collection<Entity> entities) {
+    public static void renderEntitiesEsp(MatrixStack matrixStack, float partialTicks, Collection<Entity> entities, Function<Entity, Color> outlineColor, Function<Entity, Color> faceColor, boolean drawFace) {
         setupGlESPSettings();
+        if (drawFace) RenderSystem.disableCull();
 
         matrixStack.push();
 
         RegionPos region = getCameraRegion();
         applyRegionalRenderOffset(matrixStack, region);
 
-        renderEntitiesEsp(matrixStack, partialTicks, region, entities);
+        renderEntitiesEsp(matrixStack, partialTicks, region, entities, outlineColor, faceColor, drawFace);
 
         matrixStack.pop();
 
         resetGlESPSettings();
+        if (drawFace) RenderSystem.enableCull();
     }
 
 
-    public static void renderEntitiesEsp(MatrixStack matrixStack, float partialTicks, RegionPos pos, Collection<Entity> entities) {
+    private static void renderEntitiesEsp(MatrixStack matrixStack, float partialTicks, RegionPos pos, Collection<Entity> entities, Function<Entity, Color> outlineColor, Function<Entity, Color> faceColor, boolean drawFace) {
         for (Entity entity : entities) {
             matrixStack.push();
 
@@ -66,18 +67,74 @@ public class WorldSpaceRenderer {
 
             matrixStack.scale(entity.getWidth(), entity.getHeight(), entity.getWidth());
 
-            if (entity instanceof LivingEntity livingEntity) {
-                var hpPercent = livingEntity.getHealth() / livingEntity.getMaxHealth();
-                var color = ColorUtil.percentageToColor(hpPercent * 100);
-                RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 0.5f);
-            }else
-                RenderSystem.setShaderColor(1, 1, 1, 0.5f);
-
             Box bb = new Box(-0.5, 0, -0.5, 0.5, 1, 0.5);
+            var color = outlineColor.apply(entity);
+            RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 0.5f);
             drawOutlinedBox(bb, matrixStack);
+
+            if (drawFace){
+                color = faceColor.apply(entity);
+                RenderSystem.setShaderColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, 0.1f);
+                drawFace(bb, matrixStack);
+            }
 
             matrixStack.pop();
         }
+    }
+
+
+    private static void drawFace(Box bb, MatrixStack matrixStack) {
+        Matrix4f matrix = matrixStack.peek().getPositionMatrix();
+        Tessellator tessellator = RenderSystem.renderThreadTesselator();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        RenderSystem.setShader(GameRenderer::getPositionProgram);
+
+        float minX = (float) bb.minX;
+        float minY = (float) bb.minY;
+        float minZ = (float) bb.minZ;
+        float maxX = (float) bb.maxX;
+        float maxY = (float) bb.maxY;
+        float maxZ = (float) bb.maxZ;
+
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
+
+        // Draw bottom face
+        bufferBuilder.vertex(matrix, minX, minY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, minY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, minY, maxZ).next();
+        bufferBuilder.vertex(matrix, minX, minY, maxZ).next();
+
+        // Draw top face
+        bufferBuilder.vertex(matrix, minX, maxY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, maxY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, maxY, maxZ).next();
+        bufferBuilder.vertex(matrix, minX, maxY, maxZ).next();
+
+        // Draw front face
+        bufferBuilder.vertex(matrix, minX, minY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, minY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, maxY, minZ).next();
+        bufferBuilder.vertex(matrix, minX, maxY, minZ).next();
+
+        // Draw back face
+        bufferBuilder.vertex(matrix, minX, minY, maxZ).next();
+        bufferBuilder.vertex(matrix, maxX, minY, maxZ).next();
+        bufferBuilder.vertex(matrix, maxX, maxY, maxZ).next();
+        bufferBuilder.vertex(matrix, minX, maxY, maxZ).next();
+
+        // Draw left face
+        bufferBuilder.vertex(matrix, minX, minY, minZ).next();
+        bufferBuilder.vertex(matrix, minX, minY, maxZ).next();
+        bufferBuilder.vertex(matrix, minX, maxY, maxZ).next();
+        bufferBuilder.vertex(matrix, minX, maxY, minZ).next();
+
+        // Draw right face
+        bufferBuilder.vertex(matrix, maxX, minY, minZ).next();
+        bufferBuilder.vertex(matrix, maxX, minY, maxZ).next();
+        bufferBuilder.vertex(matrix, maxX, maxY, maxZ).next();
+        bufferBuilder.vertex(matrix, maxX, maxY, minZ).next();
+
+        tessellator.draw();
     }
 
 

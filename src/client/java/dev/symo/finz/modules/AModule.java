@@ -41,7 +41,7 @@ public abstract class AModule {
     }
 
     public void registerKeyBind(String keyName){
-        FinZClient.keyBindSettings.addAndSave(new KeyBind(keyName, this));
+        FinZClient.keyBindSettings.add(new KeyBind(keyName, this));
     }
 
     public Collection<ModuleSetting> getSettings() {

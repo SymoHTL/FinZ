@@ -7,6 +7,7 @@ import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.settings.BoolSetting;
 import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.util.Category;
+import dev.symo.finz.util.EntityUtil;
 import dev.symo.finz.util.UiRenderer;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import me.x150.renderer.util.RendererUtils;
@@ -17,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.util.math.Vec3d;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -72,7 +74,7 @@ public class ItemESP extends AModule implements TickListener, WorldRenderListene
     public void onWorldRender(MatrixStack matrices, float partialTicks, WorldRenderContext c) {
         if (renderItemSprite.getValue()) return;
 
-        WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, items);
+        WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, items, entity -> Color.WHITE, entity -> null, false);
     }
 
     @Override
@@ -81,7 +83,7 @@ public class ItemESP extends AModule implements TickListener, WorldRenderListene
         if (!renderItemSprite.getValue()) return;
 
         for (Entity item : items) {
-            var itemPos = item.getPos();
+            var itemPos = EntityUtil.getLerpedPos(item, tickDelta);
             itemPos = itemPos.add(0, item.getHeight() / 2, 0);
             Vec3d screenPos = RendererUtils.worldSpaceToScreenSpace(itemPos);
             if (!RendererUtils.screenSpaceCoordinateIsVisible(screenPos)) continue;

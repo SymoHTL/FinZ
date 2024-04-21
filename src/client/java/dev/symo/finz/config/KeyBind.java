@@ -29,5 +29,4 @@ public class KeyBind {
         else if (!(o instanceof KeyBind keyBind)) return false;
         else return this.keyName.equalsIgnoreCase(keyBind.keyName) && this.module.equals(keyBind.module);
     }
-
 }

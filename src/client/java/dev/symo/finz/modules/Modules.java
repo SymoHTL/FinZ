@@ -12,8 +12,11 @@ public class Modules {
 
     public static final ArrayList<AModule> all = new ArrayList<>();
 
-    // misc
+    // combat
+    public static ProjectileWarner projectileWarner = new ProjectileWarner();
     public static AntiKnockback knockback = new AntiKnockback();
+
+    // misc
 
     public static Zoom zoom = new Zoom();
 
@@ -38,8 +41,12 @@ public class Modules {
     public static SettingsModule settings = new SettingsModule();
 
     static  {
-        // misc
+
+        // combat
+        all.add(projectileWarner);
         all.add(knockback);
+
+        // misc
         all.add(zoom);
 
         // movement

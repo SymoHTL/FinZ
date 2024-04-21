@@ -83,7 +83,12 @@ public final class KeyBindSettings implements KeyPressListener {
     }
 
     public void add(KeyBind keyBind) {
-        for (KeyBind bind : keyBinds) if (bind.equals(keyBind)) return;
+        for (KeyBind bind : keyBinds){
+            if(bind.getModule().equals(keyBind.getModule())){
+                keyBinds.remove(bind);
+                break;
+            }
+        }
         keyBinds.add(keyBind);
     }
 

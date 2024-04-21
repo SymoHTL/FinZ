@@ -11,12 +11,31 @@ import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class UiRenderer {
+
+    public static Vec3d sanitizeScreenPos(Vec3d vec, int padding){
+        if (vec.z > -1 && vec.z < 1)  return vec;
+        // now it isnt visible so we snap the x and y to the screen edge
+        // to make it looklike it is coming from behind for the palyer
+        return snapToScreenEdge(vec, padding);
+    }
+
+    public static Vec3d snapToScreenEdge(Vec3d vec, int padding) {
+        var screen = FinZClient.mc.getWindow();
+        double x = vec.x;
+        double y = vec.y;
+        double z = vec.z;
+        var halfWidth = screen.getScaledWidth() / 2;
+        if (x > halfWidth) x = padding;
+        else x = screen.getScaledWidth() - padding;
+        return new Vec3d(x, y, z);
+    }
 
 
     public static void drawRectDouble(DrawContext drawContext, double left, double top, double right, double bottom, int color) {
@@ -58,8 +77,7 @@ public class UiRenderer {
         matrices.pop();
     }
 
-    public static void drawEntity(DrawContext context, int x, int y, int size, float mouseX, float mouseY, LivingEntity entity) {
-        float i = (float) Math.atan((x - mouseX) / 40.0F);
+    public static void drawEntity(DrawContext context, int x, int y, int size, float mouseY, LivingEntity entity) {
         float j = (float) Math.atan((y - mouseY) / 40.0F);
         Quaternionf quaternionf = (new Quaternionf()).rotateZ(3.1415927F);
         Quaternionf quaternionf2 = (new Quaternionf()).rotateX(j * 20.0F * 0.017453292F);
@@ -82,7 +100,7 @@ public class UiRenderer {
         }
 
         entityRenderDispatcher.setRenderShadows(false);
-        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, context.getMatrices(), context.getVertexConsumers(), 15728880));
+        entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, context.getMatrices(), context.getVertexConsumers(), 15728880);
         context.draw();
         entityRenderDispatcher.setRenderShadows(true);
         context.getMatrices().pop();

@@ -6,6 +6,7 @@ import dev.symo.finz.modules.AModule;
 import dev.symo.finz.modules.ModuleManager;
 import dev.symo.finz.modules.settings.IntSetting;
 import dev.symo.finz.util.Category;
+import dev.symo.finz.util.ColorUtil;
 import dev.symo.finz.util.WorldSpaceRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.util.math.MatrixStack;
@@ -15,6 +16,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -76,6 +78,13 @@ public class MobEsp extends AModule implements TickListener, WorldRenderListener
 
     @Override
     public void onWorldRender(MatrixStack matrices, float partialTicks, WorldRenderContext context) {
-        WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, mobs);
+        WorldSpaceRenderer.renderEntitiesEsp(matrices, partialTicks, mobs, entity -> Color.RED, entity -> {
+            if (entity instanceof LivingEntity livingEntity) {
+                var hpPercent = livingEntity.getHealth() / livingEntity.getMaxHealth();
+                return ColorUtil.percentageToColor(hpPercent * 100);
+            }
+
+            return Color.WHITE;
+        }, true);
     }
 }
