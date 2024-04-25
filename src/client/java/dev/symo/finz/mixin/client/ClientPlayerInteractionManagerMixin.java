@@ -3,6 +3,7 @@ package dev.symo.finz.mixin.client;
 import dev.symo.finz.events.impl.EventManager;
 import dev.symo.finz.events.listeners.BreakingListener;
 import dev.symo.finz.mixininterfaces.BreakProgressTracker;
+import dev.symo.finz.modules.Modules;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.util.math.BlockPos;
@@ -44,5 +45,22 @@ public class ClientPlayerInteractionManagerMixin implements BreakProgressTracker
     private void onPlayerDamageBlock(BlockPos pos, Direction direction,
                                      CallbackInfoReturnable<Boolean> cir) {
         EventManager.fire(new BreakingListener.BreakingProgressEvent(pos, direction));
+    }
+
+
+    @Inject(at = @At("HEAD"),
+            method = "getReachDistance()F",
+            cancellable = true)
+    private void onGetReachDistance(CallbackInfoReturnable<Float> ci) {
+        if (Modules.reach.isEnabled())
+            ci.setReturnValue(Modules.reach.getReach());
+    }
+
+    @Inject(at = @At("HEAD"),
+            method = "hasExtendedReach()Z",
+            cancellable = true)
+    private void hasExtendedReach(CallbackInfoReturnable<Boolean> cir) {
+        if (Modules.reach.isEnabled())
+            cir.setReturnValue(true);
     }
 }

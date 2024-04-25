@@ -47,7 +47,7 @@ public class SliderWidget extends ClickableWidget {
 
     @Override
     protected MutableText getNarrationMessage() {
-        return Text.translatable("gui.narrate.slider", new Object[]{this.getMessage()});
+        return Text.translatable("gui.narrate.slider", this.getMessage());
     }
 
     @Override
@@ -70,7 +70,8 @@ public class SliderWidget extends ClickableWidget {
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
         context.drawGuiTexture(this.getTexture(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-        context.drawGuiTexture(this.getHandleTexture(), this.getX() + (int) (this.value * (double) (this.width - 8)), this.getY(), 8, this.getHeight());
+        int handlePos = (int) ((this.value - this.min) / (this.max - this.min) * (this.width - 8));  // Normalize handle position
+        context.drawGuiTexture(this.getHandleTexture(), this.getX() + handlePos, this.getY(), 8, this.getHeight());
         context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int i = this.active ? 16777215 : 10526880;
         this.drawScrollableText(context, minecraftClient.textRenderer, 2, i | MathHelper.ceil(this.alpha * 255.0F) << 24);
@@ -114,7 +115,8 @@ public class SliderWidget extends ClickableWidget {
     }
 
     private void setValueFromMouse(double mouseX) {
-        this.setValue((mouseX - (double) (this.getX() + 4)) / (double) (this.width - 8));
+        double normValue = (mouseX - (double) (this.getX() + 4)) / (double) (this.width - 8);  // Normalize the value based on mouse position
+        this.setValue(this.min + normValue * (this.max - this.min));  // Scale and offset the value
     }
 
     public void setChangedListener(@Nullable Consumer<Double> changedListener) {
@@ -122,9 +124,11 @@ public class SliderWidget extends ClickableWidget {
     }
 
     public void setValue(double value) {
-        double d = this.value;
-        this.value = MathHelper.clamp(value, min, max);
-        if (d != this.value) this.onChanged(this.value);
+        double clampedValue = MathHelper.clamp(value, this.min, this.max);  // Ensure the value is within bounds
+        if (this.value != clampedValue) {
+            this.value = clampedValue;
+            this.onChanged(this.value);
+        }
     }
 
     private void onChanged(double val) {

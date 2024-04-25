@@ -257,19 +257,26 @@ public class ModuleRenderer implements Drawable, Element, Selectable, ParentElem
             case DECIMAL_SLIDER -> {
                 if (!(setting instanceof DoubleSetting doubleSetting))
                     throw new IllegalArgumentException("Setting is not a DoubleSetting");
-                var slider = new dev.symo.finz.ui.widgets.SliderWidget(0, 0, 100, 20, text,
+                var slider = new SliderWidget(0, 0, 100, 20, Text.literal("%s: %.2f".formatted(text.getString(), doubleSetting.getValue())),
                         doubleSetting.getValue(), doubleSetting.getMin(), doubleSetting.getMax());
-                slider.setChangedListener(doubleSetting::setValue);
                 slider.setTooltip(Tooltip.of(doubleSetting.getDescription()));
+                slider.setChangedListener(d -> {
+                    // display the value
+                    slider.setMessage(Text.literal("%s: %.2f".formatted(text.getString(), d)));
+                    doubleSetting.setValue(d);
+                });
                 widget = slider;
             }
             case PERCENT_SLIDER -> {
                 if (!(setting instanceof DoubleSetting doubleSetting))
                     throw new IllegalArgumentException("Setting is not a DoubleSetting");
-                var slider = new SliderWidget(0, 0, 100, 20, text,
+                var slider = new SliderWidget(0, 0, 100, 20, Text.literal("%s: %.0f%%".formatted(text.getString(), doubleSetting.getValue() * 100)),
                         doubleSetting.getValue(), doubleSetting.getMin(), doubleSetting.getMax());
                 slider.setTooltip(Tooltip.of(doubleSetting.getDescription()));
-                slider.setChangedListener(doubleSetting::setValue);
+                slider.setChangedListener(d -> {
+                    slider.setMessage(Text.literal("%s: %.0f%%".formatted(text.getString(), d * 100)));
+                    doubleSetting.setValue(d);
+                });
                 widget = slider;
             }
             default -> throw new IllegalStateException("Unexpected value: " + setting.getType());

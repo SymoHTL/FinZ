@@ -13,33 +13,38 @@ public class Modules {
     public static final ArrayList<AModule> all = new ArrayList<>();
 
     // combat
-    public static AutoTool autoTool = new AutoTool();
-    public static ProjectileWarner projectileWarner = new ProjectileWarner();
-    public static AntiKnockback knockback = new AntiKnockback();
+    public static final AutoTool autoTool = new AutoTool();
+    public static final ProjectileWarner projectileWarner = new ProjectileWarner();
+    public static final AntiKnockback knockback = new AntiKnockback();
+    public static final Reach reach = new Reach();
+
+    // blocks
+    public static final AutoGetBlock autoGetBlock = new AutoGetBlock();
 
     // misc
 
-    public static Zoom zoom = new Zoom();
+    public static final Zoom zoom = new Zoom();
 
     // movement
-    public static AutoSneak autoSneak = new AutoSneak();
+    public static final AutoSneak autoSneak = new AutoSneak();
 
     // render
-    public static WhatTheFAmILookingAt wtfaila = new WhatTheFAmILookingAt();
-    public static MaterialScanner materialScanner = new MaterialScanner();
-    public static PathTracer pathTracer = new PathTracer();
-    public static ChromaOutline chromaOutline = new ChromaOutline();
+    public static final WhatTheFAmILookingAt wtfaila = new WhatTheFAmILookingAt();
+    public static final MaterialScanner materialScanner = new MaterialScanner();
+    public static final PathTracer pathTracer = new PathTracer();
+    public static final ChromaOutline chromaOutline = new ChromaOutline();
 
-    public static NoBlindness noBlindness = new NoBlindness();
+    public static final NoBlindness noBlindness = new NoBlindness();
 
     // esp
-    public static PlayerESP playerESP = new PlayerESP();
-    public static MobEsp mobEsp = new MobEsp();
-    public static ItemESP itemESP = new ItemESP();
-    public static BedESP bedESP = new BedESP();
+    public static final PlayerESP playerESP = new PlayerESP();
+    public static final MobEsp mobEsp = new MobEsp();
+    public static final ItemESP itemESP = new ItemESP();
+    public static final BedESP bedESP = new BedESP();
 
     // settings
-    public static SettingsModule settings = new SettingsModule();
+    public static final SettingsModule settings = new SettingsModule();
+
 
     static  {
 
@@ -47,6 +52,10 @@ public class Modules {
         all.add(autoTool);
         all.add(projectileWarner);
         all.add(knockback);
+        all.add(reach);
+
+        // blocks
+        all.add(autoGetBlock);
 
         // misc
         all.add(zoom);

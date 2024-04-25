@@ -53,16 +53,25 @@ public class ToolUtil {
         return speed;
     }
 
-    public static int getBestWeaponSlot(LivingEntity entity) {
+    public static int getBestWeaponSlot(LivingEntity entity, boolean preferSword, boolean preferStick) {
         ClientPlayerEntity player = FinZClient.mc.player;
         PlayerInventory inventory = player.getInventory();
 
         float bestValue = Integer.MIN_VALUE;
         int bestSlot = -1;
         for (int i = 0; i < 9; i++) {
-            if (inventory.getStack(i).isEmpty()) continue;
+            var stack =  inventory.getStack(i);
+            if (stack.isEmpty()) continue;
 
-            ItemStack stack = inventory.getStack(i);
+            if (preferSword && (stack.getItem() instanceof SwordItem)) {
+                bestSlot = i;
+                break;
+            }
+            if (preferStick && (stack.getItem() == Items.STICK)) {
+                bestSlot = i;
+                break;
+            }
+
             float value = getBestAttackValue(stack, entity, player);
 
             if (value > bestValue) {
@@ -79,7 +88,7 @@ public class ToolUtil {
             return Integer.MIN_VALUE;
 
         var group = entity.getGroup();
-        double dmg =  EnchantmentHelper.getAttackDamage(stack, group);;
+        double dmg =  EnchantmentHelper.getAttackDamage(stack, group);
 
         // Fetch attribute modifiers from the item
         var attributeModifiers = item.getAttributeModifiers(EquipmentSlot.MAINHAND);

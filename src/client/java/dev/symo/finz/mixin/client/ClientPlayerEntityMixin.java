@@ -9,6 +9,8 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -47,5 +49,15 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
 
         return result;
     }
+
+
+    @Override
+    public boolean hasStatusEffect(StatusEffect effect) {
+        if (effect == StatusEffects.DARKNESS && Modules.noBlindness.isEnabled()) return false;
+
+        return super.hasStatusEffect(effect);
+    }
+
+
 }
 

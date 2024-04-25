@@ -5,14 +5,16 @@
   "mixins": [
   ],
   "client": [
+    "client.BackgroundRendererMixin",
+    "client.BlockItemMixin",
     "client.ClientPlayerEntityMixin",
     "client.ClientPlayerInteractionManagerMixin",
+    "client.GameRendererMixin",
     "client.KeyBindingMixin",
     "client.KeyboardMixin",
     "client.SelectedBlockOutLineMixin",
     "client.ToolTipMixin",
     "client.WorldRendererMixin",
-    "client.ZoomMixin",
     "client.fastplace.FastPlaceClientMixin",
     "client.fastplace.FastPlaceInvoker"
   ],

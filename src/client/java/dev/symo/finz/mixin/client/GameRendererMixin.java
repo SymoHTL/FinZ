@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(GameRenderer.class)
-public class ZoomMixin implements AutoCloseable {
+public class GameRendererMixin implements AutoCloseable {
     @Inject(at = @At(value = "RETURN", ordinal = 1),
             method = "getFov(Lnet/minecraft/client/render/Camera;FZ)D",
             cancellable = true)

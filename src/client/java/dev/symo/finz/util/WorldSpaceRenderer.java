@@ -1,11 +1,9 @@
 package dev.symo.finz.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.symo.finz.FinZClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -246,7 +244,7 @@ public class WorldSpaceRenderer {
         tessellator.draw();
     }
 
-    public static void renderTracers(MatrixStack matrixStack, float partialTicks, Set<Entity> players) {
+    public static void renderTracers(MatrixStack matrixStack, float partialTicks, Set<Entity> players, Function<Entity, Color> getColor) {
         var region = RenderUtils.getCameraRegion();
 
         applyRegionalRenderOffset(matrixStack, region);
@@ -265,24 +263,14 @@ public class WorldSpaceRenderer {
         Vec3d start = RotationUtils.getClientLookVec(partialTicks)
                 .add(RenderUtils.getCameraPos()).subtract(regionVec);
 
-        var sb = FinZClient.mc.world.getScoreboard();
 
-        // Disable depth testing so lines are not occluded by blocks
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        setupGlESPSettings();
 
         for (Entity e : players) {
             Vec3d end = EntityUtil.getLerpedBox(e, partialTicks).getCenter()
                     .subtract(regionVec);
 
-            var color = Color.BLACK;
-            if (FinZClient.friendList.contains(e.getName().getString())) color = Color.GREEN;
-            else if (e instanceof PlayerEntity pe) {
-                var team = sb.getScoreHolderTeam(pe.getName().getString());
-                if (team != null) {
-                    var teamColor = team.getColor().getColorValue();
-                    if (teamColor != null) color = new Color(teamColor);
-                }
-            }
+            var color = getColor.apply(e);
 
             bufferBuilder
                     .vertex(matrix, (float) start.x, (float) start.y, (float) start.z)
@@ -295,8 +283,7 @@ public class WorldSpaceRenderer {
 
         tessellator.draw();
 
-        // Enable depth testing again
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        resetGlESPSettings();
     }
 
 }
